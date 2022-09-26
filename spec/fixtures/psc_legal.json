@@ -1,0 +1,15 @@
+{
+  "company_number": "1234567",
+  "data": {
+    "etag": "36c99208e0c14294355583c965e4c3f4",
+    "kind": "legal-person-person-with-significant-control",
+    "name": "Foo Bar Limited",
+    "identification": {
+      "country_registered": "United Kingdom",
+      "registration_number": "89101112"
+    },
+    "links": {
+      "self": "/company/01234567/persons-with-significant-control/legal-person/abcdef123456789"
+    }
+  }
+}

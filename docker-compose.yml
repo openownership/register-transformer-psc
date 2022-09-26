@@ -1,0 +1,60 @@
+version: '3.7'
+
+services:
+  register_transformer_psc:
+    image: register_transformer_psc:latest
+    entrypoint: "bundle exec /app/bin/run"
+    network_mode: host
+    environment:
+      - ELASTICSEARCH_HOST
+      - ELASTICSEARCH_PORT
+      - ELASTICSEARCH_PROTOCOL
+      - ELASTICSEARCH_SSL_VERIFY
+      - ELASTICSEARCH_PASSWORD
+      - OC_API_TOKEN
+      - OC_API_TOKEN_PROTECTED
+      - BODS_AWS_REGION
+      - BODS_AWS_ACCESS_KEY_ID
+      - BODS_AWS_SECRET_ACCESS_KEY
+      - BODS_AWS_REGION
+      - BODS_AWS_ACCESS_KEY_ID
+      - BODS_AWS_SECRET_ACCESS_KEY
+      - REDIS_HOST
+      - REDIS_PORT
+      - PSC_STREAM
+      - BODS_STREAM
+
+  register_transformer_psc_redis:
+    image: redis:7.0.5
+    ports: 
+      - "6379:6379"
+
+  register_psc_elasticsearch_test:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.5
+    environment:
+      - 'discovery.type=single-node'
+      - 'cluster.name=register-elasticsearch'
+      - 'bootstrap.memory_lock=true'
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+      - 'xpack.security.enabled=false'
+    networks:
+      - register_transformer_psc_test
+    expose:
+      - 9200
+
+  register_transformer_psc_unittests:
+    image: register_transformer_psc:latest
+    environment:
+      - ELASTICSEARCH_HOST=register_psc_elasticsearch_test
+      - ELASTICSEARCH_PASSWORD=
+      - ELASTICSEARCH_PORT=9200
+      - TEST=1
+    links:
+      - register_psc_elasticsearch_test
+    networks:
+      - register_transformer_psc_test
+    volumes:
+      - '.:/app'
+
+networks:
+  register_transformer_psc_test:
