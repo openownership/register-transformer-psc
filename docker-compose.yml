@@ -20,11 +20,13 @@ services:
       - REDIS_PORT
       - PSC_STREAM
       - BODS_STREAM
+    restart: always
 
   register_transformer_psc_redis:
     image: redis:7.0.5
     ports: 
       - "6379:6379"
+    restart: always
 
   register_psc_elasticsearch_test:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.5
