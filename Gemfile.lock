@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-common.git
-  revision: 1161d5fd59cba5af23bbd49ddc6ebcb23479e789
+  revision: 5b01cd76b5a78b9c0d52f28e65df4b91469f0394
   specs:
     register_common (0.1.0)
       activesupport
@@ -81,11 +81,11 @@ GEM
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
     aws-eventstream (1.2.0)
-    aws-partitions (1.636.0)
+    aws-partitions (1.637.0)
     aws-sdk-athena (1.56.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-core (3.154.0)
+    aws-sdk-core (3.155.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
       aws-sigv4 (~> 1.1)
