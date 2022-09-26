@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env bash
 
-require 'register_transformer_psc/apps/transformer'
-
-RegisterTransformerPsc::Apps::Transformer.new.call
+docker-compose run --rm register_transformer_psc

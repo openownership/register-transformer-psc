@@ -3,7 +3,7 @@ version: '3.7'
 services:
   register_transformer_psc:
     image: register_transformer_psc:latest
-    entrypoint: "bundle exec /app/bin/run"
+    entrypoint: "bundle exec /app/bin/transform"
     network_mode: host
     environment:
       - ELASTICSEARCH_HOST

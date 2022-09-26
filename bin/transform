@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'register_transformer_psc/apps/transformer'
+
+RegisterTransformerPsc::Apps::Transformer.new.call

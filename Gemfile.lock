@@ -29,7 +29,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-oc.git
-  revision: 447389f808d02f72a42846ee54c6c68ff4a19b88
+  revision: c86b2d5d71bd7e687325f5de7afe1964e573a89d
   specs:
     register_sources_oc (0.1.0)
       activesupport (~> 6.1)
@@ -46,7 +46,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-psc.git
-  revision: a0e9c9488d535e67b788794ee8bd50fc29c8e56f
+  revision: 9247253294fa1d233843466ce07a061cb71916f1
   specs:
     register_sources_psc (0.1.0)
       activesupport (~> 6.1)
