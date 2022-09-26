@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require 'register_transformer_psc/config/settings'
+
+require 'register_bods_v2/services/es_index_creator'
+
+RegisterBodsV2::Services::EsIndexCreator.new.create_es_index
