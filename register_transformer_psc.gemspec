@@ -8,16 +8,13 @@ Gem::Specification.new do |spec|
   spec.authors = ["Josh Williams"]
   spec.email = ["josh@spacesnottabs.com"]
 
-  spec.summary = "Write a short summary, because RubyGems requires one."
-  spec.description = "Write a longer description or delete this line."
+  spec.summary = "Application for transforming PSC records to BODS records."
+  spec.description = spec.summary
   spec.homepage = "https://github.com/openownership/register-transformer-psc"
   spec.required_ruby_version = ">= 2.7"
 
-  spec.metadata["allowed_push_host"] = "https://github.com/openownership/register-transformer-psc"
-
-  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["allowed_push_host"] = "https://rubygems.org"
   spec.metadata["source_code_uri"] = "https://github.com/openownership/register-transformer-psc"
-  spec.metadata["changelog_uri"] = "https://github.com/openownership/register-transformer-psc"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
