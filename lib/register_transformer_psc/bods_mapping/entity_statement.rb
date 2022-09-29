@@ -1,13 +1,13 @@
 require 'xxhash'
 
-require 'register_bods_v2/enums/entity_types'
-require 'register_bods_v2/enums/statement_types'
-require 'register_bods_v2/structs/address'
-require 'register_bods_v2/structs/entity_statement'
-require 'register_bods_v2/structs/jurisdiction'
-require 'register_bods_v2/constants/publisher'
-require 'register_bods_v2/structs/publication_details'
-require 'register_bods_v2/structs/source'
+require 'register_sources_bods/enums/entity_types'
+require 'register_sources_bods/enums/statement_types'
+require 'register_sources_bods/structs/address'
+require 'register_sources_bods/structs/entity_statement'
+require 'register_sources_bods/structs/jurisdiction'
+require 'register_sources_bods/constants/publisher'
+require 'register_sources_bods/structs/publication_details'
+require 'register_sources_bods/structs/source'
 
 require 'active_support/core_ext/object/blank'
 require 'active_support/core_ext/object/try'
@@ -32,7 +32,7 @@ module RegisterTransformerPsc
       end
 
       def call
-        RegisterBodsV2::EntityStatement[{
+        RegisterSourcesBods::EntityStatement[{
           statementID: statement_id,
           statementType: statement_type,
           statementDate: nil,
@@ -88,12 +88,12 @@ module RegisterTransformerPsc
       end
 
       def statement_type
-        RegisterBodsV2::StatementTypes['entityStatement']
+        RegisterSourcesBods::StatementTypes['entityStatement']
       end
 
       def entity_type
          # TODO: Legacy - this is hard-coded to registeredEntity in exporter
-        RegisterBodsV2::EntityTypes['registeredEntity']
+        RegisterSourcesBods::EntityTypes['registeredEntity']
       end
 
       def identifiers
@@ -107,7 +107,7 @@ module RegisterTransformerPsc
         company_number = resolver_response.company_number
         oc_url = "https://opencorporates.com/companies/#{jurisdiction}/#{company_number}"
 
-        RegisterBodsV2::Identifier[{
+        RegisterSourcesBods::Identifier[{
           id: oc_url,
           schemeName: OPEN_CORPORATES_SCHEME_NAME,
           uri: oc_url
@@ -127,7 +127,7 @@ module RegisterTransformerPsc
         country = ISO3166::Country[code]
         return nil if country.blank?
 
-        RegisterBodsV2::Jurisdiction.new(name: country.name, code: country.alpha2)
+        RegisterSourcesBods::Jurisdiction.new(name: country.name, code: country.alpha2)
       end
 
       def founding_date
@@ -160,8 +160,8 @@ module RegisterTransformerPsc
         country_code = incorporated_in_jurisdiction ? incorporated_in_jurisdiction.code : nil
 
         [
-          RegisterBodsV2::Address[{
-            type: RegisterBodsV2::AddressTypes['registered'],
+          RegisterSourcesBods::Address[{
+            type: RegisterSourcesBods::AddressTypes['registered'],
             address: address,
             postcode: data.address.postal_code,
             country: country_code
@@ -171,19 +171,19 @@ module RegisterTransformerPsc
 
       def publication_details
         # UNIMPLEMENTED IN REGISTER
-        RegisterBodsV2::PublicationDetails.new(
+        RegisterSourcesBods::PublicationDetails.new(
           publicationDate: Time.now.utc.to_date.to_s, # TODO: fix publication date
-          bodsVersion: RegisterBodsV2::BODS_VERSION,
-          license: RegisterBodsV2::BODS_LICENSE,
-          publisher: RegisterBodsV2::PUBLISHER
+          bodsVersion: RegisterSourcesBods::BODS_VERSION,
+          license: RegisterSourcesBods::BODS_LICENSE,
+          publisher: RegisterSourcesBods::PUBLISHER
         )
       end
 
       def source
         # UNIMPLEMENTED IN REGISTER
         # implemented for relationships
-        RegisterBodsV2::Source.new(
-          type: RegisterBodsV2::SourceTypes['officialRegister'],
+        RegisterSourcesBods::Source.new(
+          type: RegisterSourcesBods::SourceTypes['officialRegister'],
           description: 'GB Persons Of Significant Control Register',
           url: "http://download.companieshouse.gov.uk/en_pscdata.html", # TODO: link to snapshot?
           retrievedAt: Time.now.utc.to_date.to_s, # TODO: fix publication date, # TODO: add retrievedAt to record iso8601
@@ -204,14 +204,14 @@ module RegisterTransformerPsc
         return unless identifier_link.present?
 
         identifiers = [
-          RegisterBodsV2::Identifier.new(id: identifier_link, schemeName: DOCUMENT_ID)
+          RegisterSourcesBods::Identifier.new(id: identifier_link, schemeName: DOCUMENT_ID)
         ]
 
         return identifiers unless data.respond_to?(:identification)
 
         company_number = data.identification.registration_number
         if company_number.present? # this depends on if corporate entity
-          identifiers << RegisterBodsV2::Identifier.new(
+          identifiers << RegisterSourcesBods::Identifier.new(
             id: company_number,
             schemeName: "#{DOCUMENT_ID} - Registration numbers",
           )

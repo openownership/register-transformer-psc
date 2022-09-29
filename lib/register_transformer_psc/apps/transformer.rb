@@ -1,5 +1,5 @@
 require 'register_transformer_psc/config/settings'
-require 'register_bods_v2/services/publisher'
+require 'register_sources_bods/services/publisher'
 require 'register_transformer_psc/bods_mapping/record_processor'
 require 'register_sources_psc/structs/company_record'
 require 'register_sources_oc/services/resolver_service'
@@ -11,7 +11,7 @@ module RegisterTransformerPsc
   module Apps
     class Transformer
       def initialize(bods_publisher: nil, entity_resolver: nil, bods_mapper: nil)
-        bods_publisher ||= RegisterBodsV2::Services::Publisher.new
+        bods_publisher ||= RegisterSourcesBods::Services::Publisher.new
         entity_resolver ||= RegisterSourcesOc::Services::ResolverService.new
         @bods_mapper = bods_mapper || RegisterTransformerPsc::BodsMapping::RecordProcessor.new(
           entity_resolver: entity_resolver,

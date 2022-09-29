@@ -63,7 +63,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::EntityStatement do
 
       result = subject.call
   
-      expect(result).to be_a RegisterBodsV2::EntityStatement
+      expect(result).to be_a RegisterSourcesBods::EntityStatement
       expect(result.to_h).to eq({
         addresses: [
           {

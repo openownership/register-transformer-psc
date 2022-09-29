@@ -1,10 +1,10 @@
-require 'register_bods_v2/enums/entity_types'
-require 'register_bods_v2/enums/statement_types'
-require 'register_bods_v2/structs/address'
-require 'register_bods_v2/structs/entity_statement'
-require 'register_bods_v2/structs/identifier'
-require 'register_bods_v2/structs/jurisdiction'
-require 'register_bods_v2/constants/publisher'
+require 'register_sources_bods/enums/entity_types'
+require 'register_sources_bods/enums/statement_types'
+require 'register_sources_bods/structs/address'
+require 'register_sources_bods/structs/entity_statement'
+require 'register_sources_bods/structs/identifier'
+require 'register_sources_bods/structs/jurisdiction'
+require 'register_sources_bods/constants/publisher'
 
 require 'active_support/core_ext/object/blank'
 require 'active_support/core_ext/object/try'
@@ -29,14 +29,14 @@ module RegisterTransformerPsc
       end
 
       def call
-        RegisterBodsV2::EntityStatement[{
+        RegisterSourcesBods::EntityStatement[{
           statementID: statement_id,
-          statementType: RegisterBodsV2::StatementTypes['entityStatement'],
+          statementType: RegisterSourcesBods::StatementTypes['entityStatement'],
           isComponent: false,
-          entityType: RegisterBodsV2::EntityTypes['registeredEntity'],
+          entityType: RegisterSourcesBods::EntityTypes['registeredEntity'],
           incorporatedInJurisdiction: incorporated_in_jurisdiction,
           identifiers: [
-            RegisterBodsV2::Identifier.new(
+            RegisterSourcesBods::Identifier.new(
               scheme: 'GB-COH',
               schemeName: 'Companies House',
               id: company_number
@@ -73,7 +73,7 @@ module RegisterTransformerPsc
         company_number = resolver_response.company_number
         oc_url = "https://opencorporates.com/companies/#{jurisdiction}/#{company_number}"
 
-        RegisterBodsV2::Identifier[{
+        RegisterSourcesBods::Identifier[{
           id: oc_url,
           schemeName: OPEN_CORPORATES_SCHEME_NAME,
           uri: oc_url
@@ -92,7 +92,7 @@ module RegisterTransformerPsc
         country = ISO3166::Country[code]
         return nil if country.blank?
 
-        RegisterBodsV2::Jurisdiction.new(name: country.name, code: country.alpha2)
+        RegisterSourcesBods::Jurisdiction.new(name: country.name, code: country.alpha2)
       end
 
       def founding_date
@@ -117,11 +117,11 @@ module RegisterTransformerPsc
 
       def publication_details
         # UNIMPLEMENTED IN REGISTER
-        RegisterBodsV2::PublicationDetails.new(
+        RegisterSourcesBods::PublicationDetails.new(
           publicationDate: Time.now.utc.to_date.to_s, # TODO: fix publication date
-          bodsVersion: RegisterBodsV2::BODS_VERSION,
-          license: RegisterBodsV2::BODS_LICENSE,
-          publisher: RegisterBodsV2::PUBLISHER
+          bodsVersion: RegisterSourcesBods::BODS_VERSION,
+          license: RegisterSourcesBods::BODS_LICENSE,
+          publisher: RegisterSourcesBods::PUBLISHER
         )
       end
     end

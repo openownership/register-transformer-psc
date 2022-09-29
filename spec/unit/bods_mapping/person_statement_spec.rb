@@ -46,7 +46,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::PersonStatement do
   it 'maps successfully' do
     result = subject.call
 
-    expect(result).to be_a RegisterBodsV2::PersonStatement
+    expect(result).to be_a RegisterSourcesBods::PersonStatement
     expect(result.to_h).to eq({
       addresses: [
         {

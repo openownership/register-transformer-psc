@@ -61,7 +61,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::OwnershipOrControlStatement 
   it 'maps successfully' do
     result = subject.call
 
-    expect(result).to be_a RegisterBodsV2::OwnershipOrControlStatement
+    expect(result).to be_a RegisterSourcesBods::OwnershipOrControlStatement
     expect(result.to_h).to eq({
       interestedParty: {
         describedByEntityStatement: "sourceID"

@@ -1,4 +1,4 @@
-require 'register_bods_v2/structs/interest'
+require 'register_sources_bods/structs/interest'
 
 module RegisterTransformerPsc
   module BodsMapping
@@ -15,7 +15,7 @@ module RegisterTransformerPsc
           if i['exclusive_min'] || i['exclusive_max']
             error_adapter && error_adapter.error('Exporting interests with exclusivity set will overwrite it to false')
           end
-          RegisterBodsV2::Interest[{
+          RegisterSourcesBods::Interest[{
             type: i['type'],
             share: (
               if i['share_min'] == i['share_max']
@@ -52,7 +52,7 @@ module RegisterTransformerPsc
         when 'ownership-of-shares-25-to-50-percent',
             'ownership-of-shares-25-to-50-percent-as-trust',
             'ownership-of-shares-25-to-50-percent-as-firm'
-          RegisterBodsV2::Interest[{
+          RegisterSourcesBods::Interest[{
             type: 'shareholding',
             details: interest,
             share: {
@@ -65,7 +65,7 @@ module RegisterTransformerPsc
         when 'ownership-of-shares-50-to-75-percent',
             'ownership-of-shares-50-to-75-percent-as-trust',
             'ownership-of-shares-50-to-75-percent-as-firm'
-          RegisterBodsV2::Interest[{
+          RegisterSourcesBods::Interest[{
             type: 'shareholding',
             details: interest,
             share: {
@@ -78,7 +78,7 @@ module RegisterTransformerPsc
         when 'ownership-of-shares-75-to-100-percent',
             'ownership-of-shares-75-to-100-percent-as-trust',
             'ownership-of-shares-75-to-100-percent-as-firm'
-          RegisterBodsV2::Interest[{
+          RegisterSourcesBods::Interest[{
             type: 'shareholding',
             details: interest,
             share: {
@@ -94,7 +94,7 @@ module RegisterTransformerPsc
             'voting-rights-25-to-50-percent-limited-liability-partnership',
             'voting-rights-25-to-50-percent-as-trust-limited-liability-partnership',
             'voting-rights-25-to-50-percent-as-firm-limited-liability-partnership'
-          RegisterBodsV2::Interest[{
+          RegisterSourcesBods::Interest[{
             type: 'voting-rights',
             details: interest,
             share: {
@@ -110,7 +110,7 @@ module RegisterTransformerPsc
             'voting-rights-50-to-75-percent-limited-liability-partnership',
             'voting-rights-50-to-75-percent-as-trust-limited-liability-partnership',
             'voting-rights-50-to-75-percent-as-firm-limited-liability-partnership'
-          RegisterBodsV2::Interest[{
+          RegisterSourcesBods::Interest[{
             type: 'voting-rights',
             details: interest,
             share: {
@@ -126,7 +126,7 @@ module RegisterTransformerPsc
             'voting-rights-75-to-100-percent-limited-liability-partnership',
             'voting-rights-75-to-100-percent-as-trust-limited-liability-partnership',
             'voting-rights-75-to-100-percent-as-firm-limited-liability-partnership'
-          RegisterBodsV2::Interest[{
+          RegisterSourcesBods::Interest[{
             type: 'voting-rights',
             details: interest,
             share: {
@@ -142,7 +142,7 @@ module RegisterTransformerPsc
             'right-to-appoint-and-remove-members-limited-liability-partnership',
             'right-to-appoint-and-remove-members-as-trust-limited-liability-partnership',
             'right-to-appoint-and-remove-members-as-firm-limited-liability-partnership'
-          RegisterBodsV2::Interest[{
+          RegisterSourcesBods::Interest[{
             type: 'appointment-of-board',
             details: interest,
           }]
@@ -156,12 +156,12 @@ module RegisterTransformerPsc
             'right-to-share-surplus-assets-50-to-75-percent-as-firm-limited-liability-partnership',
             'right-to-share-surplus-assets-75-to-100-percent-as-firm-limited-liability-partnership'
           # See issue: https://github.com/openownership/data-standard/issues/10
-          RegisterBodsV2::Interest[{
+          RegisterSourcesBods::Interest[{
             type: 'rights-to-surplus-assets-on-dissolution',
             details: interest,
           }]
         else # 'significant-influence-or-control'
-          RegisterBodsV2::Interest[{
+          RegisterSourcesBods::Interest[{
             type: 'other-influence-or-control',
             details: interest,
           }]

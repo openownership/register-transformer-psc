@@ -1,14 +1,14 @@
 require 'xxhash'
 
-require 'register_bods_v2/structs/interest'
-require 'register_bods_v2/structs/ownership_or_control_statement'
-require 'register_bods_v2/structs/entity_statement'
-require 'register_bods_v2/structs/entity_statement'
-require 'register_bods_v2/structs/share'
-require 'register_bods_v2/constants/publisher'
-require 'register_bods_v2/structs/publication_details'
-require 'register_bods_v2/structs/source'
-require 'register_bods_v2/structs/subject'
+require 'register_sources_bods/structs/interest'
+require 'register_sources_bods/structs/ownership_or_control_statement'
+require 'register_sources_bods/structs/entity_statement'
+require 'register_sources_bods/structs/entity_statement'
+require 'register_sources_bods/structs/share'
+require 'register_sources_bods/constants/publisher'
+require 'register_sources_bods/structs/publication_details'
+require 'register_sources_bods/structs/source'
+require 'register_sources_bods/structs/subject'
 
 require_relative 'interest_parser'
 
@@ -38,7 +38,7 @@ module RegisterTransformerPsc
       end
 
       def call
-        RegisterBodsV2::OwnershipOrControlStatement[{
+        RegisterSourcesBods::OwnershipOrControlStatement[{
           statementID: statement_id,
           statementType: statement_type,
           statementDate: statement_date,
@@ -71,7 +71,7 @@ module RegisterTransformerPsc
       end
 
       def statement_type
-        RegisterBodsV2::StatementTypes['ownershipOrControlStatement']
+        RegisterSourcesBods::StatementTypes['ownershipOrControlStatement']
       end
 
       def statement_date
@@ -79,29 +79,29 @@ module RegisterTransformerPsc
       end
 
       def subject
-        RegisterBodsV2::Subject.new(
+        RegisterSourcesBods::Subject.new(
           describedByEntityStatement: target_statement.statementID
         )
       end
 
       def interested_party
         case source_statement.statementType
-        when RegisterBodsV2::StatementTypes['personStatement']
-          RegisterBodsV2::InterestedParty[{
+        when RegisterSourcesBods::StatementTypes['personStatement']
+          RegisterSourcesBods::InterestedParty[{
             describedByPersonStatement: source_statement.statementID
           }]
-        when RegisterBodsV2::StatementTypes['entityStatement']
+        when RegisterSourcesBods::StatementTypes['entityStatement']
           case source_statement.entityType
-          when RegisterBodsV2::EntityTypes['unknownEntity']
-            RegisterBodsV2::InterestedParty[{
+          when RegisterSourcesBods::EntityTypes['unknownEntity']
+            RegisterSourcesBods::InterestedParty[{
               unspecified: source_statement.unspecifiedEntityDetails
             }.compact]
-          when RegisterBodsV2::EntityTypes['legalEntity']
-            RegisterBodsV2::InterestedParty[{
+          when RegisterSourcesBods::EntityTypes['legalEntity']
+            RegisterSourcesBods::InterestedParty[{
               describedByEntityStatement: source_statement.statementID
             }]
           else
-            RegisterBodsV2::InterestedParty[{}] # TODO: raise error
+            RegisterSourcesBods::InterestedParty[{}] # TODO: raise error
           end
         else
           raise UnsupportedSourceStatementTypeError
@@ -113,7 +113,7 @@ module RegisterTransformerPsc
           entry = interest_parser.call(i)
           next unless entry
 
-          RegisterBodsV2::Interest[{
+          RegisterSourcesBods::Interest[{
             type: entry.type,
             details: entry.details,
             share: entry.share,
@@ -125,19 +125,19 @@ module RegisterTransformerPsc
 
       def publication_details
         # UNIMPLEMENTED IN REGISTER
-        RegisterBodsV2::PublicationDetails.new(
+        RegisterSourcesBods::PublicationDetails.new(
           publicationDate: Time.now.utc.to_date.to_s, # TODO: fix publication date
-          bodsVersion: RegisterBodsV2::BODS_VERSION,
-          license: RegisterBodsV2::BODS_LICENSE,
-          publisher: RegisterBodsV2::PUBLISHER
+          bodsVersion: RegisterSourcesBods::BODS_VERSION,
+          license: RegisterSourcesBods::BODS_LICENSE,
+          publisher: RegisterSourcesBods::PUBLISHER
         )
       end
 
       def source
         # UNIMPLEMENTED IN REGISTER
         # implemented for relationships
-        RegisterBodsV2::Source.new(
-          type: RegisterBodsV2::SourceTypes['officialRegister'],
+        RegisterSourcesBods::Source.new(
+          type: RegisterSourcesBods::SourceTypes['officialRegister'],
           description: 'GB Persons Of Significant Control Register',
           url: "http://download.companieshouse.gov.uk/en_pscdata.html", # TODO: link to snapshot?
           retrievedAt: Time.now.utc.to_date.to_s, # TODO: fix publication date, # TODO: add retrievedAt to record iso8601

@@ -40,7 +40,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
 
     result = subject.call
 
-    expect(result).to be_a RegisterBodsV2::EntityStatement
+    expect(result).to be_a RegisterSourcesBods::EntityStatement
     expect(result.to_h).to eq({
       dissolutionDate: "2021-09-07",
       entityType: "registeredEntity",

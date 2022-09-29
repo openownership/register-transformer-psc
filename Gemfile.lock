@@ -1,17 +1,6 @@
 GIT
-  remote: git@github.com:openownership/register-bods-v2.git
-  revision: 7dd442365e2ac9a483dfc7ed43142db1891d8666
-  specs:
-    register_bods_v2 (0.1.0)
-      activesupport (~> 6.1)
-      dry-struct (~> 1.4.0)
-      dry-types (~> 1.5.1)
-      elasticsearch (~> 7.10.1)
-      xxhash
-
-GIT
   remote: git@github.com:openownership/register-common.git
-  revision: 5b01cd76b5a78b9c0d52f28e65df4b91469f0394
+  revision: 3e016010c43f08b363d1b3d5b26696198e33ea9d
   specs:
     register_common (0.1.0)
       activesupport
@@ -28,8 +17,19 @@ GIT
       rubyzip (~> 2.3.2)
 
 GIT
+  remote: git@github.com:openownership/register-sources-bods.git
+  revision: dfdaa18d67e914714d44e5b9ea25bbdc0566dea8
+  specs:
+    register_sources_bods (0.1.0)
+      activesupport (~> 6.1)
+      dry-struct (~> 1.4.0)
+      dry-types (~> 1.5.1)
+      elasticsearch (~> 7.10.1)
+      xxhash
+
+GIT
   remote: git@github.com:openownership/register-sources-oc.git
-  revision: c86b2d5d71bd7e687325f5de7afe1964e573a89d
+  revision: d97dc7f004b4fc8b1912c2f2f783e972a4c52778
   specs:
     register_sources_oc (0.1.0)
       activesupport (~> 6.1)
@@ -46,7 +46,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-psc.git
-  revision: dbc85c6437557e7e3d5fc1181f6ea58859fbb820
+  revision: bbbb43ecc11aa60a2c75cd99ddb14cb30c8c780d
   specs:
     register_sources_psc (0.1.0)
       activesupport (~> 6.1)
@@ -81,11 +81,11 @@ GEM
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
     aws-eventstream (1.2.0)
-    aws-partitions (1.637.0)
+    aws-partitions (1.639.0)
     aws-sdk-athena (1.56.0)
       aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-core (3.155.0)
+    aws-sdk-core (3.157.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
       aws-sigv4 (~> 1.1)
@@ -215,8 +215,8 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  register_bods_v2!
   register_common!
+  register_sources_bods!
   register_sources_oc!
   register_sources_psc!
   register_transformer_psc!
