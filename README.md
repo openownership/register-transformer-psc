@@ -1,6 +1,6 @@
 # Register Transformer PSC
 
-This is an application for ingesting PSC records from a Kinesis stream (published by register_ingester_psc) and transforming into BODS v0.2 records. These records are then stored in Elasticsearch and optionally emitted into their own Kinesis stream.
+This is an application for ingesting PSC records from a Kinesis stream (published by [register_ingester_psc](https://github.com/openownership/register-ingester-psc)) and transforming into [BODS v0.2](https://standard.openownership.org/en/0.2.0/) records. These records are then stored in Elasticsearch and optionally emitted into their own Kinesis stream.
 
 ## One-time Setup
 
