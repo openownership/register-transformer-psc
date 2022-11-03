@@ -92,13 +92,13 @@ module RegisterTransformerPsc
       def names
         if data.name_elements.presence 
           [
-            RegisterSourcesBods::Name.new(
+            RegisterSourcesBods::Name[{
               type: RegisterSourcesBods::NameTypes['individual'],
               fullName: name_string(data.name_elements),
               familyName: data.name_elements.surname,
               givenName: data.name_elements.forename,
               # patronymicName: nil
-            )
+            }.compact]
           ]
         else
           [
