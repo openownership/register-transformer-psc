@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:openownership/register-common.git
-  revision: c124210c203b85157e1dd0cb58037a420fec4c0f
+  revision: 6bff775e342bbe5f14090e4a7e2e13d42e1fc836
   specs:
     register_common (0.1.0)
       activesupport (>= 6, < 8)
@@ -15,6 +15,7 @@ GIT
       nokogiri
       redis (>= 3)
       rubyzip (>= 2, < 3)
+      xxhash
 
 GIT
   remote: git@github.com:openownership/register-sources-bods.git
@@ -29,7 +30,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-oc.git
-  revision: 2629879b378542632c81a65030c2e86890c5cfd2
+  revision: d5771d82b436bfc1b55f93fcde5793c96a3d45bf
   specs:
     register_sources_oc (0.1.0)
       activesupport (>= 6, < 8)
@@ -40,13 +41,15 @@ GIT
       elasticsearch (>= 7.10, < 8)
       faraday (>= 1, < 2)
       faraday_middleware (>= 1, < 2)
+      geokit (>= 1, < 2)
       iso8601
       net-http-persistent
       rexml
 
 GIT
   remote: git@github.com:openownership/register-sources-psc.git
-  revision: b056d5ef13d769e7b9edc3f7d5c738b20cd87a89
+  revision: c3f26df44dbb8415ad0131c204a12d22c347c4bf
+  branch: overseas-entities
   specs:
     register_sources_psc (0.1.0)
       activesupport (>= 6, < 8)
@@ -61,46 +64,45 @@ PATH
   remote: .
   specs:
     register_transformer_psc (0.1.0)
-      activesupport (~> 6.1)
+      activesupport (>= 6, < 8)
       countries (~> 4.0.1)
-      dry-struct (~> 1.4.0)
-      dry-types (~> 1.5.1)
-      elasticsearch (~> 7.10.1)
+      dry-struct (>= 1, < 2)
+      dry-types (>= 1, < 2)
+      elasticsearch (>= 7.10, < 8)
       iso8601
       xxhash
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (6.1.7)
+    activesupport (7.0.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-      zeitwerk (~> 2.3)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
     aws-eventstream (1.2.0)
-    aws-partitions (1.640.0)
-    aws-sdk-athena (1.56.0)
-      aws-sdk-core (~> 3, >= 3.127.0)
+    aws-partitions (1.676.0)
+    aws-sdk-athena (1.59.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-core (3.158.0)
+    aws-sdk-core (3.168.4)
       aws-eventstream (~> 1, >= 1.0.2)
-      aws-partitions (~> 1, >= 1.525.0)
-      aws-sigv4 (~> 1.1)
+      aws-partitions (~> 1, >= 1.651.0)
+      aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-firehose (1.48.0)
-      aws-sdk-core (~> 3, >= 3.127.0)
+    aws-sdk-firehose (1.50.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-kinesis (1.41.0)
-      aws-sdk-core (~> 3, >= 3.127.0)
+    aws-sdk-kinesis (1.42.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-kms (1.58.0)
-      aws-sdk-core (~> 3, >= 3.127.0)
+    aws-sdk-kms (1.61.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.114.0)
-      aws-sdk-core (~> 3, >= 3.127.0)
+    aws-sdk-s3 (1.117.2)
+      aws-sdk-core (~> 3, >= 3.165.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
     aws-sigv4 (1.5.2)
@@ -114,30 +116,31 @@ GEM
       rexml
     diff-lcs (1.5.0)
     dotenv (2.8.1)
-    dry-container (0.11.0)
+    dry-core (1.0.0)
       concurrent-ruby (~> 1.0)
-    dry-core (0.8.1)
+      zeitwerk (~> 2.6)
+    dry-inflector (1.0.0)
+    dry-logic (1.5.0)
       concurrent-ruby (~> 1.0)
-    dry-inflector (0.3.0)
-    dry-logic (1.2.0)
-      concurrent-ruby (~> 1.0)
-      dry-core (~> 0.5, >= 0.5)
-    dry-struct (1.4.0)
-      dry-core (~> 0.5, >= 0.5)
-      dry-types (~> 1.5)
+      dry-core (~> 1.0, < 2)
+      zeitwerk (~> 2.6)
+    dry-struct (1.6.0)
+      dry-core (~> 1.0, < 2)
+      dry-types (>= 1.7, < 2)
       ice_nine (~> 0.11)
-    dry-types (1.5.1)
+      zeitwerk (~> 2.6)
+    dry-types (1.7.0)
       concurrent-ruby (~> 1.0)
-      dry-container (~> 0.3)
-      dry-core (~> 0.5, >= 0.5)
-      dry-inflector (~> 0.1, >= 0.1.2)
-      dry-logic (~> 1.0, >= 1.0.2)
-    elasticsearch (7.10.1)
-      elasticsearch-api (= 7.10.1)
-      elasticsearch-transport (= 7.10.1)
-    elasticsearch-api (7.10.1)
+      dry-core (~> 1.0, < 2)
+      dry-inflector (~> 1.0, < 2)
+      dry-logic (>= 1.4, < 2)
+      zeitwerk (~> 2.6)
+    elasticsearch (7.17.7)
+      elasticsearch-api (= 7.17.7)
+      elasticsearch-transport (= 7.17.7)
+    elasticsearch-api (7.17.7)
       multi_json
-    elasticsearch-transport (7.10.1)
+    elasticsearch-transport (7.17.7)
       faraday (~> 1)
       multi_json
     faraday (1.10.2)
@@ -165,40 +168,41 @@ GEM
     faraday-retry (1.0.3)
     faraday_middleware (1.2.0)
       faraday (~> 1.0)
+    geokit (1.13.1)
     hashdiff (1.0.1)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     i18n_data (0.13.1)
     ice_nine (0.11.2)
     iso8601 (0.13.0)
-    jmespath (1.6.1)
+    jmespath (1.6.2)
     minitest (5.16.3)
     multi_json (1.15.0)
     multipart-post (2.2.3)
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
-    nokogiri (1.13.8-x86_64-linux)
+    nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
-    public_suffix (5.0.0)
-    racc (1.6.0)
+    public_suffix (5.0.1)
+    racc (1.6.1)
     redis (5.0.5)
       redis-client (>= 0.9.0)
-    redis-client (0.9.0)
+    redis-client (0.11.2)
       connection_pool
     rexml (3.2.5)
-    rspec (3.11.0)
-      rspec-core (~> 3.11.0)
-      rspec-expectations (~> 3.11.0)
-      rspec-mocks (~> 3.11.0)
-    rspec-core (3.11.0)
-      rspec-support (~> 3.11.0)
-    rspec-expectations (3.11.1)
+    rspec (3.12.0)
+      rspec-core (~> 3.12.0)
+      rspec-expectations (~> 3.12.0)
+      rspec-mocks (~> 3.12.0)
+    rspec-core (3.12.0)
+      rspec-support (~> 3.12.0)
+    rspec-expectations (3.12.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.11.0)
-    rspec-mocks (3.11.1)
+      rspec-support (~> 3.12.0)
+    rspec-mocks (3.12.1)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.11.0)
-    rspec-support (3.11.1)
+      rspec-support (~> 3.12.0)
+    rspec-support (3.12.0)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     sixarm_ruby_unaccent (1.2.0)
@@ -209,7 +213,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     xxhash (0.5.0)
-    zeitwerk (2.6.1)
+    zeitwerk (2.6.6)
 
 PLATFORMS
   x86_64-linux

@@ -26,7 +26,6 @@ module RegisterTransformerPsc
 
       def call
         stream_client.consume(consumer_id) do |record_data|
-          print("GOT RECORD DATA: ", record_data, "\n")
           record = JSON.parse(record_data, symbolize_names: true)
           psc_record = RegisterSourcesPsc::CompanyRecord[**record]
           bods_mapper.process(psc_record)
