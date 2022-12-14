@@ -68,10 +68,13 @@ module RegisterTransformerPsc
         return unless data.kind == RegisterSourcesPsc::CorporateEntityKinds['corporate-entity-person-with-significant-control']
 
         begin
+          address = (data.respond_to?(:principal_office_address) && data.principal_office_address) || data.address
+
           @resolver_response = entity_resolver.resolve(
             RegisterSourcesOc::ResolverRequest[{
               company_number: data.identification.registration_number || psc_record.company_number,
               country: data.identification.country_registered,
+              region: address&.region,
               name: data.name,
             }.compact]
           )
