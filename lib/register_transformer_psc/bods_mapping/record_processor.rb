@@ -5,6 +5,10 @@ require 'register_sources_psc/enums/individual_kinds'
 require 'register_sources_psc/enums/legal_person_kinds'
 require 'register_sources_psc/enums/statement_kinds'
 require 'register_sources_psc/enums/super_secure_kinds'
+require 'register_sources_psc/enums/corporate_entity_beneficial_owner_kinds'
+require 'register_sources_psc/enums/individual_beneficial_owner_kinds'
+require 'register_sources_psc/enums/legal_person_beneficial_owner_kinds'
+require 'register_sources_psc/enums/super_secure_beneficial_owner_kinds'
 
 require 'register_transformer_psc/bods_mapping/entity_statement'
 require 'register_transformer_psc/bods_mapping/person_statement'
@@ -58,11 +62,11 @@ module RegisterTransformerPsc
 
       def map_parent_entity(psc_record)
         case psc_record.data.kind
-        when RegisterSourcesPsc::IndividualKinds['individual-person-with-significant-control']
+        when /individual/
           person_statement_mapper.call(psc_record)
-        when RegisterSourcesPsc::CorporateEntityKinds['corporate-entity-person-with-significant-control']
+        when /corporate-entity/
           entity_statement_mapper.call(psc_record, entity_resolver: entity_resolver)
-        when RegisterSourcesPsc::LegalPersonKinds['legal-person-person-with-significant-control']
+        when /legal-person/
           entity_statement_mapper.call(psc_record, entity_resolver: entity_resolver)
         end
       end
@@ -73,7 +77,10 @@ module RegisterTransformerPsc
         return unless [
           RegisterSourcesPsc::IndividualKinds['individual-person-with-significant-control'],
           RegisterSourcesPsc::CorporateEntityKinds['corporate-entity-person-with-significant-control'],
-          RegisterSourcesPsc::LegalPersonKinds['legal-person-person-with-significant-control']
+          RegisterSourcesPsc::LegalPersonKinds['legal-person-person-with-significant-control'],
+          RegisterSourcesPsc::IndividualBeneficialOwnerKinds['individual-beneficial-owner'],
+          RegisterSourcesPsc::CorporateEntityBeneficialOwnerKinds['corporate-entity-beneficial-owner'],
+          RegisterSourcesPsc::LegalPersonBeneficialOwnerKinds['legal-person-beneficial-owner'],
         ].include?(psc_record.data.kind)
         
         ownership_or_control_statement_mapper.call(
