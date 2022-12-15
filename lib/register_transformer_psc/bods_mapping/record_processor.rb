@@ -58,11 +58,11 @@ module RegisterTransformerPsc
 
       def map_parent_entity(psc_record)
         case psc_record.data.kind
-        when IndividualKinds['individual-person-with-significant-control']
+        when RegisterSourcesBods::IndividualKinds['individual-person-with-significant-control']
           person_statement_mapper.call(psc_record)
-        when CorporateEntityKinds['corporate-entity-person-with-significant-control']
+        when RegisterSourcesBods::CorporateEntityKinds['corporate-entity-person-with-significant-control']
           entity_statement_mapper.call(psc_record, entity_resolver: entity_resolver)
-        when LegalPersonKinds['legal-person-person-with-significant-control']
+        when RegisterSourcesBods::LegalPersonKinds['legal-person-person-with-significant-control']
           entity_statement_mapper.call(psc_record, entity_resolver: entity_resolver)
         end
       end
@@ -71,9 +71,9 @@ module RegisterTransformerPsc
         return unless child_entity && parent_entity
 
         return unless [
-          IndividualKinds['individual-person-with-significant-control'],
-          CorporateEntityKinds['corporate-entity-person-with-significant-control'],
-          LegalPersonKinds['legal-person-person-with-significant-control']
+          RegisterSourcesBods::IndividualKinds['individual-person-with-significant-control'],
+          RegisterSourcesBods::CorporateEntityKinds['corporate-entity-person-with-significant-control'],
+          RegisterSourcesBods::LegalPersonKinds['legal-person-person-with-significant-control']
         ].include?(psc_record.data.kind)
         
         ownership_or_control_statement_mapper.call(
