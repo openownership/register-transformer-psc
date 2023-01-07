@@ -49,9 +49,7 @@ module RegisterTransformerPsc
 
       def parse_string(interest)
         case interest
-        when 'ownership-of-shares-25-to-50-percent',
-            'ownership-of-shares-25-to-50-percent-as-trust',
-            'ownership-of-shares-25-to-50-percent-as-firm'
+        when /ownership-of-shares-25-to-50-percent/
           RegisterSourcesBods::Interest[{
             type: 'shareholding',
             details: interest,
@@ -62,9 +60,7 @@ module RegisterTransformerPsc
               exclusiveMaximum: false,
             },
           }]
-        when 'ownership-of-shares-50-to-75-percent',
-            'ownership-of-shares-50-to-75-percent-as-trust',
-            'ownership-of-shares-50-to-75-percent-as-firm'
+        when /ownership-of-shares-50-to-75-percent/
           RegisterSourcesBods::Interest[{
             type: 'shareholding',
             details: interest,
@@ -75,9 +71,7 @@ module RegisterTransformerPsc
               exclusiveMaximum: true,
             },
           }]
-        when 'ownership-of-shares-75-to-100-percent',
-            'ownership-of-shares-75-to-100-percent-as-trust',
-            'ownership-of-shares-75-to-100-percent-as-firm'
+        when /ownership-of-shares-75-to-100-percent/
           RegisterSourcesBods::Interest[{
             type: 'shareholding',
             details: interest,
@@ -88,12 +82,18 @@ module RegisterTransformerPsc
               exclusiveMaximum: false,
             },
           }]
-        when 'voting-rights-25-to-50-percent',
-            'voting-rights-25-to-50-percent-as-trust',
-            'voting-rights-25-to-50-percent-as-firm',
-            'voting-rights-25-to-50-percent-limited-liability-partnership',
-            'voting-rights-25-to-50-percent-as-trust-limited-liability-partnership',
-            'voting-rights-25-to-50-percent-as-firm-limited-liability-partnership'
+        when /ownership-of-shares-more-than-25-percent/
+          RegisterSourcesBods::Interest[{
+            type: 'shareholding',
+            details: interest,
+            share: {
+              minimum: 75,
+              maximum: 100,
+              exclusiveMinimum: false,
+              exclusiveMaximum: false,
+            },
+          }]
+        when /voting-rights-25-to-50-percent/
           RegisterSourcesBods::Interest[{
             type: 'voting-rights',
             details: interest,
@@ -104,12 +104,7 @@ module RegisterTransformerPsc
               exclusiveMaximum: false,
             },
           }]
-        when 'voting-rights-50-to-75-percent',
-            'voting-rights-50-to-75-percent-as-trust',
-            'voting-rights-50-to-75-percent-as-firm',
-            'voting-rights-50-to-75-percent-limited-liability-partnership',
-            'voting-rights-50-to-75-percent-as-trust-limited-liability-partnership',
-            'voting-rights-50-to-75-percent-as-firm-limited-liability-partnership'
+        when /voting-rights-50-to-75-percent/
           RegisterSourcesBods::Interest[{
             type: 'voting-rights',
             details: interest,
@@ -120,12 +115,7 @@ module RegisterTransformerPsc
               exclusiveMaximum: true,
             },
           }]
-        when 'voting-rights-75-to-100-percent',
-            'voting-rights-75-to-100-percent-as-trust',
-            'voting-rights-75-to-100-percent-as-firm',
-            'voting-rights-75-to-100-percent-limited-liability-partnership',
-            'voting-rights-75-to-100-percent-as-trust-limited-liability-partnership',
-            'voting-rights-75-to-100-percent-as-firm-limited-liability-partnership'
+        when /voting-rights-75-to-100-percent/
           RegisterSourcesBods::Interest[{
             type: 'voting-rights',
             details: interest,
@@ -136,12 +126,16 @@ module RegisterTransformerPsc
               exclusiveMaximum: false,
             },
           }]
-        when 'right-to-appoint-and-remove-directors',
-            'right-to-appoint-and-remove-directors-as-trust',
-            'right-to-appoint-and-remove-directors-as-firm',
-            'right-to-appoint-and-remove-members-limited-liability-partnership',
-            'right-to-appoint-and-remove-members-as-trust-limited-liability-partnership',
-            'right-to-appoint-and-remove-members-as-firm-limited-liability-partnership'
+        when /voting-rights-more-than-25-percent/
+          RegisterSourcesBods::Interest[{
+            type: 'voting-rights',
+            details: interest,
+            share: {
+              minimum: 25,
+              exclusiveMinimum: false,
+            },
+          }]
+        when /right-to-appoint-and-remove-directors/, /right-to-appoint-and-remove-members/
           RegisterSourcesBods::Interest[{
             type: 'appointment-of-board',
             details: interest,

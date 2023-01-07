@@ -43,6 +43,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::EntityStatement do
           company_number: "89101112",
           name: "Foo Bar Limited",
           country: "United Kingdom",
+          region: "Exampleshire"
         }.compact]
       ).and_return RegisterSourcesOc::ResolverResponse[{
         resolved: true,
