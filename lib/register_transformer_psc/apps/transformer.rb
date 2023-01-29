@@ -35,12 +35,6 @@ module RegisterTransformerPsc
       private
 
       attr_reader :bods_mapper, :stream_client, :consumer_id
-      
-      def handle_records(records)
-        records.each do |record|
-          bods_mapper.process psc_record
-        end
-      end
     end
   end
 end
