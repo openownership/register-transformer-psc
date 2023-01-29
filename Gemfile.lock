@@ -19,7 +19,8 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-bods.git
-  revision: 06737b53fe47ef153b02359f5c1a0771326bbb22
+  revision: 68d5f8d3399eef9279ce5386ba63fe8c1ea57ed0
+  branch: performance-improvements
   specs:
     register_sources_bods (0.1.0)
       activesupport (>= 6, < 8)
@@ -74,7 +75,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.0.4)
+    activesupport (7.0.4.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -107,7 +108,7 @@ GEM
       aws-sigv4 (~> 1.4)
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
-    concurrent-ruby (1.1.10)
+    concurrent-ruby (1.2.0)
     connection_pool (2.3.0)
     countries (4.0.1)
       i18n_data (~> 0.13.0)
@@ -143,7 +144,7 @@ GEM
     elasticsearch-transport (7.17.7)
       faraday (~> 1)
       multi_json
-    faraday (1.10.2)
+    faraday (1.10.3)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -179,7 +180,7 @@ GEM
     json (2.6.3)
     minitest (5.17.0)
     multi_json (1.15.0)
-    multipart-post (2.2.3)
+    multipart-post (2.3.0)
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
     nokogiri (1.13.10-x86_64-linux)
@@ -233,7 +234,7 @@ GEM
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     sixarm_ruby_unaccent (1.2.0)
-    tzinfo (2.0.5)
+    tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
     webmock (3.18.1)
