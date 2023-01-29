@@ -10,6 +10,8 @@ require 'register_sources_psc/enums/individual_beneficial_owner_kinds'
 require 'register_sources_psc/enums/legal_person_beneficial_owner_kinds'
 require 'register_sources_psc/enums/super_secure_beneficial_owner_kinds'
 
+require 'register_sources_oc/structs/resolver_request'
+
 require 'register_transformer_psc/bods_mapping/entity_statement'
 require 'register_transformer_psc/bods_mapping/person_statement'
 require 'register_transformer_psc/bods_mapping/child_entity_statement'
@@ -48,11 +50,33 @@ module RegisterTransformerPsc
       end
 
       def process_many(psc_records)
-        resolver_responses_for_childs = psc_records.map do |psc_record|
-          [psc_record.data.etag, map_child_entity(psc_record)] }.to_h
+        print "#{Time.now.to_s} Resolving children\n"
+        # Build requests for child entities
+        resolver_requests = psc_records.map do |psc_record|
+          next unless psc_record.company_number
 
+          RegisterSourcesOc::ResolverRequest.new(
+            company_number: psc_record.company_number,
+            jurisdiction_code: 'gb'
+          )
+        end.compact
 
-        child_entities = psc_records.map { |psc_record| [psc_record.data.etag, map_child_entity(psc_record)] }.to_h
+        # Perform requests to resolve child entities
+        resolver_responses = entity_resolver.resolve_many(resolver_requests)
+
+        print "#{Time.now.to_s} Resolved children\n"
+
+        # Build child entities
+        child_entities = psc_records.map do |psc_record|
+          resolver_response = resolver_responses.find do |resp|
+            (resp.company_number == psc_record.company_number) && (resp.jurisdiction_code == 'gb')
+          end
+
+          [psc_record.data.etag, map_child_entity(psc_record, resolver_response: resolver_response)]
+        end.to_h
+
+        print "#{Time.now.to_s} Build children\n"
+
         parent_entities = psc_records.map { |psc_record| [psc_record.data.etag, map_parent_entity(psc_record)] }.to_h
 
         parent_and_child_entities = child_entities.values.compact + parent_entities.values.compact

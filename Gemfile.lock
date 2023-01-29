@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-bods.git
-  revision: e05332ca3c7b8f601fe81d09523002f629df2ebb
+  revision: d9a484ece7038b0317a9fbb77d696bc27229ec54
   branch: performance-improvements
   specs:
     register_sources_bods (0.1.0)
@@ -31,7 +31,8 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-oc.git
-  revision: ab0239b2caecc56af869b9787c4a6b59b40675bc
+  revision: b6e51b9e4a621058ba6a5c6c2d59601c29c5f2c6
+  branch: performance-improvements
   specs:
     register_sources_oc (0.1.0)
       activesupport (>= 6, < 8)
@@ -168,7 +169,7 @@ GEM
     faraday-retry (1.0.3)
     faraday_middleware (1.2.0)
       faraday (~> 1.0)
-    geokit (1.13.1)
+    geokit (1.14.0)
     hashdiff (1.0.1)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
