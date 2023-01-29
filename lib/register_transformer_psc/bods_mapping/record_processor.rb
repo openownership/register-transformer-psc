@@ -47,6 +47,10 @@ module RegisterTransformerPsc
         relationship = relationship && bods_publisher.publish(relationship)
       end
 
+      def process_many(psc_records)
+        
+      end
+
       private
 
       attr_reader :entity_resolver, :interest_parser, :person_statement_mapper,
