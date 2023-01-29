@@ -37,9 +37,7 @@ module RegisterTransformerPsc
       end
 
       def call(s3_prefix)
-        print("Calling with s3_prefix: ", s3_prefix, "FOR BUCKET: ", s3_bucket, "\n")
         s3_paths = s3_adapter.list_objects(s3_bucket: s3_bucket, s3_prefix: s3_prefix)
-        print("GOT #{s3_paths.length} S3 Paths: ", s3_paths, "\n")
 
         s3_paths.each_slice(PARALLEL_FILES) do |s3_paths_batch|
           threads = []
@@ -55,17 +53,17 @@ module RegisterTransformerPsc
       attr_reader :bods_mapper, :redis, :s3_bucket, :s3_adapter, :file_reader
 
       def process_s3_path(s3_path)
-        print "Trying #{s3_path}\n"
         if file_processed?(s3_path)
           print "Skipping #{s3_path}\n"
         end
 
+        print "#{Time.now} Processing #{s3_path}\n"
         file_reader.read_from_s3(s3_bucket: s3_bucket, s3_path: s3_path) do |rows|
           process_rows rows
         end
 
         mark_file_complete(s3_path)
-        print "Completed #{s3_path}\n"
+        print "#{Time.now} Completed #{s3_path}\n"
       end
 
       def process_rows(rows)

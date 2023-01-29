@@ -54,8 +54,6 @@ module RegisterTransformerPsc
         parent_and_child_entities = child_entities.values.compact + parent_entities.values.compact
         published_entities = bods_publisher.publish_many parent_and_child_entities
 
-        print "Debug published entities: ", published_entities.map(&:to_h), "\n\n"
-
         relationships = psc_records.map do |psc_record|
           etag = psc_record.data.etag
 
@@ -70,7 +68,6 @@ module RegisterTransformerPsc
 
           map_relationship(psc_record, published_child_entity, published_parent_entity)
         end.compact
-        print "Debug relationships: ", relationships.map(&:to_h), "\n\n"
 
         bods_publisher.publish_many(relationships)
       end
