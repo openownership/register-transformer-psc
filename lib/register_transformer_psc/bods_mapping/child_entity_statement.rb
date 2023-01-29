@@ -23,9 +23,10 @@ module RegisterTransformerPsc
         new(company_number, **kwargs).call
       end
 
-      def initialize(company_number, entity_resolver: nil)
+      def initialize(company_number, entity_resolver: nil, resolver_response: nil)
         @company_number = company_number
         @entity_resolver = entity_resolver
+        @resolver_response = resolver_response
       end
 
       def call

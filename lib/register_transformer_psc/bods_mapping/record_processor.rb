@@ -48,6 +48,10 @@ module RegisterTransformerPsc
       end
 
       def process_many(psc_records)
+        resolver_responses_for_childs = psc_records.map do |psc_record|
+          [psc_record.data.etag, map_child_entity(psc_record)] }.to_h
+
+
         child_entities = psc_records.map { |psc_record| [psc_record.data.etag, map_child_entity(psc_record)] }.to_h
         parent_entities = psc_records.map { |psc_record| [psc_record.data.etag, map_parent_entity(psc_record)] }.to_h
 
@@ -81,10 +85,11 @@ module RegisterTransformerPsc
         :entity_statement_mapper, :child_entity_statement_mapper,
         :ownership_or_control_statement_mapper, :bods_publisher
 
-      def map_child_entity(psc_record)
+      def map_child_entity(psc_record, resolver_response: nil)
         BodsMapping::ChildEntityStatement.call(
           psc_record.company_number,
-          entity_resolver: entity_resolver
+          entity_resolver: entity_resolver,
+          resolver_response: resolver_response
         )
       end
 
