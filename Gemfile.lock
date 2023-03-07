@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-bods.git
-  revision: 36713a0d70416132491f57b4300e204562e7d0f4
+  revision: 53f2a9ae02e216042ffa9c8665717b92657ecd59
   branch: performance-improvements
   specs:
     register_sources_bods (0.1.0)
@@ -107,7 +107,7 @@ GEM
       aws-sigv4 (~> 1.4)
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
-    concurrent-ruby (1.2.0)
+    concurrent-ruby (1.2.2)
     connection_pool (2.3.0)
     countries (4.0.1)
       i18n_data (~> 0.13.0)
@@ -129,11 +129,11 @@ GEM
       dry-types (>= 1.7, < 2)
       ice_nine (~> 0.11)
       zeitwerk (~> 2.6)
-    dry-types (1.7.0)
+    dry-types (1.7.1)
       concurrent-ruby (~> 1.0)
-      dry-core (~> 1.0, < 2)
-      dry-inflector (~> 1.0, < 2)
-      dry-logic (>= 1.4, < 2)
+      dry-core (~> 1.0)
+      dry-inflector (~> 1.0)
+      dry-logic (~> 1.4)
       zeitwerk (~> 2.6)
     elasticsearch (7.17.7)
       elasticsearch-api (= 7.17.7)
@@ -176,7 +176,7 @@ GEM
     ice_nine (0.11.2)
     iso8601 (0.13.0)
     jmespath (1.6.2)
-    minitest (5.17.0)
+    minitest (5.18.0)
     multi_json (1.15.0)
     multipart-post (2.3.0)
     net-http-persistent (4.0.1)
@@ -213,7 +213,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     xxhash (0.5.0)
-    zeitwerk (2.6.6)
+    zeitwerk (2.6.7)
 
 PLATFORMS
   x86_64-linux
