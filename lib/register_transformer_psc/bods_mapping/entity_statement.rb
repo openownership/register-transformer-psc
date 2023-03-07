@@ -16,11 +16,14 @@ require 'active_support/core_ext/string/conversions'
 
 require 'register_sources_oc/structs/resolver_request'
 
+require_relative 'resolver_mappings'
+
 module RegisterTransformerPsc
   module BodsMapping
     class EntityStatement
+      include ResolverMappings
+
       ID_PREFIX = 'openownership-register-'.freeze
-      OPEN_CORPORATES_SCHEME_NAME = 'OpenCorporates'.freeze
 
       def self.call(psc_record, **kwargs)
         new(psc_record, **kwargs).call
@@ -45,9 +48,7 @@ module RegisterTransformerPsc
           identifiers:,
           foundingDate: founding_date,
           dissolutionDate: dissolution_date,
-          addresses:,
-          # uri: uri,
-          # replacesStatements: replaces_statements,
+          addresses: addresses,
           publicationDetails: publication_details,
           source:,
           # annotations: annotations
@@ -103,67 +104,16 @@ module RegisterTransformerPsc
         psc_self_link_identifiers + [open_corporates_identifier].compact
       end
 
-      def open_corporates_identifier
-        return unless resolver_response&.resolved
-
-        jurisdiction = resolver_response.jurisdiction_code
-        company_number = resolver_response.company_number
-        oc_url = "https://opencorporates.com/companies/#{jurisdiction}/#{company_number}"
-
-        RegisterSourcesBods::Identifier[{
-          id: oc_url,
-          schemeName: OPEN_CORPORATES_SCHEME_NAME,
-          uri: oc_url,
-        }]
-      end
-
       def name
-        data.name
-      end
-
-      def incorporated_in_jurisdiction
-        return unless resolver_response
-
-        jurisdiction_code = resolver_response.jurisdiction_code
-        return unless jurisdiction_code
-
-        code, = jurisdiction_code.split('_')
-        country = ISO3166::Country[code]
-        return nil if country.blank?
-
-        RegisterSourcesBods::Jurisdiction.new(name: country.name, code: country.alpha2)
-      end
-
-      def founding_date
-        return unless resolver_response&.company
-
-        date = resolver_response.company.incorporation_date&.to_date
-        return unless date
-
-        date.try(:iso8601)
-      rescue Date::Error
-        LOGGER.warn "Entity has invalid incorporation_date: #{date}"
-        nil
-      end
-
-      def dissolution_date
-        return unless resolver_response&.company
-
-        date = resolver_response.company.dissolution_date&.to_date
-        return unless date
-
-        date.try(:iso8601)
-      rescue Date::Error
-        LOGGER.warn "Entity has invalid dissolution_date: #{date}"
-        nil
+        data.name || super
       end
 
       ADDRESS_KEYS = %i[premises address_line_1 address_line_2 locality region postal_code].freeze
       def addresses
-        return [] unless data.address.presence
+        return super unless data.address.presence
 
         address = ADDRESS_KEYS.map { |key| data.address.send(key) }.map(&:presence).compact.join(', ')
-        return [] if address.blank?
+        return super if address.blank?
 
         country_code = incorporated_in_jurisdiction&.code
 

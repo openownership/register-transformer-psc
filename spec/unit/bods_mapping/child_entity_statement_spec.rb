@@ -41,27 +41,30 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
     result = subject.call
 
     expect(result).to be_a RegisterSourcesBods::EntityStatement
-    expect(result.to_h).to eq(
-      {
-        dissolutionDate: "2021-09-07",
-        entityType: "registeredEntity",
-        foundingDate: "2020-01-09",
-        identifiers: [
-          { id: "89101112", scheme: "GB-COH", schemeName: "Companies House" },
-          { id: "https://opencorporates.com/companies//89101112", schemeName: "OpenCorporates", uri: "https://opencorporates.com/companies//89101112" },
-        ],
-        isComponent: false,
-        publicationDetails: {
-          bodsVersion: "0.2",
-          license: "https://register.openownership.org/terms-and-conditions",
-          publicationDate: "2022-09-14",
-          publisher: {
-            name: "OpenOwnership Register",
-            url: "https://register.openownership.org",
-          },
-        },
-        statementID: "TODO",
-        statementType: "entityStatement",
+    expect(result.to_h).to eq({
+      addresses: [
+        {
+          address: "registered address",
+          type: "registered"
+        }
+      ],
+      dissolutionDate: "2021-09-07",
+      entityType: "registeredEntity",
+      foundingDate: "2020-01-09",
+      identifiers: [
+        { id: "89101112", scheme: "GB-COH", schemeName: "Companies House" },
+        { id: "https://opencorporates.com/companies//89101112", schemeName: "OpenCorporates", uri: "https://opencorporates.com/companies//89101112"}
+      ],
+      isComponent: false,
+      name: "Foo Bar Limited",
+      publicationDetails: {
+        bodsVersion: "0.2",
+        license: "https://register.openownership.org/terms-and-conditions",
+        publicationDate: "2022-09-14",
+        publisher: {
+          name: "OpenOwnership Register",
+          url: "https://register.openownership.org"
+        }
       },
     )
   end
