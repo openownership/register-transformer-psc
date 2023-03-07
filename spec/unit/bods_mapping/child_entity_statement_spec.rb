@@ -42,6 +42,12 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
 
     expect(result).to be_a RegisterSourcesBods::EntityStatement
     expect(result.to_h).to eq({
+      addresses: [
+        {
+          address: "registered address",
+          type: "registered"
+        }
+      ],
       dissolutionDate: "2021-09-07",
       entityType: "registeredEntity",
       foundingDate: "2020-01-09",
@@ -50,6 +56,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
         { id: "https://opencorporates.com/companies//89101112", schemeName: "OpenCorporates", uri: "https://opencorporates.com/companies//89101112"}
       ],
       isComponent: false,
+      name: "Foo Bar Limited",
       publicationDetails: {
         bodsVersion: "0.2",
         license: "https://register.openownership.org/terms-and-conditions",
