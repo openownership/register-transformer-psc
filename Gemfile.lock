@@ -19,8 +19,8 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-bods.git
-  revision: 53f2a9ae02e216042ffa9c8665717b92657ecd59
-  branch: performance-improvements
+  revision: 531d484994e7954caea6b6fdf3925c13fdfd58c3
+  branch: performance-improvements-v2
   specs:
     register_sources_bods (0.1.0)
       activesupport (>= 6, < 8)
@@ -75,7 +75,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.0.4.2)
+    activesupport (7.0.4.3)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
