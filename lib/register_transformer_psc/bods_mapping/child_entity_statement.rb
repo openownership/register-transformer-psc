@@ -5,6 +5,7 @@ require 'register_sources_bods/structs/entity_statement'
 require 'register_sources_bods/structs/identifier'
 require 'register_sources_bods/structs/jurisdiction'
 require 'register_sources_bods/constants/publisher'
+require 'register_sources_bods/mappings/resolver_mappings'
 
 require 'active_support/core_ext/object/blank'
 require 'active_support/core_ext/object/try'
@@ -13,12 +14,10 @@ require 'active_support/core_ext/string/conversions'
 
 require 'register_sources_oc/structs/resolver_request'
 
-require_relative 'resolver_mappings'
-
 module RegisterTransformerPsc
   module BodsMapping
     class ChildEntityStatement
-      include ResolverMappings
+      include RegisterSourcesBods::Mappers::ResolverMappings
  
       ID_PREFIX = 'openownership-register-'.freeze
 
