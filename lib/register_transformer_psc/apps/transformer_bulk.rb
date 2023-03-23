@@ -54,7 +54,8 @@ module RegisterTransformerPsc
 
       def process_s3_path(s3_path)
         if file_processed?(s3_path)
-          print "Skipping #{s3_path}\n"
+          print "Skipping #{s3_path}\n"#
+          return
         end
 
         print "#{Time.now} Processing #{s3_path}\n"
