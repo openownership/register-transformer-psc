@@ -167,7 +167,7 @@ module RegisterTransformerPsc
 
         return identifiers unless data.respond_to?(:identification)
 
-        company_number = data.identification.registration_number
+        company_number = data.identification&.registration_number
         if company_number.present? # this depends on if corporate entity
           identifiers << RegisterSourcesBods::Identifier.new(
             id: company_number,
