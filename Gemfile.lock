@@ -19,14 +19,15 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-bods.git
-  revision: 53f2a9ae02e216042ffa9c8665717b92657ecd59
-  branch: performance-improvements
+  revision: d57dc61474506b1bbc390a303927edba329e2ab1
   specs:
     register_sources_bods (0.1.0)
       activesupport (>= 6, < 8)
+      countries (~> 4.0.1)
       dry-struct (>= 1, < 2)
       dry-types (>= 1, < 2)
       elasticsearch (>= 7.10, < 8)
+      iso8601
       xxhash
 
 GIT

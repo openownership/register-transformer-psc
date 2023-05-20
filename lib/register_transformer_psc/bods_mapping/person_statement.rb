@@ -90,11 +90,23 @@ module RegisterTransformerPsc
       end
 
       def names
+        full_name = data.name.present? ? data.name : nil
+
         if data.name_elements.presence
+          full_name ||= name_string(data.name_elements)
+
+          # Remove Title from full name to be consistent with previous Register
+          split_name = full_name.to_s.split(" ")
+          if split_name.length >= 1
+            if split_name[0].upcase == data.name_elements.title.to_s.upcase
+              full_name = split_name[1..-1].to_a.join(" ")
+            end
+          end
+
           [
             RegisterSourcesBods::Name[{
               type: RegisterSourcesBods::NameTypes['individual'],
-              fullName: name_string(data.name_elements),
+              fullName: full_name,
               familyName: data.name_elements.surname,
               givenName: data.name_elements.forename,
               # patronymicName: nil
