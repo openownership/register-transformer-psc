@@ -19,14 +19,16 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-bods.git
-  revision: 6c519375bad5d25b10394c27e40d37a515f86e97
-  branch: performance-improvements-v2
+  revision: 5634d41f8f6e8d4acd7977ed9c992cccd8944dfd
+  branch: bods-v2-prototype-fix-deduplication
   specs:
     register_sources_bods (0.1.0)
       activesupport (>= 6, < 8)
+      countries (~> 4.0.1)
       dry-struct (>= 1, < 2)
       dry-types (>= 1, < 2)
       elasticsearch (>= 7.10, < 8)
+      iso8601
       xxhash
 
 GIT
@@ -170,7 +172,7 @@ GEM
       faraday (~> 1.0)
     geokit (1.13.1)
     hashdiff (1.0.1)
-    i18n (1.12.0)
+    i18n (1.13.0)
       concurrent-ruby (~> 1.0)
     i18n_data (0.13.1)
     ice_nine (0.11.2)
@@ -213,7 +215,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     xxhash (0.5.0)
-    zeitwerk (2.6.7)
+    zeitwerk (2.6.8)
 
 PLATFORMS
   x86_64-linux
