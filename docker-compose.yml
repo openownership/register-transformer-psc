@@ -20,6 +20,7 @@ services:
       - REDIS_PORT
       - PSC_STREAM
       - BODS_STREAM
+      - BODS_INDEX
     restart: always
 
   register_transformer_psc_redis:
