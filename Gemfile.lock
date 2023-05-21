@@ -19,8 +19,8 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-bods.git
-  revision: 5c89e9450a460767b7b2279fafc0c3bc6cd0d76b
-  branch: bods-v2-prototype-fix-deduplication
+  revision: 2ec12bfc9eaf096b3732579485b8696bc3cb9336
+  branch: bods-v2-prototype-fix-deduplication-more-fixes
   specs:
     register_sources_bods (0.1.0)
       activesupport (>= 6, < 8)
