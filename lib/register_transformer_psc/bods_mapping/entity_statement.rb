@@ -8,7 +8,7 @@ require 'register_sources_bods/structs/jurisdiction'
 require 'register_sources_bods/constants/publisher'
 require 'register_sources_bods/structs/publication_details'
 require 'register_sources_bods/structs/source'
-require 'register_sources_bods/mappings/resolver_mappings'
+require 'register_sources_bods/mappers/resolver_mappings'
 
 require 'active_support/core_ext/object/blank'
 require 'active_support/core_ext/object/try'
