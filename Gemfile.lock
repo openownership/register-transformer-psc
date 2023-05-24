@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-bods.git
-  revision: 75f9f233ff6f870c1ece3e0f83bd7d14d490e7b5
+  revision: 3acde8ae5d2972d379432ca0861d88ef35d5c3b8
   branch: bods-v2-prototype-merges-debug
   specs:
     register_sources_bods (0.1.0)
@@ -77,7 +77,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.0.4.3)
+    activesupport (7.0.5)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
