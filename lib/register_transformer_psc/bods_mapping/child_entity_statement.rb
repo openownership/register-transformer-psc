@@ -17,7 +17,7 @@ module RegisterTransformerPsc
   module BodsMapping
     class ChildEntityStatement
       ID_PREFIX = 'openownership-register-'.freeze
-      OPEN_CORPORATES_SCHEME_NAME = 'OpenCorporates'
+      OPEN_CORPORATES_SCHEME_NAME = 'OpenCorporates'.freeze
 
       def self.call(company_number, **kwargs)
         new(company_number, **kwargs).call
@@ -39,9 +39,9 @@ module RegisterTransformerPsc
             RegisterSourcesBods::Identifier.new(
               scheme: 'GB-COH',
               schemeName: 'Companies House',
-              id: company_number
+              id: company_number,
             ),
-            open_corporates_identifier
+            open_corporates_identifier,
           ].compact,
           foundingDate: founding_date,
           dissolutionDate: dissolution_date,
@@ -60,14 +60,14 @@ module RegisterTransformerPsc
 
         @resolver_response = entity_resolver.resolve(
           RegisterSourcesOc::ResolverRequest.new(
-            company_number: company_number,
-            jurisdiction_code: 'gb'
-          )
+            company_number:,
+            jurisdiction_code: 'gb',
+          ),
         )
       end
 
       def open_corporates_identifier
-        return unless resolver_response && resolver_response.resolved
+        return unless resolver_response&.resolved
 
         jurisdiction = resolver_response.jurisdiction_code
         company_number = resolver_response.company_number
@@ -76,7 +76,7 @@ module RegisterTransformerPsc
         RegisterSourcesBods::Identifier[{
           id: oc_url,
           schemeName: OPEN_CORPORATES_SCHEME_NAME,
-          uri: oc_url
+          uri: oc_url,
         }]
       end
 
@@ -87,7 +87,7 @@ module RegisterTransformerPsc
       def incorporated_in_jurisdiction
         jurisdiction_code = resolver_response.jurisdiction_code
         return unless jurisdiction_code
-      
+
         code, = jurisdiction_code.split('_')
         country = ISO3166::Country[code]
         return nil if country.blank?
@@ -97,8 +97,10 @@ module RegisterTransformerPsc
 
       def founding_date
         return unless resolver_response.company
+
         date = resolver_response.company.incorporation_date&.to_date
         return unless date
+
         date.try(:iso8601)
       rescue Date::Error
         LOGGER.warn "Entity has invalid incorporation_date: #{date}"
@@ -107,8 +109,10 @@ module RegisterTransformerPsc
 
       def dissolution_date
         return unless resolver_response.company
+
         date = resolver_response.company.dissolution_date&.to_date
         return unless date
+
         date.try(:iso8601)
       rescue Date::Error
         LOGGER.warn "Entity has invalid dissolution_date: #{date}"
@@ -121,7 +125,7 @@ module RegisterTransformerPsc
           publicationDate: Time.now.utc.to_date.to_s, # TODO: fix publication date
           bodsVersion: RegisterSourcesBods::BODS_VERSION,
           license: RegisterSourcesBods::BODS_LICENSE,
-          publisher: RegisterSourcesBods::PUBLISHER
+          publisher: RegisterSourcesBods::PUBLISHER,
         )
       end
     end

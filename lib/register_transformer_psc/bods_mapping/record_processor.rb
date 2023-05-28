@@ -38,25 +38,25 @@ module RegisterTransformerPsc
 
       def process(psc_record)
         child_entity = map_child_entity(psc_record)
-        child_entity = child_entity && bods_publisher.publish(child_entity)
+        child_entity &&= bods_publisher.publish(child_entity)
 
         parent_entity = map_parent_entity(psc_record)
-        parent_entity = parent_entity && bods_publisher.publish(parent_entity)
+        parent_entity &&= bods_publisher.publish(parent_entity)
 
         relationship = map_relationship(psc_record, child_entity, parent_entity)
-        relationship = relationship && bods_publisher.publish(relationship)
+        relationship && bods_publisher.publish(relationship)
       end
 
       private
 
       attr_reader :entity_resolver, :interest_parser, :person_statement_mapper,
-        :entity_statement_mapper, :child_entity_statement_mapper,
-        :ownership_or_control_statement_mapper, :bods_publisher
+                  :entity_statement_mapper, :child_entity_statement_mapper,
+                  :ownership_or_control_statement_mapper, :bods_publisher
 
       def map_child_entity(psc_record)
         BodsMapping::ChildEntityStatement.call(
           psc_record.company_number,
-          entity_resolver: entity_resolver
+          entity_resolver:,
         )
       end
 
@@ -65,9 +65,9 @@ module RegisterTransformerPsc
         when /individual/
           person_statement_mapper.call(psc_record)
         when /corporate-entity/
-          entity_statement_mapper.call(psc_record, entity_resolver: entity_resolver)
+          entity_statement_mapper.call(psc_record, entity_resolver:)
         when /legal-person/
-          entity_statement_mapper.call(psc_record, entity_resolver: entity_resolver)
+          entity_statement_mapper.call(psc_record, entity_resolver:)
         end
       end
 
@@ -82,13 +82,13 @@ module RegisterTransformerPsc
           RegisterSourcesPsc::CorporateEntityBeneficialOwnerKinds['corporate-entity-beneficial-owner'],
           RegisterSourcesPsc::LegalPersonBeneficialOwnerKinds['legal-person-beneficial-owner'],
         ].include?(psc_record.data.kind)
-        
+
         ownership_or_control_statement_mapper.call(
           psc_record,
-          entity_resolver: entity_resolver,
+          entity_resolver:,
           source_statement: parent_entity,
           target_statement: child_entity,
-          interest_parser: interest_parser
+          interest_parser:,
         )
       end
     end

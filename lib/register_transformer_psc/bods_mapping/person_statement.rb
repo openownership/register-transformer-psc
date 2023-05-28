@@ -30,21 +30,21 @@ module RegisterTransformerPsc
           isComponent: is_component,
           personType: person_type,
           unspecifiedPersonDetails: unspecified_person_details,
-          names: names,
-          identifiers: identifiers,
-          nationalities: nationalities,
+          names:,
+          identifiers:,
+          nationalities:,
           placeOfBirth: place_of_birth,
           birthDate: birth_date,
           deathDate: death_date,
           placeOfResidence: place_of_residence,
           taxResidencies: tax_residencies,
-          addresses: addresses,
+          addresses:,
           hasPepStatus: has_pep_status,
           pepStatusDetails: pep_status_details,
           publicationDetails: publication_details,
-          source: source,
-          annotations: annotations,
-          replacesStatements: replaces_statements
+          source:,
+          annotations:,
+          replacesStatements: replaces_statements,
         }.compact]
       end
 
@@ -69,28 +69,28 @@ module RegisterTransformerPsc
       def person_type
         RegisterSourcesBods::PersonTypes['knownPerson'] # TODO: KNOWN_PERSON, ANONYMOUS_PERSON, UNKNOWN_PERSON
       end
-      #def unknown_ps_person_type(unknown_person)
+      # def unknown_ps_person_type(unknown_person)
       #  case unknown_person.unknown_reason_code
       #  when 'super-secure-person-with-significant-control'
       #    'anonymousPerson'
       #  else
       #    'unknownPerson'
       #  end
-      #end
+      # end
 
       def identifiers
         psc_self_link_identifiers # TODO: include Register identifier
       end
 
       def unspecified_person_details
-        #{
+        # {
         #  reason,
         #  description
-        #}
+        # }
       end
 
       def names
-        if data.name_elements.presence 
+        if data.name_elements.presence
           [
             RegisterSourcesBods::Name[{
               type: RegisterSourcesBods::NameTypes['individual'],
@@ -98,14 +98,14 @@ module RegisterTransformerPsc
               familyName: data.name_elements.surname,
               givenName: data.name_elements.forename,
               # patronymicName: nil
-            }.compact]
+            }.compact],
           ]
         else
           [
             RegisterSourcesBods::Name.new(
               type: RegisterSourcesBods::NameTypes['individual'],
               fullName: data.name,
-            )
+            ),
           ]
         end
       end
@@ -117,18 +117,22 @@ module RegisterTransformerPsc
       def nationalities
         nationality = country_from_nationality(data.nationality).try(:alpha2)
         return unless nationality
+
         country = ISO3166::Country[nationality]
         return nil if country.blank?
+
         [
           RegisterSourcesBods::Country.new(
             name: country.name,
-            code: country.alpha2
-          )
+            code: country.alpha2,
+          ),
         ]
       end
+
       def country_from_nationality(nationality)
         countries = ISO3166::Country.find_all_countries_by_nationality(nationality)
         return if countries.count > 1 # too ambiguous
+
         countries[0]
       end
 
@@ -139,7 +143,7 @@ module RegisterTransformerPsc
       def birth_date
         dob_elements = entity_dob(data.date_of_birth)
         begin
-          dob_elements&.to_date&.iso8601 # TODO - log exceptions but process as nil
+          dob_elements&.to_date&.iso8601 # TODO: - log exceptions but process as nil
         rescue Date::Error
           begin
             new_dob = "#{dob_elements}-01" # TODO: properly handle missing day
@@ -150,8 +154,10 @@ module RegisterTransformerPsc
           end
         end
       end
+
       def entity_dob(elements)
         return unless elements
+
         parts = [elements.year]
         parts << format('%02d', elements.month) if elements.month
         parts << format('%02d', elements.day) if elements.month && elements.day
@@ -187,17 +193,20 @@ module RegisterTransformerPsc
         [
           RegisterSourcesBods::Address.new(
             type: RegisterSourcesBods::AddressTypes['registered'], # TODO: check this
-            address: address,
+            address:,
             # postCode: nil,
-            country: country
-          )
+            country:,
+          ),
         ]
       end
+
       def try_parse_country_name_to_code(name)
         return nil if name.blank?
         return ISO3166::Country[name].try(:alpha2) if name.length == 2
-        country = ISO3166::Country.find_country_by_name(name)  
+
+        country = ISO3166::Country.find_country_by_name(name)
         return country.alpha2 if country
+
         country = ISO3166::Country.find_country_by_alpha3(name)
         return country.alpha2 if country
       end
@@ -232,7 +241,7 @@ module RegisterTransformerPsc
           publicationDate: Time.now.utc.to_date.to_s, # TODO: fix publication date
           bodsVersion: RegisterSourcesBods::BODS_VERSION,
           license: RegisterSourcesBods::BODS_LICENSE,
-          publisher: RegisterSourcesBods::PUBLISHER
+          publisher: RegisterSourcesBods::PUBLISHER,
         )
       end
 
@@ -244,7 +253,7 @@ module RegisterTransformerPsc
           description: 'GB Persons Of Significant Control Register',
           url: "http://download.companieshouse.gov.uk/en_pscdata.html", # TODO: link to snapshot?
           retrievedAt: Time.now.utc.to_date.to_s, # TODO: fix publication date, # TODO: add retrievedAt to record iso8601
-          assertedBy: nil # TODO: if it is a combination of sources (PSC and OpenCorporates), is it us?
+          assertedBy: nil, # TODO: if it is a combination of sources (PSC and OpenCorporates), is it us?
         )
       end
 
@@ -263,13 +272,14 @@ module RegisterTransformerPsc
       # company number. This allows us to a) link the statement back to the specific
       # parts of the PSC data it came from and b) share the company number we
       # figured out from an OC lookup, but make the provenance clearer.
-      DOCUMENT_ID = 'GB Persons Of Significant Control Register'
-      def psc_self_link_identifiers # if entity.legal_entity?
+      DOCUMENT_ID = 'GB Persons Of Significant Control Register'.freeze
+      # if entity.legal_entity?
+      def psc_self_link_identifiers
         identifier_link = data.links[:self]
         return unless identifier_link.present?
 
         identifiers = [
-          RegisterSourcesBods::Identifier.new(id: identifier_link, schemeName: DOCUMENT_ID)
+          RegisterSourcesBods::Identifier.new(id: identifier_link, schemeName: DOCUMENT_ID),
         ]
 
         return identifiers unless data.respond_to?(:identification)
@@ -289,7 +299,7 @@ module RegisterTransformerPsc
         RegisterSourcesBods::Identifier.new(
           id: url,
           schemeName: 'OpenOwnership Register',
-          uri: URI.join(url_base, "/entities/#{entity.id}").to_s
+          uri: URI.join(url_base, "/entities/#{entity.id}").to_s,
         )
       end
 
@@ -298,4 +308,4 @@ module RegisterTransformerPsc
       end
     end
   end
-end    
+end

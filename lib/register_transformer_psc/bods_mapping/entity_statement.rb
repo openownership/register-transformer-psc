@@ -20,7 +20,7 @@ module RegisterTransformerPsc
   module BodsMapping
     class EntityStatement
       ID_PREFIX = 'openownership-register-'.freeze
-      OPEN_CORPORATES_SCHEME_NAME = 'OpenCorporates'
+      OPEN_CORPORATES_SCHEME_NAME = 'OpenCorporates'.freeze
 
       def self.call(psc_record, **kwargs)
         new(psc_record, **kwargs).call
@@ -39,17 +39,17 @@ module RegisterTransformerPsc
           isComponent: false,
           entityType: entity_type,
           # unspecifiedEntityDetails: unspecified_entity_details,
-          name: name,
+          name:,
           # alternateNames: alternate_names,
           incorporatedInJurisdiction: incorporated_in_jurisdiction,
-          identifiers: identifiers,
+          identifiers:,
           foundingDate: founding_date,
           dissolutionDate: dissolution_date,
-          addresses: addresses,
+          addresses:,
           # uri: uri,
           # replacesStatements: replaces_statements,
           publicationDetails: publication_details,
-          source: source,
+          source:,
           # annotations: annotations
         }.compact]
       end
@@ -76,9 +76,9 @@ module RegisterTransformerPsc
               country: data.identification.country_registered,
               region: address&.region,
               name: data.name,
-            }.compact]
+            }.compact],
           )
-        rescue => e
+        rescue StandardError
           print "FAILURE FOR RECORD #{psc_record.to_h}\n"
           raise
         end
@@ -95,7 +95,7 @@ module RegisterTransformerPsc
       end
 
       def entity_type
-         # TODO: Legacy - this is hard-coded to registeredEntity in exporter
+        # TODO: Legacy - this is hard-coded to registeredEntity in exporter
         RegisterSourcesBods::EntityTypes['registeredEntity']
       end
 
@@ -104,7 +104,7 @@ module RegisterTransformerPsc
       end
 
       def open_corporates_identifier
-        return unless resolver_response && resolver_response.resolved
+        return unless resolver_response&.resolved
 
         jurisdiction = resolver_response.jurisdiction_code
         company_number = resolver_response.company_number
@@ -113,7 +113,7 @@ module RegisterTransformerPsc
         RegisterSourcesBods::Identifier[{
           id: oc_url,
           schemeName: OPEN_CORPORATES_SCHEME_NAME,
-          uri: oc_url
+          uri: oc_url,
         }]
       end
 
@@ -123,9 +123,10 @@ module RegisterTransformerPsc
 
       def incorporated_in_jurisdiction
         return unless resolver_response
+
         jurisdiction_code = resolver_response.jurisdiction_code
         return unless jurisdiction_code
-      
+
         code, = jurisdiction_code.split('_')
         country = ISO3166::Country[code]
         return nil if country.blank?
@@ -134,9 +135,11 @@ module RegisterTransformerPsc
       end
 
       def founding_date
-        return unless resolver_response && resolver_response.company
+        return unless resolver_response&.company
+
         date = resolver_response.company.incorporation_date&.to_date
         return unless date
+
         date.try(:iso8601)
       rescue Date::Error
         LOGGER.warn "Entity has invalid incorporation_date: #{date}"
@@ -144,9 +147,11 @@ module RegisterTransformerPsc
       end
 
       def dissolution_date
-        return unless resolver_response && resolver_response.company
+        return unless resolver_response&.company
+
         date = resolver_response.company.dissolution_date&.to_date
         return unless date
+
         date.try(:iso8601)
       rescue Date::Error
         LOGGER.warn "Entity has invalid dissolution_date: #{date}"
@@ -160,15 +165,15 @@ module RegisterTransformerPsc
         address = ADDRESS_KEYS.map { |key| data.address.send(key) }.map(&:presence).compact.join(', ')
         return [] if address.blank?
 
-        country_code = incorporated_in_jurisdiction ? incorporated_in_jurisdiction.code : nil
+        country_code = incorporated_in_jurisdiction&.code
 
         [
           RegisterSourcesBods::Address[{
             type: RegisterSourcesBods::AddressTypes['registered'],
-            address: address,
+            address:,
             postcode: data.address.postal_code,
-            country: country_code
-          }.compact]
+            country: country_code,
+          }.compact],
         ]
       end
 
@@ -178,7 +183,7 @@ module RegisterTransformerPsc
           publicationDate: Time.now.utc.to_date.to_s, # TODO: fix publication date
           bodsVersion: RegisterSourcesBods::BODS_VERSION,
           license: RegisterSourcesBods::BODS_LICENSE,
-          publisher: RegisterSourcesBods::PUBLISHER
+          publisher: RegisterSourcesBods::PUBLISHER,
         )
       end
 
@@ -190,7 +195,7 @@ module RegisterTransformerPsc
           description: 'GB Persons Of Significant Control Register',
           url: "http://download.companieshouse.gov.uk/en_pscdata.html", # TODO: link to snapshot?
           retrievedAt: Time.now.utc.to_date.to_s, # TODO: fix publication date, # TODO: add retrievedAt to record iso8601
-          assertedBy: nil # TODO: if it is a combination of sources (PSC and OpenCorporates), is it us?
+          assertedBy: nil, # TODO: if it is a combination of sources (PSC and OpenCorporates), is it us?
         )
       end
 
@@ -201,13 +206,14 @@ module RegisterTransformerPsc
       # company number. This allows us to a) link the statement back to the specific
       # parts of the PSC data it came from and b) share the company number we
       # figured out from an OC lookup, but make the provenance clearer.
-      DOCUMENT_ID = 'GB Persons Of Significant Control Register'
-      def psc_self_link_identifiers # if entity.legal_entity?
+      DOCUMENT_ID = 'GB Persons Of Significant Control Register'.freeze
+      # if entity.legal_entity?
+      def psc_self_link_identifiers
         identifier_link = data.links[:self]
         return unless identifier_link.present?
 
         identifiers = [
-          RegisterSourcesBods::Identifier.new(id: identifier_link, schemeName: DOCUMENT_ID)
+          RegisterSourcesBods::Identifier.new(id: identifier_link, schemeName: DOCUMENT_ID),
         ]
 
         return identifiers unless data.respond_to?(:identification)
