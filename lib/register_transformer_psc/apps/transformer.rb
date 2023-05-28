@@ -14,12 +14,12 @@ module RegisterTransformerPsc
         bods_publisher ||= RegisterSourcesBods::Services::Publisher.new
         entity_resolver ||= RegisterSourcesOc::Services::ResolverService.new
         @bods_mapper = bods_mapper || RegisterTransformerPsc::BodsMapping::RecordProcessor.new(
-          entity_resolver: entity_resolver,
-          bods_publisher: bods_publisher
+          entity_resolver:,
+          bods_publisher:,
         )
         @stream_client = RegisterCommon::Services::StreamClientKinesis.new(
           credentials: RegisterTransformerPsc::Config::AWS_CREDENTIALS,
-          stream_name: ENV.fetch('PSC_STREAM')
+          stream_name: ENV.fetch('PSC_STREAM'),
         )
         @consumer_id = "RegisterTransformerPsc"
       end
@@ -35,9 +35,9 @@ module RegisterTransformerPsc
       private
 
       attr_reader :bods_mapper, :stream_client, :consumer_id
-      
+
       def handle_records(records)
-        records.each do |record|
+        records.each do |_record|
           bods_mapper.process psc_record
         end
       end

@@ -1,0 +1,424 @@
+inherit_from:
+  - .rubocop_todo.yml
+  - .rubocop-disable-default-enabled.yml
+  - .rubocop-enable-default-disabled.yml
+
+
+
+
+
+require: rubocop-rspec
+
+AllCops:
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  Exclude:
+    - bin/*
+    - vendor/**/*
+    - node_modules/**/*
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Layout/CaseIndentation:
+  EnforcedStyle: end
+
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: variable
+
+Layout/FirstArgumentIndentation:
+  EnforcedStyle: consistent
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
+
+Security/Open:
+  Enabled: false
+
+Style/FormatStringToken:
+  EnforcedStyle: template
+
+Style/HashSyntax:
+  Exclude:
+    - lib/tasks/**/*.rake
+
+Style/Lambda:
+  EnforcedStyle: literal
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+Layout/LineEndStringConcatenationIndentation:
+  Enabled: true
+
+Layout/SpaceBeforeBrackets:
+  Enabled: true
+
+Lint/AmbiguousAssignment:
+  Enabled: true
+
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: true
+
+Lint/AmbiguousRange:
+  Enabled: true
+
+Lint/DeprecatedConstants:
+  Enabled: true
+
+Lint/DuplicateBranch:
+  Enabled: true
+
+Lint/DuplicateRegexpCharacterClassElement:
+  Enabled: true
+
+Lint/EmptyBlock:
+  Enabled: true
+
+Lint/EmptyClass:
+  Enabled: true
+
+Lint/EmptyInPattern:
+  Enabled: true
+
+Lint/IncompatibleIoSelectWithFiberScheduler:
+  Enabled: true
+
+Lint/LambdaWithoutLiteralBlock:
+  Enabled: true
+
+Lint/NoReturnInBeginEndBlocks:
+  Enabled: true
+
+Lint/NumberedParameterAssignment:
+  Enabled: true
+
+Lint/OrAssignmentToConstant:
+  Enabled: true
+
+Lint/RedundantDirGlobSort:
+  Enabled: true
+
+Lint/RequireRelativeSelfPath:
+  Enabled: true
+
+Lint/SymbolConversion:
+  Enabled: true
+
+Lint/ToEnumArguments:
+  Enabled: true
+
+Lint/TripleQuotes:
+  Enabled: true
+
+Lint/UnexpectedBlockArity:
+  Enabled: true
+
+Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
+
+Security/IoMethods:
+  Enabled: true
+
+Style/ArgumentsForwarding:
+  Enabled: true
+
+Style/CollectionCompact:
+  Enabled: true
+
+Style/DocumentDynamicEvalDefinition:
+  Enabled: true
+
+Style/EndlessMethod:
+  Enabled: true
+
+Style/HashConversion:
+  Enabled: true
+
+Style/HashExcept:
+  Enabled: true
+
+Style/IfWithBooleanLiteralBranches:
+  Enabled: true
+
+Style/InPatternThen:
+  Enabled: true
+
+Style/MultilineInPatternThen:
+  Enabled: true
+
+Style/NegatedIfElseCondition:
+  Enabled: true
+
+Style/NilLambda:
+  Enabled: true
+
+Style/NumberedParameters:
+  Enabled: true
+
+Style/NumberedParametersLimit:
+  Enabled: true
+
+Style/QuotedSymbols:
+  Enabled: true
+
+Style/RedundantArgument:
+  Enabled: true
+
+Style/RedundantSelfAssignmentBranch:
+  Enabled: true
+
+Style/SelectByRegexp:
+  Enabled: true
+
+Style/StringChars:
+  Enabled: true
+
+Style/SwapValues:
+  Enabled: true
+
+Gemspec/DeprecatedAttributeAssignment: # new in 1.30
+  Enabled: true
+
+Gemspec/DevelopmentDependencies: # new in 1.44
+  Enabled: true
+
+Gemspec/RequireMFA: # new in 1.23
+  Enabled: true
+
+Layout/LineContinuationLeadingSpace: # new in 1.31
+  Enabled: true
+
+Layout/LineContinuationSpacing: # new in 1.31
+  Enabled: true
+
+Lint/ConstantOverwrittenInRescue: # new in 1.31
+  Enabled: true
+
+Lint/DuplicateMagicComment: # new in 1.37
+  Enabled: true
+
+Lint/DuplicateMatchPattern: # new in 1.50
+  Enabled: true
+
+Lint/NonAtomicFileOperation: # new in 1.31
+  Enabled: true
+
+Lint/RefinementImportMethods: # new in 1.27
+  Enabled: true
+
+Lint/RequireRangeParentheses: # new in 1.32
+  Enabled: true
+
+Lint/UselessRescue: # new in 1.43
+  Enabled: true
+
+Lint/UselessRuby2Keywords: # new in 1.23
+  Enabled: true
+
+Metrics/CollectionLiteralLength: # new in 1.47
+  Enabled: true
+
+Naming/BlockForwarding: # new in 1.24
+  Enabled: true
+
+Security/CompoundHash: # new in 1.28
+  Enabled: true
+
+Style/ArrayIntersect: # new in 1.40
+  Enabled: true
+
+Style/ComparableClamp: # new in 1.44
+  Enabled: true
+
+Style/ConcatArrayLiterals: # new in 1.41
+  Enabled: true
+
+Style/DataInheritance: # new in 1.49
+  Enabled: true
+
+Style/DirEmpty: # new in 1.48
+  Enabled: true
+
+Style/EmptyHeredoc: # new in 1.32
+  Enabled: true
+
+Style/EnvHome: # new in 1.29
+  Enabled: true
+
+Style/ExactRegexpMatch: # new in 1.51
+  Enabled: true
+
+Style/FetchEnvVar: # new in 1.28
+  Enabled: true
+
+Style/FileEmpty: # new in 1.48
+  Enabled: true
+
+Style/FileRead: # new in 1.24
+  Enabled: true
+
+Style/FileWrite: # new in 1.24
+  Enabled: true
+
+Style/MagicCommentFormat: # new in 1.35
+  Enabled: true
+
+Style/MapCompactWithConditionalBlock: # new in 1.30
+  Enabled: true
+
+Style/MapToHash: # new in 1.24
+  Enabled: true
+
+Style/MapToSet: # new in 1.42
+  Enabled: true
+
+Style/MinMaxComparison: # new in 1.42
+  Enabled: true
+
+Style/NestedFileDirname: # new in 1.26
+  Enabled: true
+
+Style/ObjectThen: # new in 1.28
+  Enabled: true
+
+Style/OpenStructUse: # new in 1.23
+  Enabled: true
+
+Style/OperatorMethodCall: # new in 1.37
+  Enabled: true
+
+Style/RedundantConstantBase: # new in 1.40
+  Enabled: true
+
+Style/RedundantDoubleSplatHashBraces: # new in 1.41
+  Enabled: true
+
+Style/RedundantEach: # new in 1.38
+  Enabled: true
+
+Style/RedundantHeredocDelimiterQuotes: # new in 1.45
+  Enabled: true
+
+Style/RedundantInitialize: # new in 1.27
+  Enabled: true
+
+Style/RedundantLineContinuation: # new in 1.49
+  Enabled: true
+
+Style/RedundantStringEscape: # new in 1.37
+  Enabled: true
+
+Capybara/MatchStyle: # new in 2.17
+  Enabled: true
+
+Capybara/NegationMatcher: # new in 2.14
+  Enabled: true
+
+Capybara/SpecificActions: # new in 2.14
+  Enabled: true
+
+Capybara/SpecificFinders: # new in 2.13
+  Enabled: true
+
+Capybara/SpecificMatcher: # new in 2.12
+  Enabled: true
+
+FactoryBot/AssociationStyle: # new in 2.23
+  Enabled: true
+
+FactoryBot/ConsistentParenthesesStyle: # new in 2.14
+  Enabled: true
+
+FactoryBot/FactoryAssociationWithStrategy: # new in 2.23
+  Enabled: true
+
+FactoryBot/FactoryNameStyle: # new in 2.16
+  Enabled: true
+
+FactoryBot/RedundantFactoryOption: # new in 2.23
+  Enabled: true
+
+FactoryBot/SyntaxMethods: # new in 2.7
+  Enabled: true
+
+RSpec/BeEmpty: # new in 2.20
+  Enabled: true
+
+RSpec/BeEq: # new in 2.9.0
+  Enabled: true
+
+RSpec/BeNil: # new in 2.9.0
+  Enabled: true
+
+RSpec/ChangeByZero: # new in 2.11
+  Enabled: true
+
+RSpec/ContainExactly: # new in 2.19
+  Enabled: true
+
+RSpec/DuplicatedMetadata: # new in 2.16
+  Enabled: true
+
+RSpec/ExcessiveDocstringSpacing: # new in 2.5
+  Enabled: true
+
+RSpec/IdenticalEqualityAssertion: # new in 2.4
+  Enabled: true
+
+RSpec/IndexedLet: # new in 2.20
+  Enabled: true
+
+RSpec/MatchArray: # new in 2.19
+  Enabled: true
+
+RSpec/NoExpectationExample: # new in 2.13
+  Enabled: true
+
+RSpec/PendingWithoutReason: # new in 2.16
+  Enabled: true
+
+RSpec/RedundantAround: # new in 2.19
+  Enabled: true
+
+RSpec/SkipBlockInsideExample: # new in 2.19
+  Enabled: true
+
+RSpec/SortMetadata: # new in 2.14
+  Enabled: true
+
+RSpec/SubjectDeclaration: # new in 2.5
+  Enabled: true
+
+RSpec/VerifiedDoubleReference: # new in 2.10.0
+  Enabled: true
+
+RSpec/Rails/AvoidSetupHook: # new in 2.4
+  Enabled: true
+
+RSpec/Rails/HaveHttpStatus: # new in 2.12
+  Enabled: true
+
+RSpec/Rails/InferredSpecType: # new in 2.14
+  Enabled: true
+
+RSpec/Rails/MinitestAssertions: # new in 2.17
+  Enabled: true
+
+RSpec/Rails/TravelAround: # new in 2.19
+  Enabled: true

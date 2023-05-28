@@ -2,6 +2,6 @@
 
 RSpec.describe RegisterTransformerPsc do
   it "has a version number" do
-    expect(RegisterTransformerPsc::VERSION).not_to be nil
+    expect(RegisterTransformerPsc::VERSION).not_to be_nil
   end
 end

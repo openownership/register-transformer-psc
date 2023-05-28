@@ -13,7 +13,7 @@ module RegisterTransformerPsc
         case i
         when Hash
           if i['exclusive_min'] || i['exclusive_max']
-            error_adapter && error_adapter.error('Exporting interests with exclusivity set will overwrite it to false')
+            error_adapter&.error('Exporting interests with exclusivity set will overwrite it to false')
           end
           RegisterSourcesBods::Interest[{
             type: i['type'],
@@ -32,14 +32,12 @@ module RegisterTransformerPsc
                   exclusiveMaximum: false,
                 }
               end
-            )
+            ),
           }]
         when String
           parse_string i
         else
-          raise UnexpectedInterestTypeError.new(
-            "Unexpected value for interest - class: #{i.class.name}, value: #{i.inspect}"
-          )
+          raise UnexpectedInterestTypeError, "Unexpected value for interest - class: #{i.class.name}, value: #{i.inspect}"
         end
       end
 
