@@ -47,7 +47,7 @@ module RegisterTransformerPsc
           identifiers:,
           foundingDate: founding_date,
           dissolutionDate: dissolution_date,
-          addresses: addresses,
+          addresses:,
           publicationDetails: publication_details,
           source:,
           # annotations: annotations

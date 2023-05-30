@@ -14,7 +14,7 @@ module RegisterTransformerPsc
   module Apps
     class TransformerBulk
       BATCH_SIZE = 25
-      NAMESPACE = 'PSC_TRANSFORMER_BULK'
+      NAMESPACE = 'PSC_TRANSFORMER_BULK'.freeze
       PARALLEL_FILES = ENV.fetch("PSC_PARALLEL_FILES", 3).to_i
 
       def self.bash_call(args)
@@ -28,16 +28,16 @@ module RegisterTransformerPsc
         bods_publisher ||= RegisterSourcesBods::Services::Publisher.new
         entity_resolver ||= RegisterSourcesOc::Services::ResolverService.new
         @bods_mapper = bods_mapper || RegisterTransformerPsc::BodsMapping::RecordProcessor.new(
-          entity_resolver: entity_resolver,
-          bods_publisher: bods_publisher
+          entity_resolver:,
+          bods_publisher:,
         )
-        @redis = redis || Redis.new(host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'])
+        @redis = redis || Redis.new(host: ENV.fetch('REDIS_HOST', nil), port: ENV.fetch('REDIS_PORT', nil))
         @s3_bucket = s3_bucket || ENV.fetch('BODS_S3_BUCKET_NAME')
         @file_reader = file_reader || RegisterCommon::Services::FileReader.new(s3_adapter: @s3_adapter, batch_size: BATCH_SIZE)
       end
 
       def call(s3_prefix)
-        s3_paths = s3_adapter.list_objects(s3_bucket: s3_bucket, s3_prefix: s3_prefix)
+        s3_paths = s3_adapter.list_objects(s3_bucket:, s3_prefix:)
 
         s3_paths.each_slice(PARALLEL_FILES) do |s3_paths_batch|
           threads = []
@@ -54,12 +54,12 @@ module RegisterTransformerPsc
 
       def process_s3_path(s3_path)
         if file_processed?(s3_path)
-          print "Skipping #{s3_path}\n"#
+          print "Skipping #{s3_path}\n"
           return
         end
 
         print "#{Time.now} Processing #{s3_path}\n"
-        file_reader.read_from_s3(s3_bucket: s3_bucket, s3_path: s3_path) do |rows|
+        file_reader.read_from_s3(s3_bucket:, s3_path:) do |rows|
           process_rows rows
         end
 

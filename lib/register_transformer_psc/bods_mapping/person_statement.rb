@@ -96,11 +96,9 @@ module RegisterTransformerPsc
           full_name ||= name_string(data.name_elements)
 
           # Remove Title from full name to be consistent with previous Register
-          split_name = full_name.to_s.split(" ")
-          if split_name.length >= 1
-            if split_name[0].upcase == data.name_elements.title.to_s.upcase
-              full_name = split_name[1..-1].to_a.join(" ")
-            end
+          split_name = full_name.to_s.split
+          if split_name.length >= 1 && (split_name[0].upcase == data.name_elements.title.to_s.upcase)
+            full_name = split_name[1..].to_a.join(" ")
           end
 
           [

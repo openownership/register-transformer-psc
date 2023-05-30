@@ -48,8 +48,8 @@ module RegisterTransformerPsc
       end
 
       def process_many(psc_records)
-        child_entities = psc_records.map { |psc_record| [psc_record.data.etag, map_child_entity(psc_record)] }.to_h
-        parent_entities = psc_records.map { |psc_record| [psc_record.data.etag, map_parent_entity(psc_record)] }.to_h
+        child_entities = psc_records.to_h { |psc_record| [psc_record.data.etag, map_child_entity(psc_record)] }
+        parent_entities = psc_records.to_h { |psc_record| [psc_record.data.etag, map_parent_entity(psc_record)] }
 
         parent_and_child_entities = child_entities.values.compact + parent_entities.values.compact
         published_entities = bods_publisher.publish_many parent_and_child_entities
@@ -61,10 +61,10 @@ module RegisterTransformerPsc
           unpublished_parent_entity = parent_entities[etag]
 
           published_child_entity = unpublished_child_entity &&
-            published_entities.select { |entity| !(entity.identifiers & unpublished_child_entity.identifiers).empty? }.last
+                                   published_entities.select { |entity| entity.identifiers.intersect?(unpublished_child_entity.identifiers) }.last
 
           published_parent_entity = unpublished_parent_entity &&
-            published_entities.select { |entity| !(entity.identifiers & unpublished_parent_entity.identifiers).empty? }.last
+                                    published_entities.select { |entity| entity.identifiers.intersect?(unpublished_parent_entity.identifiers) }.last
 
           map_relationship(psc_record, published_child_entity, published_parent_entity)
         end.compact

@@ -6,7 +6,6 @@ inherit_from:
 
 
 
-
 require: rubocop-rspec
 
 AllCops:

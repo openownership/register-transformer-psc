@@ -18,7 +18,7 @@ module RegisterTransformerPsc
   module BodsMapping
     class ChildEntityStatement
       include RegisterSourcesBods::Mappers::ResolverMappings
- 
+
       ID_PREFIX = 'openownership-register-'.freeze
 
       def self.call(company_number, **kwargs)
@@ -45,8 +45,8 @@ module RegisterTransformerPsc
             ),
             open_corporates_identifier,
           ].compact,
-          name: name,
-          addresses: addresses,
+          name:,
+          addresses:,
           foundingDate: founding_date,
           dissolutionDate: dissolution_date,
           publicationDetails: publication_details,
