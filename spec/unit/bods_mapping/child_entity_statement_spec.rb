@@ -66,6 +66,8 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
           url: "https://register.openownership.org",
         },
       },
+      statementID: "TODO",
+      statementType: "entityStatement",
     )
   end
 end
