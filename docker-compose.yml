@@ -3,7 +3,7 @@ version: '3.7'
 services:
   register_transformer_psc:
     image: register_transformer_psc:latest
-    entrypoint: "bundle exec /app/bin/transform"
+    entrypoint: "bundle exec /app/bin/transform_bulk"
     network_mode: host
     environment:
       - ELASTICSEARCH_HOST
@@ -20,6 +20,7 @@ services:
       - REDIS_PORT
       - PSC_STREAM
       - BODS_STREAM
+      - BODS_INDEX
     restart: always
 
   register_transformer_psc_redis:

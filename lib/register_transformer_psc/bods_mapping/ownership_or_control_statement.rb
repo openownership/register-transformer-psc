@@ -96,12 +96,10 @@ module RegisterTransformerPsc
             RegisterSourcesBods::InterestedParty[{
               unspecified: source_statement.unspecifiedEntityDetails,
             }.compact]
-          when RegisterSourcesBods::EntityTypes['legalEntity']
+          else
             RegisterSourcesBods::InterestedParty[{
               describedByEntityStatement: source_statement.statementID,
             }]
-          else
-            RegisterSourcesBods::InterestedParty[{}] # TODO: raise error
           end
         else
           raise UnsupportedSourceStatementTypeError
