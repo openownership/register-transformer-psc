@@ -26,6 +26,11 @@ module RegisterTransformerPsc
       end
 
       def initialize(company_number, entity_resolver: nil)
+        # standardise with leading zeros
+        while company_number.present? && (company_number.length < 8)
+          company_number = "0" + company_number
+        end
+
         @company_number = company_number
         @entity_resolver = entity_resolver
       end

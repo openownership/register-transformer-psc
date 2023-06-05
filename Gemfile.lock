@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-bods.git
-  revision: d57dc61474506b1bbc390a303927edba329e2ab1
+  revision: d412479d9c2dc0c106ad68dcc8fffca96bf35aad
   specs:
     register_sources_bods (0.1.0)
       activesupport (>= 6, < 8)
@@ -50,7 +50,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-psc.git
-  revision: be9ffd1c7fc836753f1a1c014e051dac88ab19cb
+  revision: 4efa9ecab255c1492f40ee54c799ade6d6c64b91
   specs:
     register_sources_psc (0.1.0)
       activesupport (>= 6, < 8)
@@ -172,7 +172,7 @@ GEM
       faraday (~> 1.0)
     geokit (1.14.0)
     hashdiff (1.0.1)
-    i18n (1.13.0)
+    i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     i18n_data (0.13.1)
     ice_nine (0.11.2)

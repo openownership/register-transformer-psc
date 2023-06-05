@@ -72,7 +72,7 @@ module RegisterTransformerPsc
 
           @resolver_response = entity_resolver.resolve(
             RegisterSourcesOc::ResolverRequest[{
-              company_number: data.identification.registration_number || psc_record.company_number,
+              company_number: company_number,
               country: data.identification.country_registered,
               region: address&.region,
               name: data.name,
@@ -82,6 +82,21 @@ module RegisterTransformerPsc
           print "FAILURE FOR RECORD #{psc_record.to_h}\n"
           raise
         end
+      end
+
+      def company_number
+        return @company_number if @company_number
+
+        @company_number = data.identification&.registration_number
+
+        return unless @company_number.present?
+
+        # standardise with leading zeros
+        while @company_number.length < 8
+          @company_number = "0" + @company_number
+        end
+
+        @company_number
       end
 
       def statement_id
@@ -167,7 +182,7 @@ module RegisterTransformerPsc
 
         return identifiers unless data.respond_to?(:identification)
 
-        company_number = data.identification&.registration_number
+        company_number = company_number
         if company_number.present? # this depends on if corporate entity
           identifiers << RegisterSourcesBods::Identifier.new(
             id: company_number,
