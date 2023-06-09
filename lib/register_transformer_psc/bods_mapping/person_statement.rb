@@ -24,9 +24,7 @@ module RegisterTransformerPsc
 
       def call
         RegisterSourcesBods::PersonStatement[{
-          statementID: statement_id,
           statementType: statement_type,
-          # statementDate: statement_date,
           isComponent: is_component,
           personType: person_type,
           unspecifiedPersonDetails: unspecified_person_details,
@@ -41,10 +39,7 @@ module RegisterTransformerPsc
           addresses:,
           hasPepStatus: has_pep_status,
           pepStatusDetails: pep_status_details,
-          publicationDetails: publication_details,
           source:,
-          annotations:,
-          replacesStatements: replaces_statements,
         }.compact]
       end
 
@@ -52,18 +47,8 @@ module RegisterTransformerPsc
 
       attr_reader :psc_record
 
-      def statement_id
-        obj_id = "TODO" # TODO: implement object id
-        self_updated_at = "something" # TODO: implement self_updated_at
-        ID_PREFIX + hasher("openownership-register/entity/#{obj_id}/#{self_updated_at}")
-      end
-
       def statement_type
         RegisterSourcesBods::StatementTypes['personStatement']
-      end
-
-      def statement_date
-        # NOT IMPLEMENTED
       end
 
       def person_type
@@ -79,7 +64,7 @@ module RegisterTransformerPsc
       # end
 
       def identifiers
-        psc_self_link_identifiers # TODO: include Register identifier
+        []
       end
 
       def unspecified_person_details
@@ -233,88 +218,25 @@ module RegisterTransformerPsc
         psc_record.data
       end
 
-      def statement_date
-        # UNIMPLEMENTED IN REGISTER (only for ownership or control statements)
-      end
-
       def is_component
         false
       end
 
-      def replaces_statements
-        # UNIMPLEMENTED IN REGISTER
-      end
-
-      def publication_details
-        # UNIMPLEMENTED IN REGISTER
-        RegisterSourcesBods::PublicationDetails.new(
-          publicationDate: Time.now.utc.to_date.to_s, # TODO: fix publication date
-          bodsVersion: RegisterSourcesBods::BODS_VERSION,
-          license: RegisterSourcesBods::BODS_LICENSE,
-          publisher: RegisterSourcesBods::PUBLISHER,
-        )
-      end
-
       def source
-        # UNIMPLEMENTED IN REGISTER
-        # implemented for relationships
+        url = "http://download.companieshouse.gov.uk/en_pscdata.html"
+
+        identifier_link = data.links[:self]
+        if identifier_link.present?
+          url = URI.join("https://api.company-information.service.gov.uk", identifier_link).to_s
+        end
+
         RegisterSourcesBods::Source.new(
           type: RegisterSourcesBods::SourceTypes['officialRegister'],
           description: 'GB Persons Of Significant Control Register',
-          url: "http://download.companieshouse.gov.uk/en_pscdata.html", # TODO: link to snapshot?
+          url:,
           retrievedAt: Time.now.utc.to_date.to_s, # TODO: fix publication date, # TODO: add retrievedAt to record iso8601
           assertedBy: nil, # TODO: if it is a combination of sources (PSC and OpenCorporates), is it us?
         )
-      end
-
-      def annotations
-        # UNIMPLEMENTED IN REGISTER
-      end
-
-      def replaces_statements
-        # UNIMPLEMENTED IN REGISTER
-      end
-
-      # When we import PSC data containing RLEs (intermediate company owners) we
-      # give them a weird three-part identifier including their company number and
-      # the original identifier from the data called a "self link". When we output
-      # this we want to output two BODS identifiers, one for the link and one for the
-      # company number. This allows us to a) link the statement back to the specific
-      # parts of the PSC data it came from and b) share the company number we
-      # figured out from an OC lookup, but make the provenance clearer.
-      DOCUMENT_ID = 'GB Persons Of Significant Control Register'.freeze
-      # if entity.legal_entity?
-      def psc_self_link_identifiers
-        identifier_link = data.links[:self]
-        return unless identifier_link.present?
-
-        identifiers = [
-          RegisterSourcesBods::Identifier.new(id: identifier_link, schemeName: DOCUMENT_ID),
-        ]
-
-        return identifiers unless data.respond_to?(:identification)
-
-        company_number = data.identification.registration_number
-        if company_number.present? # this depends on if corporate entity
-          identifiers << RegisterSourcesBods::Identifier.new(
-            id: company_number,
-            schemeName: "#{DOCUMENT_ID} - Registration numbers",
-          )
-        end
-        identifiers
-      end
-
-      # TODO!
-      def register_identifier
-        RegisterSourcesBods::Identifier.new(
-          id: url,
-          schemeName: 'OpenOwnership Register',
-          uri: URI.join(url_base, "/entities/#{entity.id}").to_s,
-        )
-      end
-
-      def hasher(data)
-        XXhash.xxh64(data).to_s
       end
     end
   end
