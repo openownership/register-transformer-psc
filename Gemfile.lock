@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-bods.git
-  revision: d412479d9c2dc0c106ad68dcc8fffca96bf35aad
+  revision: dbeab2e6939976cc8ea457002e56124409c061da
   specs:
     register_sources_bods (0.1.0)
       activesupport (>= 6, < 8)
@@ -32,7 +32,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-oc.git
-  revision: 0a3466fafc2b0473a079eba971a4c6f9bfe313da
+  revision: 369cf526e4a703963a9f6ede6c414d1505bf9f07
   specs:
     register_sources_oc (0.1.0)
       activesupport (>= 6, < 8)
@@ -76,7 +76,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.0.5)
+    activesupport (7.0.6)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -179,7 +179,7 @@ GEM
     iso8601 (0.13.0)
     jmespath (1.6.2)
     json (2.6.3)
-    minitest (5.18.0)
+    minitest (5.18.1)
     multi_json (1.15.0)
     multipart-post (2.3.0)
     net-http-persistent (4.0.2)

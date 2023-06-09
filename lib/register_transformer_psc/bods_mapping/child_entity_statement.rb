@@ -28,7 +28,7 @@ module RegisterTransformerPsc
       def initialize(company_number, entity_resolver: nil)
         # standardise with leading zeros
         while company_number.present? && (company_number.length < 8)
-          company_number = "0" + company_number
+          company_number = "0#{company_number}"
         end
 
         @company_number = company_number
@@ -37,7 +37,6 @@ module RegisterTransformerPsc
 
       def call
         RegisterSourcesBods::EntityStatement[{
-          statementID: statement_id,
           statementType: RegisterSourcesBods::StatementTypes['entityStatement'],
           isComponent: false,
           entityType: RegisterSourcesBods::EntityTypes['registeredEntity'],
@@ -54,9 +53,6 @@ module RegisterTransformerPsc
           addresses:,
           foundingDate: founding_date,
           dissolutionDate: dissolution_date,
-          publicationDetails: publication_details,
-          # replacesStatements, statementDate, source
-          # annotations, unspecifiedEntityDetails, alternateNames, uri
         }.compact]
       end
 
@@ -72,20 +68,6 @@ module RegisterTransformerPsc
             company_number:,
             jurisdiction_code: 'gb',
           ),
-        )
-      end
-
-      def statement_id
-        'TODO'
-      end
-
-      def publication_details
-        # UNIMPLEMENTED IN REGISTER
-        RegisterSourcesBods::PublicationDetails.new(
-          publicationDate: Time.now.utc.to_date.to_s, # TODO: fix publication date
-          bodsVersion: RegisterSourcesBods::BODS_VERSION,
-          license: RegisterSourcesBods::BODS_LICENSE,
-          publisher: RegisterSourcesBods::PUBLISHER,
         )
       end
     end

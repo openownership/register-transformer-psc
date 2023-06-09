@@ -92,26 +92,16 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::OwnershipOrControlStatement 
         ],
         isComponent: false,
         statementDate: "2016-04-06",
-        statementID: "openownership-register-1727100534341507451",
         statementType: "ownershipOrControlStatement",
         subject: {
           describedByEntityStatement: "targetID",
-        },
-        publicationDetails: {
-          bodsVersion: "0.2",
-          license: "https://register.openownership.org/terms-and-conditions",
-          publicationDate: "2022-09-14",
-          publisher: {
-            name: "OpenOwnership Register",
-            url: "https://register.openownership.org",
-          },
         },
         source: {
           assertedBy: nil,
           description: "GB Persons Of Significant Control Register",
           retrievedAt: "2022-09-14",
           type: "officialRegister",
-          url: "http://download.companieshouse.gov.uk/en_pscdata.html",
+          url: "https://api.company-information.service.gov.uk/company/01234567/persons-with-significant-control/individual/abcdef123456789",
         },
       },
     )

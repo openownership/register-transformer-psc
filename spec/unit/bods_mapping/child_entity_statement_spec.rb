@@ -57,16 +57,6 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
       ],
       isComponent: false,
       name: "Foo Bar Limited",
-      publicationDetails: {
-        bodsVersion: "0.2",
-        license: "https://register.openownership.org/terms-and-conditions",
-        publicationDate: "2022-09-14",
-        publisher: {
-          name: "OpenOwnership Register",
-          url: "https://register.openownership.org",
-        },
-      },
-      statementID: "TODO",
       statementType: "entityStatement",
     )
   end

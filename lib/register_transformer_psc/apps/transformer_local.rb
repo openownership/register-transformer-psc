@@ -32,9 +32,9 @@ module RegisterTransformerPsc
           RegisterSourcesPsc::CompanyRecord[**record]
         end
 
-        print "Processing these records: ", records, "\n\n"
-
-        bods_mapper.process_many records
+        records.each_slice(50) do |record_slice|
+          bods_mapper.process_many record_slice
+        end
       end
 
       private
