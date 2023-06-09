@@ -19,7 +19,8 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-bods.git
-  revision: d412479d9c2dc0c106ad68dcc8fffca96bf35aad
+  revision: 71c13042aa481a6636dc44a7189a7f1b4138b4b7
+  branch: psc-fixes
   specs:
     register_sources_bods (0.1.0)
       activesupport (>= 6, < 8)
