@@ -46,8 +46,6 @@ module RegisterTransformerPsc
 
         published_entities = bods_publisher.publish_many child_entities.merge(parent_entities).compact
 
-        print "Got published entities: ", published_entities, "\n\n"
-
         relationships = psc_records.map do |psc_record|
           etag = psc_record.data.etag
 
@@ -59,9 +57,7 @@ module RegisterTransformerPsc
           ["#{psc_record.data.etag}-rel", map_relationship(psc_record, published_child_entity, published_parent_entity)]
         end.compact.to_h.compact
 
-        published_entities = bods_publisher.publish_many(relationships)
-        
-        print "Got published entities: ", published_entities, "\n\n"
+        bods_publisher.publish_many(relationships)
       end
 
       private

@@ -33,8 +33,6 @@ module RegisterTransformerPsc
         end
 
         records.each_slice(50) do |record_slice|
-          print "Processing these records: ", record_slice, "\n\n"
-
           bods_mapper.process_many record_slice
         end
       end
