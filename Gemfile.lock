@@ -33,7 +33,8 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-oc.git
-  revision: 0a3466fafc2b0473a079eba971a4c6f9bfe313da
+  revision: d4476164399717105ff41fa2ab49bdb6b3df5109
+  branch: fix-reconcilier
   specs:
     register_sources_oc (0.1.0)
       activesupport (>= 6, < 8)
