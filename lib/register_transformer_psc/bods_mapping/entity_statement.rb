@@ -69,7 +69,7 @@ module RegisterTransformerPsc
           @resolver_response = entity_resolver.resolve(
             RegisterSourcesOc::ResolverRequest[{
               company_number: company_number,
-              country: data.identification.country_registered,
+              country: data.identification&.country_registered || data.address&.country,
               region: address&.region,
               name: data.name,
             }.compact],
