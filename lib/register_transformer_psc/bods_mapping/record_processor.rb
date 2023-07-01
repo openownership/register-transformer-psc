@@ -37,37 +37,25 @@ module RegisterTransformerPsc
       end
 
       def process(psc_record)
-        child_entity = map_child_entity(psc_record)
-        child_entity &&= bods_publisher.publish(child_entity)
-
-        parent_entity = map_parent_entity(psc_record)
-        parent_entity &&= bods_publisher.publish(parent_entity)
-
-        relationship = map_relationship(psc_record, child_entity, parent_entity)
-        relationship && bods_publisher.publish(relationship)
+        process_many([psc_record])
       end
 
       def process_many(psc_records)
-        child_entities = psc_records.to_h { |psc_record| [psc_record.data.etag, map_child_entity(psc_record)] }
-        parent_entities = psc_records.to_h { |psc_record| [psc_record.data.etag, map_parent_entity(psc_record)] }
+        child_entities = psc_records.to_h { |psc_record| ["#{psc_record.data.etag}-child", map_child_entity(psc_record)] }
+        parent_entities = psc_records.to_h { |psc_record| ["#{psc_record.data.etag}-parent", map_parent_entity(psc_record)] }
 
-        parent_and_child_entities = child_entities.values.compact + parent_entities.values.compact
-        published_entities = bods_publisher.publish_many parent_and_child_entities
+        published_entities = bods_publisher.publish_many child_entities.merge(parent_entities).compact
 
         relationships = psc_records.map do |psc_record|
-          etag = psc_record.data.etag
+          psc_record.data.etag
 
-          unpublished_child_entity = child_entities[etag]
-          unpublished_parent_entity = parent_entities[etag]
+          published_child_entity = published_entities["#{psc_record.data.etag}-child"]
+          published_parent_entity = published_entities["#{psc_record.data.etag}-parent"]
 
-          published_child_entity = unpublished_child_entity &&
-                                   published_entities.select { |entity| entity.identifiers.intersect?(unpublished_child_entity.identifiers) }.last
+          next unless published_child_entity && published_parent_entity
 
-          published_parent_entity = unpublished_parent_entity &&
-                                    published_entities.select { |entity| entity.identifiers.intersect?(unpublished_parent_entity.identifiers) }.last
-
-          map_relationship(psc_record, published_child_entity, published_parent_entity)
-        end.compact
+          ["#{psc_record.data.etag}-rel", map_relationship(psc_record, published_child_entity, published_parent_entity)]
+        end.compact.to_h.compact
 
         bods_publisher.publish_many(relationships)
       end

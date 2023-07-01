@@ -38,14 +38,12 @@ module RegisterTransformerPsc
 
       def call
         RegisterSourcesBods::OwnershipOrControlStatement[{
-          statementID: statement_id,
           statementType: statement_type,
           statementDate: statement_date,
           isComponent: false,
           subject:,
           interestedParty: interested_party,
           interests:,
-          publicationDetails: publication_details,
           source:,
         }.compact]
       end
@@ -56,18 +54,6 @@ module RegisterTransformerPsc
 
       def data
         psc_record.data
-      end
-
-      # when Structs::Relationship
-      def statement_id
-        ID_PREFIX + hasher(
-          {
-            id: 'TODO_ID', # obj.id,
-            updated_at: statement_date,
-            source_id: source_statement.statementID,
-            target_id: target_statement.statementID,
-          }.to_json,
-        )
       end
 
       def statement_type
@@ -121,30 +107,21 @@ module RegisterTransformerPsc
         end.compact
       end
 
-      def publication_details
-        # UNIMPLEMENTED IN REGISTER
-        RegisterSourcesBods::PublicationDetails.new(
-          publicationDate: Time.now.utc.to_date.to_s, # TODO: fix publication date
-          bodsVersion: RegisterSourcesBods::BODS_VERSION,
-          license: RegisterSourcesBods::BODS_LICENSE,
-          publisher: RegisterSourcesBods::PUBLISHER,
-        )
-      end
-
       def source
-        # UNIMPLEMENTED IN REGISTER
-        # implemented for relationships
+        url = "http://download.companieshouse.gov.uk/en_pscdata.html"
+
+        identifier_link = data.links[:self]
+        if identifier_link.present?
+          url = URI.join("https://api.company-information.service.gov.uk", identifier_link).to_s
+        end
+
         RegisterSourcesBods::Source.new(
           type: RegisterSourcesBods::SourceTypes['officialRegister'],
           description: 'GB Persons Of Significant Control Register',
-          url: "http://download.companieshouse.gov.uk/en_pscdata.html", # TODO: link to snapshot?
+          url:,
           retrievedAt: Time.now.utc.to_date.to_s, # TODO: fix publication date, # TODO: add retrievedAt to record iso8601
           assertedBy: nil, # TODO: if it is a combination of sources (PSC and OpenCorporates), is it us?
         )
-      end
-
-      def hasher(data)
-        XXhash.xxh64(data).to_s
       end
     end
   end

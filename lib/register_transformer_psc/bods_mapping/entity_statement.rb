@@ -1,3 +1,4 @@
+require 'uri'
 require 'xxhash'
 
 require 'register_sources_bods/enums/entity_types'
@@ -35,22 +36,17 @@ module RegisterTransformerPsc
 
       def call
         RegisterSourcesBods::EntityStatement[{
-          statementID: statement_id,
           statementType: statement_type,
           statementDate: nil,
           isComponent: false,
           entityType: entity_type,
-          # unspecifiedEntityDetails: unspecified_entity_details,
           name:,
-          # alternateNames: alternate_names,
           incorporatedInJurisdiction: incorporated_in_jurisdiction,
           identifiers:,
           foundingDate: founding_date,
           dissolutionDate: dissolution_date,
           addresses:,
-          publicationDetails: publication_details,
           source:,
-          # annotations: annotations
         }.compact]
       end
 
@@ -72,8 +68,8 @@ module RegisterTransformerPsc
 
           @resolver_response = entity_resolver.resolve(
             RegisterSourcesOc::ResolverRequest[{
-              company_number: data.identification.registration_number || psc_record.company_number,
-              country: data.identification.country_registered,
+              company_number:,
+              country: data.identification&.country_registered || data.address&.country,
               region: address&.region,
               name: data.name,
             }.compact],
@@ -84,10 +80,19 @@ module RegisterTransformerPsc
         end
       end
 
-      def statement_id
-        id = 'register_entity_id' # TODO: implement
-        self_updated_at = publication_details.publicationDate # TODO: use statement retrievedAt?
-        ID_PREFIX + hasher("openownership-register/entity/#{id}/#{self_updated_at}")
+      def company_number
+        return @company_number if @company_number
+
+        @company_number = data.identification&.registration_number
+
+        return unless @company_number.present?
+
+        # standardise with leading zeros
+        while @company_number.length < 8
+          @company_number = "0#{@company_number}"
+        end
+
+        @company_number
       end
 
       def statement_type
@@ -126,23 +131,18 @@ module RegisterTransformerPsc
         ]
       end
 
-      def publication_details
-        # UNIMPLEMENTED IN REGISTER
-        RegisterSourcesBods::PublicationDetails.new(
-          publicationDate: Time.now.utc.to_date.to_s, # TODO: fix publication date
-          bodsVersion: RegisterSourcesBods::BODS_VERSION,
-          license: RegisterSourcesBods::BODS_LICENSE,
-          publisher: RegisterSourcesBods::PUBLISHER,
-        )
-      end
-
       def source
-        # UNIMPLEMENTED IN REGISTER
-        # implemented for relationships
+        url = "http://download.companieshouse.gov.uk/en_pscdata.html"
+
+        identifier_link = data.links[:self]
+        if identifier_link.present?
+          url = URI.join("https://api.company-information.service.gov.uk", identifier_link).to_s
+        end
+
         RegisterSourcesBods::Source.new(
           type: RegisterSourcesBods::SourceTypes['officialRegister'],
           description: 'GB Persons Of Significant Control Register',
-          url: "http://download.companieshouse.gov.uk/en_pscdata.html", # TODO: link to snapshot?
+          url:,
           retrievedAt: Time.now.utc.to_date.to_s, # TODO: fix publication date, # TODO: add retrievedAt to record iso8601
           assertedBy: nil, # TODO: if it is a combination of sources (PSC and OpenCorporates), is it us?
         )
@@ -158,27 +158,16 @@ module RegisterTransformerPsc
       DOCUMENT_ID = 'GB Persons Of Significant Control Register'.freeze
       # if entity.legal_entity?
       def psc_self_link_identifiers
-        identifier_link = data.links[:self]
-        return unless identifier_link.present?
-
-        identifiers = [
-          RegisterSourcesBods::Identifier.new(id: identifier_link, schemeName: DOCUMENT_ID),
-        ]
-
-        return identifiers unless data.respond_to?(:identification)
-
-        company_number = data.identification&.registration_number
-        if company_number.present? # this depends on if corporate entity
-          identifiers << RegisterSourcesBods::Identifier.new(
-            id: company_number,
-            schemeName: "#{DOCUMENT_ID} - Registration numbers",
-          )
+        if company_number.present?
+          [
+            RegisterSourcesBods::Identifier.new(
+              id: company_number,
+              schemeName: "#{DOCUMENT_ID} - Registration numbers",
+            ),
+          ]
+        else
+          []
         end
-        identifiers
-      end
-
-      def hasher(data)
-        XXhash.xxh64(data).to_s
       end
     end
   end

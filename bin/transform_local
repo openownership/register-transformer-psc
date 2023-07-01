@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'register_transformer_psc/apps/transformer_local'
+
+RegisterTransformerPsc::Apps::TransformerLocal.bash_call ARGV

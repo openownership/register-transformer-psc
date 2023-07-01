@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-bods.git
-  revision: d57dc61474506b1bbc390a303927edba329e2ab1
+  revision: dbeab2e6939976cc8ea457002e56124409c061da
   specs:
     register_sources_bods (0.1.0)
       activesupport (>= 6, < 8)
@@ -32,7 +32,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-oc.git
-  revision: 0a3466fafc2b0473a079eba971a4c6f9bfe313da
+  revision: 369cf526e4a703963a9f6ede6c414d1505bf9f07
   specs:
     register_sources_oc (0.1.0)
       activesupport (>= 6, < 8)
@@ -50,7 +50,7 @@ GIT
 
 GIT
   remote: git@github.com:openownership/register-sources-psc.git
-  revision: be9ffd1c7fc836753f1a1c014e051dac88ab19cb
+  revision: 4efa9ecab255c1492f40ee54c799ade6d6c64b91
   specs:
     register_sources_psc (0.1.0)
       activesupport (>= 6, < 8)
@@ -76,7 +76,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.0.5)
+    activesupport (7.0.6)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -172,14 +172,14 @@ GEM
       faraday (~> 1.0)
     geokit (1.14.0)
     hashdiff (1.0.1)
-    i18n (1.13.0)
+    i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     i18n_data (0.13.1)
     ice_nine (0.11.2)
     iso8601 (0.13.0)
     jmespath (1.6.2)
     json (2.6.3)
-    minitest (5.18.0)
+    minitest (5.18.1)
     multi_json (1.15.0)
     multipart-post (2.3.0)
     net-http-persistent (4.0.2)

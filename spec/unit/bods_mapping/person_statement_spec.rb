@@ -57,12 +57,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::PersonStatement do
           },
         ],
         birthDate: "1955-10-01",
-        identifiers: [
-          {
-            id: "/company/01234567/persons-with-significant-control/individual/abcdef123456789",
-            schemeName: "GB Persons Of Significant Control Register",
-          },
-        ],
+        identifiers: [],
         isComponent: false,
         names: [
           { familyName: "Bloggs", fullName: "Joe Bloggs", givenName: "Joe", type: "individual" },
@@ -71,23 +66,13 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::PersonStatement do
           { code: "GB", name: "United Kingdom of Great Britain and Northern Ireland" },
         ],
         personType: "knownPerson",
-        publicationDetails: {
-          bodsVersion: "0.2",
-          license: "https://register.openownership.org/terms-and-conditions",
-          publicationDate: "2022-09-14",
-          publisher: {
-            name: "OpenOwnership Register",
-            url: "https://register.openownership.org",
-          },
-        },
         source: {
           assertedBy: nil,
           description: "GB Persons Of Significant Control Register",
           retrievedAt: "2022-09-14",
           type: "officialRegister",
-          url: "http://download.companieshouse.gov.uk/en_pscdata.html",
+          url: "https://api.company-information.service.gov.uk/company/01234567/persons-with-significant-control/individual/abcdef123456789",
         },
-        statementID: "openownership-register-2042754144729635384",
         statementType: "personStatement",
       },
     )
