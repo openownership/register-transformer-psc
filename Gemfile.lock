@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:openownership/register-common.git
+  remote: https://github.com/openownership/register-common.git
   revision: 57192a04302c19625d4b4ca7175a8dd3944f96b7
   specs:
     register_common (0.1.0)
@@ -18,7 +18,7 @@ GIT
       xxhash
 
 GIT
-  remote: git@github.com:openownership/register-sources-bods.git
+  remote: https://github.com/openownership/register-sources-bods.git
   revision: dbeab2e6939976cc8ea457002e56124409c061da
   specs:
     register_sources_bods (0.1.0)
@@ -31,7 +31,7 @@ GIT
       xxhash
 
 GIT
-  remote: git@github.com:openownership/register-sources-oc.git
+  remote: https://github.com/openownership/register-sources-oc.git
   revision: 369cf526e4a703963a9f6ede6c414d1505bf9f07
   specs:
     register_sources_oc (0.1.0)
@@ -49,7 +49,7 @@ GIT
       rexml
 
 GIT
-  remote: git@github.com:openownership/register-sources-psc.git
+  remote: https://github.com/openownership/register-sources-psc.git
   revision: 4efa9ecab255c1492f40ee54c799ade6d6c64b91
   specs:
     register_sources_psc (0.1.0)
