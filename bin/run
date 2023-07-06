@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-appname=$1
-shift
-
-docker compose run --rm register_transformer_psc bundle exec bin/$appname "$@"

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+function shutdown() {
+    echo -e "\n=== Shutdown"
+}
+
+trap shutdown EXIT
+
+echo -e "\n=== Sleep"
+sleep infinity
