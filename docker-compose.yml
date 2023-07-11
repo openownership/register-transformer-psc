@@ -1,73 +1,26 @@
-version: '3.7'
-
+version: "3.8"
 services:
-  register_transformer_psc:
-    image: register_transformer_psc:latest
-    # entrypoint: "bundle exec /app/bin/transform_bulk"
-    network_mode: host
-    environment:
-      - ELASTICSEARCH_HOST
-      - ELASTICSEARCH_PORT
-      - ELASTICSEARCH_PROTOCOL
-      - ELASTICSEARCH_SSL_VERIFY
-      - ELASTICSEARCH_PASSWORD
-      - OC_API_TOKEN
-      - OC_API_TOKEN_PROTECTED
-      - BODS_AWS_REGION
-      - BODS_AWS_ACCESS_KEY_ID
-      - BODS_AWS_SECRET_ACCESS_KEY
-      - REDIS_HOST
-      - REDIS_PORT
-      - PSC_STREAM
-      - BODS_STREAM
-      - BODS_INDEX
-    restart: always
-    volumes:
-      - './statements:/statements'
-
-  register_transformer_psc_redis:
-    image: redis:7.0.5
-    ports: 
-      - "6379:6379"
-    restart: always
-
-  register_psc_elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.5
-    environment:
-      - 'discovery.type=single-node'
-      - 'cluster.name=register-elasticsearch'
-      - 'bootstrap.memory_lock=true'
-      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
-      - 'xpack.security.enabled=false'
-    ports: 
-      - "9200:9200"
-
-  register_psc_elasticsearch_test:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.5
-    environment:
-      - 'discovery.type=single-node'
-      - 'cluster.name=register-elasticsearch'
-      - 'bootstrap.memory_lock=true'
-      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
-      - 'xpack.security.enabled=false'
+  transformer-psc:
+    build:
+      context: .
+      target: dev
+    env_file: .env
     networks:
-      - register_transformer_psc_test
-    expose:
-      - 9200
-
-  register_transformer_psc_unittests:
-    image: register_transformer_psc:latest
-    environment:
-      - ELASTICSEARCH_HOST=register_psc_elasticsearch_test
-      - ELASTICSEARCH_PASSWORD=
-      - ELASTICSEARCH_PORT=9200
-      - TEST=1
-    links:
-      - register_psc_elasticsearch_test
-    networks:
-      - register_transformer_psc_test
+      - elasticsearch
+      - transformer
+    restart: on-failure
     volumes:
-      - '.:/app'
-
+      - ./bin:/home/x/r/bin
+      - ./Gemfile.lock:/home/x/r/Gemfile.lock
+      - ./Gemfile:/home/x/r/Gemfile
+      - ./lib:/home/x/r/lib
+      - ./register_transformer_psc.gemspec:/home/x/r/register_transformer_psc.gemspec
+      - ./spec:/home/x/r/spec
+      - ./statements:/home/x/r/statements
+      #- ../register-common:/home/x/r/lib/register-common
+      #- ../register-sources-bods:/home/x/r/lib/register-sources-bods
+      #- ../register-sources-oc:/home/x/r/lib/register-sources-oc
+      #- ../register-sources-psc:/home/x/r/lib/register-sources-psc
 networks:
-  register_transformer_psc_test:
+  elasticsearch: {}
+  transformer: {}

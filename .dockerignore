@@ -1,0 +1,7 @@
+.docker*
+.env*
+.git*
+Dockerfile
+docker-compose*.yml*
+
+statements/

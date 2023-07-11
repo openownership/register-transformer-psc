@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
+set -Eeuo pipefail
 
-docker compose run --rm register_transformer_psc_unittests
+echo -e "\n=== RSpec"
+rspec

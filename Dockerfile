@@ -1,15 +1,30 @@
-FROM ruby:3.1.2-bullseye
+# SYNC: .ruby-version
+# FROMFREEZE docker.io/library/ruby:3.1.2
+#===============================================================================
+FROM docker.io/library/ruby@sha256:7681a3d37560dbe8ff7d0a38f3ce35971595426f0fe2f5709352d7f7a5679255 AS dev
 
-WORKDIR /app
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        shellcheck \
+        && \
+    rm -rf /var/lib/apt/lists/*
 
-COPY Gemfile Gemfile.lock register_transformer_psc.gemspec /app/
-COPY lib/register_transformer_psc/version.rb /app/lib/register_transformer_psc/
+RUN useradd x -m && \
+    mkdir /home/x/r && \
+    chown -R x:x /home/x
+#-------------------------------------------------------------------------------
+USER x
 
-# Download public key for github.com
-RUN mkdir -p -m 0700 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
+WORKDIR /home/x/r
 
-RUN --mount=type=ssh bundle install
+COPY --chown=x:x Gemfile Gemfile.lock .ruby-version *.gemspec ./
 
-COPY . /app/
+COPY --chown=x:x lib/register_transformer_psc/version.rb lib/register_transformer_psc/
 
-CMD ["bundle", "exec", "rspec"]
+RUN bundle install
+
+COPY --chown=x:x . .
+#-------------------------------------------------------------------------------
+ENV PATH=/home/x/r/bin:$PATH
+
+CMD ["run-dev"]

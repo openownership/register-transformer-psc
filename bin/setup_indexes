@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'bundler/setup'
+
 require 'register_transformer_psc/config/settings'
 # require 'register_transformer_psc/config/settings'
 

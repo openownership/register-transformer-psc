@@ -10,5 +10,7 @@ vendor/
 
 # rspec failure tracking
 .rspec_status
-.env
 statements/
+
+/.env*
+/docker-compose.*.yml
