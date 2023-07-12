@@ -7,5 +7,7 @@ function shutdown() {
 
 trap shutdown EXIT
 
+bin/configure-dev-lib
+
 echo -e "\n=== Sleep"
 sleep infinity
