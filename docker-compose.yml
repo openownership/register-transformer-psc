@@ -7,6 +7,7 @@ services:
     env_file: .env
     networks:
       - elasticsearch
+      - redis
       - transformer
     restart: on-failure
     volumes:
@@ -21,6 +22,24 @@ services:
       - ./register_transformer_psc.gemspec:/home/x/r/register_transformer_psc.gemspec
       - ./spec:/home/x/r/spec
       - ./statements:/home/x/r/statements
+  redis:
+    healthcheck:
+      interval: 5s
+      retries: 6
+      start_period: 60s
+      test:
+        - CMD
+        - redis-cli
+        - PING
+    image: docker.io/library/redis:7.0.5
+    networks:
+      - redis
+    restart: on-failure
+    volumes:
+      - redis:/data
 networks:
   elasticsearch: {}
+  redis: {}
   transformer: {}
+volumes:
+  redis: {}
