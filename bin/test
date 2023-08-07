@@ -6,7 +6,7 @@ file --mime-type ./* bin/* | grep 'text/x-shellscript' | cut -d':' -f1 |
     xargs -r shellcheck
 
 echo -e "\n=== RuboCop"
-rubocop -A
+rubocop
 
 echo -e "\n=== RSpec"
 rspec
