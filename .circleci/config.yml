@@ -56,9 +56,6 @@ jobs:
             BODS_AWS_ACCESS_KEY_ID: key1
             BODS_AWS_SECRET_ACCESS_KEY: secret1
             BODS_S3_BUCKET_NAME: fakebucket
-            ELASTICSEARCH_HOST: localhost
-            # ELASTICSEARCH_PASSWORD:
-            ELASTICSEARCH_PORT: 9200
 
       # Linting
       - run:
