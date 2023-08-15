@@ -12,22 +12,16 @@ Configure your environment using the example file:
 cp .env.example .env
 ```
 
-Install and boot:
-
-```sh
-docker compose up
-```
-
 Create the Elasticsearch `companies` index:
 
 ```sh
-docker compose exec transformer-psc setup_indexes_companies
+docker compose run transformer-psc setup_indexes_companies
 ```
 
 Create the Elasticsearch BODS index (configured by `BODS_INDEX`):
 
 ```sh
-docker compose exec transformer-psc setup_indexes
+docker compose run transformer-psc setup_indexes
 ```
 
 ## Testing
@@ -35,7 +29,7 @@ docker compose exec transformer-psc setup_indexes
 Run the tests:
 
 ```sh
-docker compose exec transformer-psc test
+docker compose run transformer-psc test
 ```
 
 ## Usage
@@ -43,5 +37,5 @@ docker compose exec transformer-psc test
 To run the local transformer for a file (e.g. `all4.jsonl`):
 
 ```sh
-docker compose exec transformer-psc transform_local statements/all4.jsonl
+docker compose run transformer-psc transform_local statements/all4.jsonl
 ```

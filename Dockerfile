@@ -27,4 +27,4 @@ COPY --chown=x:x . .
 #-------------------------------------------------------------------------------
 ENV PATH=/home/x/r/bin:$PATH
 
-CMD ["run-dev"]
+ENTRYPOINT ["entrypoint-dev"]
