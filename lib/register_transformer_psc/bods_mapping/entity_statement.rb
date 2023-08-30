@@ -105,7 +105,10 @@ module RegisterTransformerPsc
       end
 
       def identifiers
-        psc_self_link_identifiers + [open_corporates_identifier].compact
+        psc_self_link_identifiers + [
+          open_corporates_identifier,
+          lei_identifier,
+        ].compact
       end
 
       def name

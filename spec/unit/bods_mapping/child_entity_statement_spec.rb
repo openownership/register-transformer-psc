@@ -36,6 +36,20 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
         registered_address_in_full: 'registered address',
         registered_address_country: "United Kingdom",
       },
+      add_ids: [
+        {
+          company_number: '89101112',
+          jurisdiction_code: 'gb',
+          uid: '123456789',
+          identifier_system_code: 'gb_vat',
+        },
+        {
+          company_number: '89101112',
+          jurisdiction_code: 'gb',
+          uid: 'XXXXXXXXXXXX89101112',
+          identifier_system_code: 'lei',
+        },
+      ],
     }]
 
     result = subject.call
@@ -54,6 +68,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
       identifiers: [
         { id: "89101112", scheme: "GB-COH", schemeName: "Companies House" },
         { id: "https://opencorporates.com/companies//89101112", schemeName: "OpenCorporates", uri: "https://opencorporates.com/companies//89101112" },
+        { id: "XXXXXXXXXXXX89101112", scheme: "XI-LEI", schemeName: "Global Legal Entity Identifier Index", uri: "https://opencorporates.com/companies/gb/89101112" },
       ],
       isComponent: false,
       name: "Foo Bar Limited",

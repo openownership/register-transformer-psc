@@ -48,6 +48,7 @@ module RegisterTransformerPsc
               id: company_number,
             ),
             open_corporates_identifier,
+            lei_identifier,
           ].compact,
           name:,
           addresses:,
