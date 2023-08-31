@@ -68,7 +68,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
       identifiers: [
         { id: "89101112", scheme: "GB-COH", schemeName: "Companies House" },
         { id: "https://opencorporates.com/companies//89101112", schemeName: "OpenCorporates", uri: "https://opencorporates.com/companies//89101112" },
-        { id: "XXXXXXXXXXXX89101112", scheme: "XI-LEI", schemeName: "Global Legal Entity Identifier Index", uri: "https://opencorporates.com/companies/gb/89101112" },
+        { id: "XXXXXXXXXXXX89101112", scheme: "XI-LEI", schemeName: "Global Legal Entity Identifier Index", uri: "https://search.gleif.org/#/record/XXXXXXXXXXXX89101112" },
       ],
       isComponent: false,
       name: "Foo Bar Limited",
