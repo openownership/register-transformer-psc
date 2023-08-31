@@ -104,7 +104,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::EntityStatement do
               id: "XXXXXXXXXXXX89101112",
               scheme: "XI-LEI",
               schemeName: "Global Legal Entity Identifier Index",
-              uri: "https://opencorporates.com/companies/gb/89101112",
+              uri: "https://search.gleif.org/#/record/XXXXXXXXXXXX89101112",
             },
           ],
           isComponent: false,
