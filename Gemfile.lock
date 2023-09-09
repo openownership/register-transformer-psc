@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/openownership/register-sources-bods.git
-  revision: a3e11f2514427ec4e18e74bd4ae73e4b28b8967a
+  revision: e2b63753683d8078465666cb636da6509d19fad1
   specs:
     register_sources_bods (0.1.0)
       activesupport (>= 6, < 8)
@@ -76,7 +76,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.0.7)
+    activesupport (7.0.7.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
@@ -137,12 +137,12 @@ GEM
       dry-inflector (~> 1.0)
       dry-logic (~> 1.4)
       zeitwerk (~> 2.6)
-    elasticsearch (7.17.7)
-      elasticsearch-api (= 7.17.7)
-      elasticsearch-transport (= 7.17.7)
-    elasticsearch-api (7.17.7)
+    elasticsearch (7.17.8)
+      elasticsearch-api (= 7.17.8)
+      elasticsearch-transport (= 7.17.8)
+    elasticsearch-api (7.17.8)
       multi_json
-    elasticsearch-transport (7.17.7)
+    elasticsearch-transport (7.17.8)
       faraday (~> 1)
       multi_json
     faraday (1.10.3)
@@ -179,7 +179,7 @@ GEM
     iso8601 (0.13.0)
     jmespath (1.6.2)
     json (2.6.3)
-    minitest (5.19.0)
+    minitest (5.20.0)
     multi_json (1.15.0)
     multipart-post (2.3.0)
     net-http-persistent (4.0.2)
