@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+
+require 'register_sources_bods/services/es_index_creator'
+require 'register_transformer_psc/config/settings'
+
+RegisterSourcesBods::Services::EsIndexCreator.new.create_es_index

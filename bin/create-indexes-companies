@@ -3,8 +3,7 @@
 
 require 'bundler/setup'
 
-require 'register_transformer_psc/config/settings'
-
 require 'register_sources_oc/services/es_index_creator'
+require 'register_transformer_psc/config/settings'
 
 RegisterSourcesOc::Services::EsIndexCreator.new.create_companies_index
