@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'uri'
 require 'xxhash'
 
@@ -23,7 +25,7 @@ module RegisterTransformerPsc
     class EntityStatement
       include RegisterSourcesBods::Mappers::ResolverMappings
 
-      ID_PREFIX = 'openownership-register-'.freeze
+      ID_PREFIX = 'openownership-register-'
 
       def self.call(psc_record, **kwargs)
         new(psc_record, **kwargs).call
@@ -46,7 +48,7 @@ module RegisterTransformerPsc
           foundingDate: founding_date,
           dissolutionDate: dissolution_date,
           addresses:,
-          source:,
+          source:
         }.compact]
       end
 
@@ -58,10 +60,13 @@ module RegisterTransformerPsc
         psc_record.data
       end
 
+      # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       def resolver_response
         return @resolver_response if @resolver_response
 
-        return unless data.kind == RegisterSourcesPsc::CorporateEntityKinds['corporate-entity-person-with-significant-control']
+        unless data.kind == RegisterSourcesPsc::CorporateEntityKinds['corporate-entity-person-with-significant-control']
+          return
+        end
 
         begin
           address = (data.respond_to?(:principal_office_address) && data.principal_office_address) || data.address
@@ -71,14 +76,15 @@ module RegisterTransformerPsc
               company_number:,
               country: data.identification&.country_registered || data.address&.country,
               region: address&.region,
-              name: data.name,
-            }.compact],
+              name: data.name
+            }.compact]
           )
         rescue StandardError
           print "FAILURE FOR RECORD #{psc_record.to_h}\n"
           raise
         end
       end
+      # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
       def company_number
         return @company_number if @company_number
@@ -88,9 +94,7 @@ module RegisterTransformerPsc
         return unless @company_number.present?
 
         # standardise with leading zeros
-        while @company_number.length < 8
-          @company_number = "0#{@company_number}"
-        end
+        @company_number = "0#{@company_number}" while @company_number.length < 8
 
         @company_number
       end
@@ -107,7 +111,7 @@ module RegisterTransformerPsc
       def identifiers
         psc_self_link_identifiers + [
           open_corporates_identifier,
-          lei_identifier,
+          lei_identifier
         ].compact
       end
 
@@ -115,7 +119,7 @@ module RegisterTransformerPsc
         data.name || super
       end
 
-      ADDRESS_KEYS = %i[premises address_line_1 address_line_2 locality region postal_code].freeze
+      ADDRESS_KEYS = %i[premises address_line_1 address_line_2 locality region postal_code].freeze # rubocop:disable Naming/VariableNumber
       def addresses
         return super unless data.address.presence
 
@@ -129,25 +133,25 @@ module RegisterTransformerPsc
             type: RegisterSourcesBods::AddressTypes['registered'],
             address:,
             postcode: data.address.postal_code,
-            country: country_code,
-          }.compact],
+            country: country_code
+          }.compact]
         ]
       end
 
       def source
-        url = "http://download.companieshouse.gov.uk/en_pscdata.html"
+        url = 'http://download.companieshouse.gov.uk/en_pscdata.html'
 
         identifier_link = data.links[:self]
         if identifier_link.present?
-          url = URI.join("https://api.company-information.service.gov.uk", identifier_link).to_s
+          url = URI.join('https://api.company-information.service.gov.uk', identifier_link).to_s
         end
 
         RegisterSourcesBods::Source.new(
           type: RegisterSourcesBods::SourceTypes['officialRegister'],
           description: 'GB Persons Of Significant Control Register',
           url:,
-          retrievedAt: Time.now.utc.to_date.to_s, # TODO: fix publication date, # TODO: add retrievedAt to record iso8601
-          assertedBy: nil, # TODO: if it is a combination of sources (PSC and OpenCorporates), is it us?
+          retrievedAt: Time.now.utc.to_date.to_s, # TODO: fix publication date, # TODO: add retrievedAt to record iso8601 # rubocop:disable Layout/LineLength
+          assertedBy: nil # TODO: if it is a combination of sources (PSC and OpenCorporates), is it us?
         )
       end
 
@@ -158,15 +162,15 @@ module RegisterTransformerPsc
       # company number. This allows us to a) link the statement back to the specific
       # parts of the PSC data it came from and b) share the company number we
       # figured out from an OC lookup, but make the provenance clearer.
-      DOCUMENT_ID = 'GB Persons Of Significant Control Register'.freeze
+      DOCUMENT_ID = 'GB Persons Of Significant Control Register'
       # if entity.legal_entity?
       def psc_self_link_identifiers
         if company_number.present?
           [
             RegisterSourcesBods::Identifier.new(
               id: company_number,
-              schemeName: "#{DOCUMENT_ID} - Registration numbers",
-            ),
+              schemeName: "#{DOCUMENT_ID} - Registration numbers"
+            )
           ]
         else
           []

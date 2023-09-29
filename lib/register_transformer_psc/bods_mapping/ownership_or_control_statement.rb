@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'xxhash'
 
 require 'register_sources_bods/structs/interest'
@@ -16,7 +18,7 @@ module RegisterTransformerPsc
     class OwnershipOrControlStatement
       UnsupportedSourceStatementTypeError = Class.new(StandardError)
 
-      ID_PREFIX = 'openownership-register-'.freeze
+      ID_PREFIX = 'openownership-register-'
 
       def self.call(psc_record, **kwargs)
         new(psc_record, **kwargs).call
@@ -44,7 +46,7 @@ module RegisterTransformerPsc
           subject:,
           interestedParty: interested_party,
           interests:,
-          source:,
+          source:
         }.compact]
       end
 
@@ -66,7 +68,7 @@ module RegisterTransformerPsc
 
       def subject
         RegisterSourcesBods::Subject.new(
-          describedByEntityStatement: target_statement.statementID,
+          describedByEntityStatement: target_statement.statementID
         )
       end
 
@@ -74,17 +76,17 @@ module RegisterTransformerPsc
         case source_statement.statementType
         when RegisterSourcesBods::StatementTypes['personStatement']
           RegisterSourcesBods::InterestedParty[{
-            describedByPersonStatement: source_statement.statementID,
+            describedByPersonStatement: source_statement.statementID
           }]
         when RegisterSourcesBods::StatementTypes['entityStatement']
           case source_statement.entityType
           when RegisterSourcesBods::EntityTypes['unknownEntity']
             RegisterSourcesBods::InterestedParty[{
-              unspecified: source_statement.unspecifiedEntityDetails,
+              unspecified: source_statement.unspecifiedEntityDetails
             }.compact]
           else
             RegisterSourcesBods::InterestedParty[{
-              describedByEntityStatement: source_statement.statementID,
+              describedByEntityStatement: source_statement.statementID
             }]
           end
         else
@@ -102,25 +104,25 @@ module RegisterTransformerPsc
             details: entry.details,
             share: entry.share,
             startDate: data.notified_on.presence.try(:to_s),
-            endDate: data.ceased_on.presence.try(:to_s),
+            endDate: data.ceased_on.presence.try(:to_s)
           }.compact]
         end.compact
       end
 
       def source
-        url = "http://download.companieshouse.gov.uk/en_pscdata.html"
+        url = 'http://download.companieshouse.gov.uk/en_pscdata.html'
 
         identifier_link = data.links[:self]
         if identifier_link.present?
-          url = URI.join("https://api.company-information.service.gov.uk", identifier_link).to_s
+          url = URI.join('https://api.company-information.service.gov.uk', identifier_link).to_s
         end
 
         RegisterSourcesBods::Source.new(
           type: RegisterSourcesBods::SourceTypes['officialRegister'],
           description: 'GB Persons Of Significant Control Register',
           url:,
-          retrievedAt: Time.now.utc.to_date.to_s, # TODO: fix publication date, # TODO: add retrievedAt to record iso8601
-          assertedBy: nil, # TODO: if it is a combination of sources (PSC and OpenCorporates), is it us?
+          retrievedAt: Time.now.utc.to_date.to_s, # TODO: fix publication date, # TODO: add retrievedAt to record iso8601 # rubocop:disable Layout/LineLength
+          assertedBy: nil # TODO: if it is a combination of sources (PSC and OpenCorporates), is it us?
         )
       end
     end

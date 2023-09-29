@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'redis'
 
 require 'register_transformer_psc/config/settings'
@@ -14,8 +16,8 @@ module RegisterTransformerPsc
   module Apps
     class TransformerBulk
       BATCH_SIZE = 25
-      NAMESPACE = 'PSC_TRANSFORMER_BULK'.freeze
-      PARALLEL_FILES = ENV.fetch("PSC_PARALLEL_FILES", 3).to_i
+      NAMESPACE = 'PSC_TRANSFORMER_BULK'
+      PARALLEL_FILES = ENV.fetch('PSC_PARALLEL_FILES', 3).to_i
 
       def self.bash_call(args)
         s3_prefix = args.last
@@ -23,18 +25,22 @@ module RegisterTransformerPsc
         TransformerBulk.new.call(s3_prefix)
       end
 
-      def initialize(s3_adapter: nil, bods_publisher: nil, entity_resolver: nil, bods_mapper: nil, redis: nil, s3_bucket: nil, file_reader: nil)
+      # rubocop:disable Metrics/CyclomaticComplexity, Metrics/ParameterLists
+      def initialize(s3_adapter: nil, bods_publisher: nil, entity_resolver: nil, bods_mapper: nil, redis: nil,
+                     s3_bucket: nil, file_reader: nil)
         @s3_adapter = s3_adapter || RegisterTransformerPsc::Config::Adapters::S3_ADAPTER
         bods_publisher ||= RegisterSourcesBods::Services::Publisher.new
         entity_resolver ||= RegisterSourcesOc::Services::ResolverService.new
         @bods_mapper = bods_mapper || RegisterTransformerPsc::BodsMapping::RecordProcessor.new(
           entity_resolver:,
-          bods_publisher:,
+          bods_publisher:
         )
         @redis = redis || Redis.new(host: ENV.fetch('REDIS_HOST', nil), port: ENV.fetch('REDIS_PORT', nil))
         @s3_bucket = s3_bucket || ENV.fetch('BODS_S3_BUCKET_NAME')
-        @file_reader = file_reader || RegisterCommon::Services::FileReader.new(s3_adapter: @s3_adapter, batch_size: BATCH_SIZE)
+        @file_reader = file_reader || RegisterCommon::Services::FileReader.new(s3_adapter: @s3_adapter,
+                                                                               batch_size: BATCH_SIZE)
       end
+      # rubocop:enable Metrics/CyclomaticComplexity, Metrics/ParameterLists
 
       def call(s3_prefix)
         s3_paths = s3_adapter.list_objects(s3_bucket:, s3_prefix:)

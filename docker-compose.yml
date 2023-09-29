@@ -15,6 +15,7 @@ services:
       - ${DC_TRANSFORMER_PSC_LIB_REGISTER_SOURCES_BODS:-.dockerempty}:/home/x/lib/register-sources-bods
       - ${DC_TRANSFORMER_PSC_LIB_REGISTER_SOURCES_OC:-.dockerempty}:/home/x/lib/register-sources-oc
       - ${DC_TRANSFORMER_PSC_LIB_REGISTER_SOURCES_PSC:-.dockerempty}:/home/x/lib/register-sources-psc
+      - ./.rubocop.yml:/home/x/r/.rubocop.yml
       - ./bin:/home/x/r/bin
       - ./Gemfile.lock:/home/x/r/Gemfile.lock
       - ./Gemfile:/home/x/r/Gemfile

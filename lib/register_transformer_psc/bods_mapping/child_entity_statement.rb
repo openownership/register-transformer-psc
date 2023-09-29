@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'register_sources_bods/enums/entity_types'
 require 'register_sources_bods/enums/statement_types'
 require 'register_sources_bods/structs/address'
@@ -19,7 +21,7 @@ module RegisterTransformerPsc
     class ChildEntityStatement
       include RegisterSourcesBods::Mappers::ResolverMappings
 
-      ID_PREFIX = 'openownership-register-'.freeze
+      ID_PREFIX = 'openownership-register-'
 
       def self.call(company_number, **kwargs)
         new(company_number, **kwargs).call
@@ -27,9 +29,7 @@ module RegisterTransformerPsc
 
       def initialize(company_number, entity_resolver: nil)
         # standardise with leading zeros
-        while company_number.present? && (company_number.length < 8)
-          company_number = "0#{company_number}"
-        end
+        company_number = "0#{company_number}" while company_number.present? && (company_number.length < 8)
 
         @company_number = company_number
         @entity_resolver = entity_resolver
@@ -45,15 +45,15 @@ module RegisterTransformerPsc
             RegisterSourcesBods::Identifier.new(
               scheme: 'GB-COH',
               schemeName: 'Companies House',
-              id: company_number,
+              id: company_number
             ),
             open_corporates_identifier,
-            lei_identifier,
+            lei_identifier
           ].compact,
           name:,
           addresses:,
           foundingDate: founding_date,
-          dissolutionDate: dissolution_date,
+          dissolutionDate: dissolution_date
         }.compact]
       end
 
@@ -67,8 +67,8 @@ module RegisterTransformerPsc
         @resolver_response = entity_resolver.resolve(
           RegisterSourcesOc::ResolverRequest.new(
             company_number:,
-            jurisdiction_code: 'gb',
-          ),
+            jurisdiction_code: 'gb'
+          )
         )
       end
     end
