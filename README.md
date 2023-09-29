@@ -15,13 +15,13 @@ cp .env.example .env
 Create the Elasticsearch `companies` index:
 
 ```sh
-docker compose run transformer-psc setup_indexes_companies
+docker compose run transformer-psc create-indexes-companies
 ```
 
 Create the Elasticsearch BODS index (configured by `BODS_INDEX`):
 
 ```sh
-docker compose run transformer-psc setup_indexes
+docker compose run transformer-psc create-indexes
 ```
 
 ## Testing
@@ -37,5 +37,5 @@ docker compose run transformer-psc test
 To run the local transformer for a file (e.g. `all4.jsonl`):
 
 ```sh
-docker compose run transformer-psc transform_local statements/all4.jsonl
+docker compose run transformer-psc transform-local statements/all4.jsonl
 ```
