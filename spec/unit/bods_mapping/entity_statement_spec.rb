@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/testing/time_helpers'
 
 require 'register_transformer_psc/bods_mapping/entity_statement'
@@ -17,63 +19,63 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::EntityStatement do
   context 'when record is corporate_entity' do
     let(:psc_record) do
       data = {
-        etag: "36c99208e0c14294355583c965e4c3f1",
-        kind: "corporate-entity-person-with-significant-control",
-        name: "Foo Bar Limited",
+        etag: '36c99208e0c14294355583c965e4c3f1',
+        kind: 'corporate-entity-person-with-significant-control',
+        name: 'Foo Bar Limited',
         address: {
-          premises: "123 Main Street",
-          locality: "Example Town",
-          region: "Exampleshire",
-          postal_code: "EX4 2MP",
+          premises: '123 Main Street',
+          locality: 'Example Town',
+          region: 'Exampleshire',
+          postal_code: 'EX4 2MP'
         },
         identification: {
-          country_registered: "United Kingdom",
-          registration_number: "89101112",
+          country_registered: 'United Kingdom',
+          registration_number: '89101112'
         },
         links: {
-          self: "/company/01234567/persons-with-significant-control/corporate-entity/abcdef123456789",
-        },
+          self: '/company/01234567/persons-with-significant-control/corporate-entity/abcdef123456789'
+        }
       }
-      RegisterSourcesPsc::CompanyRecord[{ company_number: "123456", data: }]
+      RegisterSourcesPsc::CompanyRecord[{ company_number: '123456', data: }]
     end
 
     it 'maps successfully' do # rubocop:disable RSpec/ExampleLength
       expect(entity_resolver).to receive(:resolve).with(
         RegisterSourcesOc::ResolverRequest[{
-          company_number: "89101112",
-          name: "Foo Bar Limited",
-          country: "United Kingdom",
-          region: "Exampleshire",
-        }.compact],
+          company_number: '89101112',
+          name: 'Foo Bar Limited',
+          country: 'United Kingdom',
+          region: 'Exampleshire'
+        }.compact]
       ).and_return RegisterSourcesOc::ResolverResponse[{
         resolved: true,
         reconciliation_response: nil,
-        company_number: "89101112",
+        company_number: '89101112',
         company: {
           company_number: '89101112',
           jurisdiction_code: 'gb',
-          name: "Foo Bar Limited",
+          name: 'Foo Bar Limited',
           company_type: 'company_type',
           incorporation_date: '2020-01-09',
           dissolution_date: '2021-09-07',
           restricted_for_marketing: nil,
           registered_address_in_full: 'registered address',
-          registered_address_country: "United Kingdom",
+          registered_address_country: 'United Kingdom'
         },
         add_ids: [
           {
             company_number: '89101112',
             jurisdiction_code: 'gb',
             uid: '123456789',
-            identifier_system_code: 'gb_vat',
+            identifier_system_code: 'gb_vat'
           },
           {
             company_number: '89101112',
             jurisdiction_code: 'gb',
             uid: 'XXXXXXXXXXXX89101112',
-            identifier_system_code: 'lei',
-          },
-        ],
+            identifier_system_code: 'lei'
+          }
+        ]
       }]
 
       result = subject.call
@@ -83,41 +85,41 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::EntityStatement do
         {
           addresses: [
             {
-              address: "123 Main Street, Example Town, Exampleshire, EX4 2MP",
-              type: "registered",
-            },
+              address: '123 Main Street, Example Town, Exampleshire, EX4 2MP',
+              type: 'registered'
+            }
           ],
-          dissolutionDate: "2021-09-07",
-          entityType: "registeredEntity",
-          foundingDate: "2020-01-09",
+          dissolutionDate: '2021-09-07',
+          entityType: 'registeredEntity',
+          foundingDate: '2020-01-09',
           identifiers: [
             {
-              id: "89101112",
-              schemeName: "GB Persons Of Significant Control Register - Registration numbers",
+              id: '89101112',
+              schemeName: 'GB Persons Of Significant Control Register - Registration numbers'
             },
             {
-              id: "https://opencorporates.com/companies//89101112",
-              schemeName: "OpenCorporates",
-              uri: "https://opencorporates.com/companies//89101112",
+              id: 'https://opencorporates.com/companies//89101112',
+              schemeName: 'OpenCorporates',
+              uri: 'https://opencorporates.com/companies//89101112'
             },
             {
-              id: "XXXXXXXXXXXX89101112",
-              scheme: "XI-LEI",
-              schemeName: "Global Legal Entity Identifier Index",
-              uri: "https://search.gleif.org/#/record/XXXXXXXXXXXX89101112",
-            },
+              id: 'XXXXXXXXXXXX89101112',
+              scheme: 'XI-LEI',
+              schemeName: 'Global Legal Entity Identifier Index',
+              uri: 'https://search.gleif.org/#/record/XXXXXXXXXXXX89101112'
+            }
           ],
           isComponent: false,
-          name: "Foo Bar Limited",
+          name: 'Foo Bar Limited',
           source: {
             assertedBy: nil,
-            description: "GB Persons Of Significant Control Register",
-            retrievedAt: "2022-09-14",
-            type: "officialRegister",
-            url: "https://api.company-information.service.gov.uk/company/01234567/persons-with-significant-control/corporate-entity/abcdef123456789",
+            description: 'GB Persons Of Significant Control Register',
+            retrievedAt: '2022-09-14',
+            type: 'officialRegister',
+            url: 'https://api.company-information.service.gov.uk/company/01234567/persons-with-significant-control/corporate-entity/abcdef123456789'
           },
-          statementType: "entityStatement",
-        },
+          statementType: 'entityStatement'
+        }
       )
     end
   end

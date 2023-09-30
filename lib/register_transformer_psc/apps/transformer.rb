@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'register_transformer_psc/config/settings'
 require 'register_sources_bods/services/publisher'
 require 'register_transformer_psc/bods_mapping/record_processor'
@@ -15,13 +17,13 @@ module RegisterTransformerPsc
         entity_resolver ||= RegisterSourcesOc::Services::ResolverService.new
         @bods_mapper = bods_mapper || RegisterTransformerPsc::BodsMapping::RecordProcessor.new(
           entity_resolver:,
-          bods_publisher:,
+          bods_publisher:
         )
         @stream_client = RegisterCommon::Services::StreamClientKinesis.new(
           credentials: RegisterTransformerPsc::Config::AWS_CREDENTIALS,
-          stream_name: ENV.fetch('PSC_STREAM'),
+          stream_name: ENV.fetch('PSC_STREAM')
         )
-        @consumer_id = "RegisterTransformerPsc"
+        @consumer_id = 'RegisterTransformerPsc'
       end
 
       def call

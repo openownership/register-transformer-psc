@@ -1,20 +1,21 @@
 # frozen_string_literal: true
 
-require_relative "lib/register_transformer_psc/version"
+require_relative 'lib/register_transformer_psc/version'
 
 Gem::Specification.new do |spec|
-  spec.name = "register_transformer_psc"
+  spec.name = 'register_transformer_psc'
   spec.version = RegisterTransformerPsc::VERSION
-  spec.authors = ["Josh Williams"]
-  spec.email = ["josh@spacesnottabs.com"]
+  spec.authors = ['Josh Williams']
+  spec.email = ['josh@spacesnottabs.com']
 
-  spec.summary = "Application for transforming PSC records to BODS records."
+  spec.summary = 'Application for transforming PSC records to BODS records.'
   spec.description = spec.summary
-  spec.homepage = "https://github.com/openownership/register-transformer-psc"
-  spec.required_ruby_version = ">= 2.7"
+  spec.homepage = 'https://github.com/openownership/register-transformer-psc'
+  spec.required_ruby_version = '>= 3.1'
 
-  spec.metadata["allowed_push_host"] = "https://rubygems.org"
-  spec.metadata["source_code_uri"] = "https://github.com/openownership/register-transformer-psc"
+  spec.metadata['allowed_push_host']     = 'https://rubygems.org'
+  spec.metadata['source_code_uri']       = 'https://github.com/openownership/register-transformer-psc'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
@@ -23,9 +24,9 @@ Gem::Specification.new do |spec|
       (f == __FILE__) || f.match(%r{\A(?:(?:test|spec|features)/|\.(?:git|travis|circleci)|appveyor)})
     end
   end
-  spec.bindir = "exe"
+  spec.bindir = 'exe'
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  spec.require_paths = ['lib']
 
   spec.add_dependency 'activesupport', '>= 6', '< 8'
   spec.add_dependency 'countries', '~> 4.0.1'
@@ -34,5 +35,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'elasticsearch', '>= 7.10', '< 8'
   spec.add_dependency 'iso8601'
   spec.add_dependency 'xxhash'
-  spec.metadata['rubygems_mfa_required'] = 'true'
 end

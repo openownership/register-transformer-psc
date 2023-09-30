@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'register_transformer_psc/bods_mapping/interest_parser'
 
 RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
@@ -15,7 +17,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
         {
           'type' => interest_type,
           'share_min' => share_min,
-          'share_max' => share_max,
+          'share_max' => share_max
         }
       end
 
@@ -27,9 +29,9 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
               share: {
                 exact: share_min,
                 minimum: share_min,
-                maximum: share_max,
-              },
-            },
+                maximum: share_max
+              }
+            }
           )
         end
       end
@@ -45,9 +47,9 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
                 minimum: share_min,
                 maximum: share_max,
                 exclusiveMinimum: false,
-                exclusiveMaximum: false,
-              },
-            },
+                exclusiveMaximum: false
+              }
+            }
           )
         end
       end
@@ -60,7 +62,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
             'type' => interest_type,
             'share_min' => share_min,
             'share_max' => share_max,
-            'exclusive_min' => 10,
+            'exclusive_min' => 10
           }
         end
 
@@ -74,9 +76,9 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
                 minimum: share_min,
                 maximum: share_max,
                 exclusiveMinimum: false,
-                exclusiveMaximum: false,
-              },
-            },
+                exclusiveMaximum: false
+              }
+            }
           )
         end
       end
@@ -94,8 +96,8 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
               {
                 type: 'shareholding',
                 details: value,
-                share: { minimum: 25, maximum: 50, exclusiveMinimum: true, exclusiveMaximum: false },
-              },
+                share: { minimum: 25, maximum: 50, exclusiveMinimum: true, exclusiveMaximum: false }
+              }
             )
           end
         end
@@ -112,8 +114,8 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
               {
                 type: 'shareholding',
                 details: value,
-                share: { minimum: 50, maximum: 75, exclusiveMinimum: true, exclusiveMaximum: true },
-              },
+                share: { minimum: 50, maximum: 75, exclusiveMinimum: true, exclusiveMaximum: true }
+              }
             )
           end
         end
@@ -130,8 +132,8 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
               {
                 type: 'shareholding',
                 details: value,
-                share: { minimum: 75, maximum: 100, exclusiveMinimum: false, exclusiveMaximum: false },
-              },
+                share: { minimum: 75, maximum: 100, exclusiveMinimum: false, exclusiveMaximum: false }
+              }
             )
           end
         end
@@ -151,8 +153,8 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
               {
                 type: 'voting-rights',
                 details: value,
-                share: { minimum: 25, maximum: 50, exclusiveMinimum: true, exclusiveMaximum: false },
-              },
+                share: { minimum: 25, maximum: 50, exclusiveMinimum: true, exclusiveMaximum: false }
+              }
             )
           end
         end
@@ -172,8 +174,8 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
               {
                 type: 'voting-rights',
                 details: value,
-                share: { minimum: 50, maximum: 75, exclusiveMinimum: true, exclusiveMaximum: true },
-              },
+                share: { minimum: 50, maximum: 75, exclusiveMinimum: true, exclusiveMaximum: true }
+              }
             )
           end
         end
@@ -193,8 +195,8 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
               {
                 type: 'voting-rights',
                 details: value,
-                share: { minimum: 75, maximum: 100, exclusiveMinimum: false, exclusiveMaximum: false },
-              },
+                share: { minimum: 75, maximum: 100, exclusiveMinimum: false, exclusiveMaximum: false }
+              }
             )
           end
         end
@@ -213,8 +215,8 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
             expect(subject.call(value).to_h).to eq(
               {
                 type: 'appointment-of-board',
-                details: value,
-              },
+                details: value
+              }
             )
           end
         end
@@ -236,8 +238,8 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
             expect(subject.call(value).to_h).to eq(
               {
                 type: 'rights-to-surplus-assets-on-dissolution',
-                details: value,
-              },
+                details: value
+              }
             )
           end
         end
@@ -247,13 +249,13 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::InterestParser do
         it 'returns correct interest' do
           [
             'significant-influence-or-control',
-            'a different value',
+            'a different value'
           ].each do |value|
             expect(subject.call(value).to_h).to eq(
               {
                 type: 'other-influence-or-control',
-                details: value,
-              },
+                details: value
+              }
             )
           end
         end

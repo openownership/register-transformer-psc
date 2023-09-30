@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'xxhash'
 require 'register_sources_bods/constants/publisher'
 require 'register_sources_bods/structs/person_statement'
@@ -12,7 +14,7 @@ require 'iso8601'
 module RegisterTransformerPsc
   module BodsMapping
     class PersonStatement
-      ID_PREFIX = 'openownership-register-'.freeze
+      ID_PREFIX = 'openownership-register-'
 
       def self.call(psc_record)
         new(psc_record).call
@@ -39,7 +41,7 @@ module RegisterTransformerPsc
           addresses:,
           hasPepStatus: has_pep_status,
           pepStatusDetails: pep_status_details,
-          source:,
+          source:
         }.compact]
       end
 
@@ -83,7 +85,7 @@ module RegisterTransformerPsc
           # Remove Title from full name to be consistent with previous Register
           split_name = full_name.to_s.split
           if split_name.length >= 1 && (split_name[0].upcase == data.name_elements.title.to_s.upcase)
-            full_name = split_name[1..].to_a.join(" ")
+            full_name = split_name[1..].to_a.join(' ')
           end
 
           [
@@ -91,16 +93,16 @@ module RegisterTransformerPsc
               type: RegisterSourcesBods::NameTypes['individual'],
               fullName: full_name,
               familyName: data.name_elements.surname,
-              givenName: data.name_elements.forename,
+              givenName: data.name_elements.forename
               # patronymicName: nil
-            }.compact],
+            }.compact]
           ]
         else
           [
             RegisterSourcesBods::Name.new(
               type: RegisterSourcesBods::NameTypes['individual'],
-              fullName: data.name,
-            ),
+              fullName: data.name
+            )
           ]
         end
       end
@@ -119,8 +121,8 @@ module RegisterTransformerPsc
         [
           RegisterSourcesBods::Country.new(
             name: country.name,
-            code: country.alpha2,
-          ),
+            code: country.alpha2
+          )
         ]
       end
 
@@ -172,7 +174,7 @@ module RegisterTransformerPsc
         # NOT IMPLEMENTED IN REGISTER
       end
 
-      ADDRESS_KEYS = %i[premises address_line_1 address_line_2 locality region postal_code].freeze
+      ADDRESS_KEYS = %i[premises address_line_1 address_line_2 locality region postal_code].freeze # rubocop:disable Naming/VariableNumber
       def addresses
         return unless data.address.presence
 
@@ -190,8 +192,8 @@ module RegisterTransformerPsc
             type: RegisterSourcesBods::AddressTypes['registered'], # TODO: check this
             address:,
             # postCode: nil,
-            country:,
-          ),
+            country:
+          )
         ]
       end
 
@@ -206,9 +208,11 @@ module RegisterTransformerPsc
         return country.alpha2 if country
       end
 
+      # rubocop:disable Naming/PredicateName
       def has_pep_status
         # NOT IMPLEMENTED IN REGISTER
       end
+      # rubocop:enable Naming/PredicateName
 
       def pep_status_details
         # NOT IMPLEMENTED IN REGISTER
@@ -218,24 +222,26 @@ module RegisterTransformerPsc
         psc_record.data
       end
 
+      # rubocop:disable Naming/PredicateName
       def is_component
         false
       end
+      # rubocop:enable Naming/PredicateName
 
       def source
-        url = "http://download.companieshouse.gov.uk/en_pscdata.html"
+        url = 'http://download.companieshouse.gov.uk/en_pscdata.html'
 
         identifier_link = data.links[:self]
         if identifier_link.present?
-          url = URI.join("https://api.company-information.service.gov.uk", identifier_link).to_s
+          url = URI.join('https://api.company-information.service.gov.uk', identifier_link).to_s
         end
 
         RegisterSourcesBods::Source.new(
           type: RegisterSourcesBods::SourceTypes['officialRegister'],
           description: 'GB Persons Of Significant Control Register',
           url:,
-          retrievedAt: Time.now.utc.to_date.to_s, # TODO: fix publication date, # TODO: add retrievedAt to record iso8601
-          assertedBy: nil, # TODO: if it is a combination of sources (PSC and OpenCorporates), is it us?
+          retrievedAt: Time.now.utc.to_date.to_s, # TODO: fix publication date, # TODO: add retrievedAt to record iso8601 # rubocop:disable Layout/LineLength
+          assertedBy: nil # TODO: if it is a combination of sources (PSC and OpenCorporates), is it us?
         )
       end
     end

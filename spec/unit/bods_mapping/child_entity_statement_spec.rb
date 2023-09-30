@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/testing/time_helpers'
 
 require 'register_transformer_psc/bods_mapping/child_entity_statement'
@@ -19,8 +21,8 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
     expect(entity_resolver).to receive(:resolve).with(
       RegisterSourcesOc::ResolverRequest[{
         company_number:,
-        jurisdiction_code: "gb",
-      }.compact],
+        jurisdiction_code: 'gb'
+      }.compact]
     ).and_return RegisterSourcesOc::ResolverResponse[{
       resolved: true,
       reconciliation_response: nil,
@@ -28,28 +30,28 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
       company: {
         company_number: '89101112',
         jurisdiction_code: 'gb',
-        name: "Foo Bar Limited",
+        name: 'Foo Bar Limited',
         company_type: 'company_type',
         incorporation_date: '2020-01-09',
         dissolution_date: '2021-09-07',
         restricted_for_marketing: nil,
         registered_address_in_full: 'registered address',
-        registered_address_country: "United Kingdom",
+        registered_address_country: 'United Kingdom'
       },
       add_ids: [
         {
           company_number: '89101112',
           jurisdiction_code: 'gb',
           uid: '123456789',
-          identifier_system_code: 'gb_vat',
+          identifier_system_code: 'gb_vat'
         },
         {
           company_number: '89101112',
           jurisdiction_code: 'gb',
           uid: 'XXXXXXXXXXXX89101112',
-          identifier_system_code: 'lei',
-        },
-      ],
+          identifier_system_code: 'lei'
+        }
+      ]
     }]
 
     result = subject.call
@@ -58,21 +60,23 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
     expect(result.to_h).to eq(
       addresses: [
         {
-          address: "registered address",
-          type: "registered",
-        },
+          address: 'registered address',
+          type: 'registered'
+        }
       ],
-      dissolutionDate: "2021-09-07",
-      entityType: "registeredEntity",
-      foundingDate: "2020-01-09",
+      dissolutionDate: '2021-09-07',
+      entityType: 'registeredEntity',
+      foundingDate: '2020-01-09',
       identifiers: [
-        { id: "89101112", scheme: "GB-COH", schemeName: "Companies House" },
-        { id: "https://opencorporates.com/companies//89101112", schemeName: "OpenCorporates", uri: "https://opencorporates.com/companies//89101112" },
-        { id: "XXXXXXXXXXXX89101112", scheme: "XI-LEI", schemeName: "Global Legal Entity Identifier Index", uri: "https://search.gleif.org/#/record/XXXXXXXXXXXX89101112" },
+        { id: '89101112', scheme: 'GB-COH', schemeName: 'Companies House' },
+        { id: 'https://opencorporates.com/companies//89101112', schemeName: 'OpenCorporates',
+          uri: 'https://opencorporates.com/companies//89101112' },
+        { id: 'XXXXXXXXXXXX89101112', scheme: 'XI-LEI', schemeName: 'Global Legal Entity Identifier Index',
+          uri: 'https://search.gleif.org/#/record/XXXXXXXXXXXX89101112' }
       ],
       isComponent: false,
-      name: "Foo Bar Limited",
-      statementType: "entityStatement",
+      name: 'Foo Bar Limited',
+      statementType: 'entityStatement'
     )
   end
 end
