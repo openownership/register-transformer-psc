@@ -1,21 +1,20 @@
 # frozen_string_literal: true
 
-require_relative 'interest_parser'
-
+require 'register_sources_psc/enums/corporate_entity_beneficial_owner_kinds'
 require 'register_sources_psc/enums/corporate_entity_kinds'
+require 'register_sources_psc/enums/individual_beneficial_owner_kinds'
 require 'register_sources_psc/enums/individual_kinds'
+require 'register_sources_psc/enums/legal_person_beneficial_owner_kinds'
 require 'register_sources_psc/enums/legal_person_kinds'
 require 'register_sources_psc/enums/statement_kinds'
-require 'register_sources_psc/enums/super_secure_kinds'
-require 'register_sources_psc/enums/corporate_entity_beneficial_owner_kinds'
-require 'register_sources_psc/enums/individual_beneficial_owner_kinds'
-require 'register_sources_psc/enums/legal_person_beneficial_owner_kinds'
 require 'register_sources_psc/enums/super_secure_beneficial_owner_kinds'
+require 'register_sources_psc/enums/super_secure_kinds'
 
-require 'register_transformer_psc/bods_mapping/entity_statement'
-require 'register_transformer_psc/bods_mapping/person_statement'
-require 'register_transformer_psc/bods_mapping/child_entity_statement'
-require 'register_transformer_psc/bods_mapping/ownership_or_control_statement'
+require_relative 'child_entity_statement'
+require_relative 'entity_statement'
+require_relative 'interest_parser'
+require_relative 'ownership_or_control_statement'
+require_relative 'person_statement'
 
 module RegisterTransformerPsc
   module BodsMapping

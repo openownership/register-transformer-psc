@@ -1,27 +1,23 @@
 # frozen_string_literal: true
 
+require 'active_support/core_ext/object/blank'
+require 'active_support/core_ext/object/try'
+require 'active_support/core_ext/string/conversions'
+require 'active_support/core_ext/time'
+require 'register_sources_bods/constants/publisher'
 require 'register_sources_bods/enums/entity_types'
 require 'register_sources_bods/enums/statement_types'
+require 'register_sources_bods/mappers/resolver_mappings'
 require 'register_sources_bods/structs/address'
 require 'register_sources_bods/structs/entity_statement'
 require 'register_sources_bods/structs/identifier'
 require 'register_sources_bods/structs/jurisdiction'
-require 'register_sources_bods/constants/publisher'
-require 'register_sources_bods/mappers/resolver_mappings'
-
-require 'active_support/core_ext/object/blank'
-require 'active_support/core_ext/object/try'
-require 'active_support/core_ext/time'
-require 'active_support/core_ext/string/conversions'
-
 require 'register_sources_oc/structs/resolver_request'
 
 module RegisterTransformerPsc
   module BodsMapping
     class ChildEntityStatement
       include RegisterSourcesBods::Mappers::ResolverMappings
-
-      ID_PREFIX = 'openownership-register-'
 
       def self.call(company_number, **kwargs)
         new(company_number, **kwargs).call

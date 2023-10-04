@@ -1,21 +1,18 @@
 # frozen_string_literal: true
 
-require 'xxhash'
-require 'register_sources_bods/constants/publisher'
-require 'register_sources_bods/structs/person_statement'
-require 'register_sources_bods/structs/publication_details'
-require 'register_sources_bods/structs/source'
-
 require 'active_support/core_ext/object/blank'
 require 'active_support/core_ext/object/try'
 require 'countries'
 require 'iso8601'
+require 'register_sources_bods/constants/publisher'
+require 'register_sources_bods/structs/person_statement'
+require 'register_sources_bods/structs/publication_details'
+require 'register_sources_bods/structs/source'
+require 'xxhash'
 
 module RegisterTransformerPsc
   module BodsMapping
     class PersonStatement
-      ID_PREFIX = 'openownership-register-'
-
       def self.call(psc_record)
         new(psc_record).call
       end
@@ -56,14 +53,6 @@ module RegisterTransformerPsc
       def person_type
         RegisterSourcesBods::PersonTypes['knownPerson'] # TODO: KNOWN_PERSON, ANONYMOUS_PERSON, UNKNOWN_PERSON
       end
-      # def unknown_ps_person_type(unknown_person)
-      #  case unknown_person.unknown_reason_code
-      #  when 'super-secure-person-with-significant-control'
-      #    'anonymousPerson'
-      #  else
-      #    'unknownPerson'
-      #  end
-      # end
 
       def identifiers
         []
