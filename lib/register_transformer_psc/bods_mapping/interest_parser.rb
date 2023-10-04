@@ -5,11 +5,11 @@ require 'register_sources_bods/structs/interest'
 module RegisterTransformerPsc
   module BodsMapping
     class InterestParser
+      UnexpectedInterestTypeError = Class.new(StandardError)
+
       def initialize(error_adapter: nil)
         @error_adapter = error_adapter
       end
-
-      UnexpectedInterestTypeError = Class.new(StandardError)
 
       def call(interest)
         case interest

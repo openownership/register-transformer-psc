@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-require 'register_transformer_psc/config/settings'
 require 'register_sources_bods/services/publisher'
-require 'register_transformer_psc/bods_mapping/record_processor'
-require 'register_sources_psc/structs/company_record'
 require 'register_sources_oc/services/resolver_service'
+require 'register_sources_psc/structs/company_record'
+
+require_relative '../bods_mapping/record_processor'
+require_relative '../config/settings'
 
 $stdout.sync = true
 

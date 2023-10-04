@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
 require 'redis'
-
-require 'register_transformer_psc/config/settings'
-require 'register_transformer_psc/config/adapters'
-require 'register_sources_bods/services/publisher'
-require 'register_transformer_psc/bods_mapping/record_processor'
-require 'register_sources_psc/structs/company_record'
-require 'register_sources_oc/services/resolver_service'
 require 'register_common/services/file_reader'
+require 'register_sources_bods/services/publisher'
+require 'register_sources_oc/services/resolver_service'
+require 'register_sources_psc/structs/company_record'
+
+require_relative '../bods_mapping/record_processor'
+require_relative '../config/adapters'
+require_relative '../config/settings'
 
 $stdout.sync = true
 
 module RegisterTransformerPsc
   module Apps
     class TransformerBulk
-      BATCH_SIZE = 25
-      NAMESPACE = 'PSC_TRANSFORMER_BULK'
+      BATCH_SIZE     = 25
+      NAMESPACE      = 'PSC_TRANSFORMER_BULK'
       PARALLEL_FILES = ENV.fetch('PSC_PARALLEL_FILES', 3).to_i
 
       def self.bash_call(args)
