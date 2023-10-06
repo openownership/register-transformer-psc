@@ -4,6 +4,9 @@ services:
     build:
       context: .
       target: dev
+    depends_on:
+      redis:
+        condition: service_healthy
     env_file: .env
     networks:
       - elasticsearch

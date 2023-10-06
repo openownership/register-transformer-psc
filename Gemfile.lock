@@ -50,7 +50,7 @@ GIT
 
 GIT
   remote: https://github.com/openownership/register-sources-psc.git
-  revision: 21345c935672b039a56192e0847438c65fbc49c2
+  revision: 35ab8fc356b4c86a43023b9c9caa56fd125e55c2
   specs:
     register_sources_psc (0.1.0)
       activesupport (>= 6, < 8)

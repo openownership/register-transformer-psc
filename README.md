@@ -1,10 +1,13 @@
 # Register Transformer PSC
 
-This is an application for ingesting PSC records from a Kinesis stream (published by [register_ingester_psc](https://github.com/openownership/register-ingester-psc)) and transforming into [BODS v0.2](https://standard.openownership.org/en/0.2.0/) records. These records are then stored in Elasticsearch and optionally emitted into their own Kinesis stream.
+Register Transformer PSC is a data transformer for the [OpenOwnership](https://www.openownership.org/en/) [Register](https://github.com/openownership/register) project.
+It processes bulk data published to [AWS S3](https://aws.amazon.com/s3/), such as emitted from [AWS Kinesis Data Firehose](https://aws.amazon.com/kinesis/data-firehose/), converts them into the [Beneficial Ownership Data Standard (BODS)](https://www.openownership.org/en/topics/beneficial-ownership-data-standard/) format, and stores records in [Elasticsearch](https://www.elastic.co/elasticsearch/). Optionally, it can also use [AWS Kinesis](https://aws.amazon.com/kinesis/) for processing streamed data (rather than bulk data published to AWS S3), or for publishing newly-transformed records to a different stream.
+
+The transformation schema is [BODS 0.2](https://standard.openownership.org/en/0.2.0/schema/schema-browser.html).
 
 ## Installation
 
-Install and boot [register-v2](https://github.com/openownership/register-v2).
+Install and boot [Register](https://github.com/openownership/register).
 
 Configure your environment using the example file:
 
@@ -12,16 +15,11 @@ Configure your environment using the example file:
 cp .env.example .env
 ```
 
-Create the Elasticsearch `companies` index:
-
-```sh
-docker compose run transformer-psc create-indexes-companies
-```
-
-Create the Elasticsearch BODS index (configured by `BODS_INDEX`):
+Create the Elasticsearch indexes:
 
 ```sh
 docker compose run transformer-psc create-indexes
+docker compose run transformer-psc create-indexes-companies
 ```
 
 ## Testing
@@ -34,7 +32,13 @@ docker compose run transformer-psc test
 
 ## Usage
 
-To run the local transformer for a file (e.g. `all4.jsonl`):
+To transform the bulk data from a prefix in AWS S3:
+
+```sh
+docker compose run transformer-psc transform-bulk raw_data/source=PSC/year=2023/month=10/day=06/
+```
+
+To transform a local file (e.g. `all4.jsonl`):
 
 ```sh
 docker compose run transformer-psc transform-local statements/all4.jsonl
