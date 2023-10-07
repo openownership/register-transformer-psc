@@ -2,7 +2,7 @@
 
 require 'register_common/adapters/s3_adapter'
 
-require 'settings'
+require_relative 'settings'
 
 module RegisterTransformerPsc
   module Config
