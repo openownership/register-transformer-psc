@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'bundler/setup'
+
+require 'register_sources_bods/migrations'
+
+migration = ARGV[0]
+
+klass = RegisterSourcesBods::Migrations.const_get(migration)
+migration = klass.new(*ARGV[1..])
+migration.migrate
