@@ -51,6 +51,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::EntityStatement do
         resolved: true,
         reconciliation_response: nil,
         company_number: '89101112',
+        jurisdiction_code: 'gb',
         company: {
           company_number: '89101112',
           jurisdiction_code: 'gb',
@@ -86,6 +87,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::EntityStatement do
           addresses: [
             {
               address: '123 Main Street, Example Town, Exampleshire, EX4 2MP',
+              country: 'GB',
               type: 'registered'
             }
           ],
@@ -98,9 +100,9 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::EntityStatement do
               schemeName: 'GB Persons Of Significant Control Register - Registration numbers'
             },
             {
-              id: 'https://opencorporates.com/companies//89101112',
+              id: 'https://opencorporates.com/companies/gb/89101112',
               schemeName: 'OpenCorporates',
-              uri: 'https://opencorporates.com/companies//89101112'
+              uri: 'https://opencorporates.com/companies/gb/89101112'
             },
             {
               id: 'XXXXXXXXXXXX89101112',
@@ -109,6 +111,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::EntityStatement do
               uri: 'https://search.gleif.org/#/record/XXXXXXXXXXXX89101112'
             }
           ],
+          incorporatedInJurisdiction: { code: 'GB', name: 'United Kingdom of Great Britain and Northern Ireland' },
           isComponent: false,
           name: 'Foo Bar Limited',
           source: {
