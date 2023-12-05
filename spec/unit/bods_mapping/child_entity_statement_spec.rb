@@ -27,6 +27,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
       resolved: true,
       reconciliation_response: nil,
       company_number: '89101112',
+      jurisdiction_code: 'gb',
       company: {
         company_number: '89101112',
         jurisdiction_code: 'gb',
@@ -61,6 +62,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
       addresses: [
         {
           address: 'registered address',
+          country: 'GB',
           type: 'registered'
         }
       ],
@@ -69,11 +71,12 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
       foundingDate: '2020-01-09',
       identifiers: [
         { id: '89101112', scheme: 'GB-COH', schemeName: 'Companies House' },
-        { id: 'https://opencorporates.com/companies//89101112', schemeName: 'OpenCorporates',
-          uri: 'https://opencorporates.com/companies//89101112' },
+        { id: 'https://opencorporates.com/companies/gb/89101112', schemeName: 'OpenCorporates',
+          uri: 'https://opencorporates.com/companies/gb/89101112' },
         { id: 'XXXXXXXXXXXX89101112', scheme: 'XI-LEI', schemeName: 'Global Legal Entity Identifier Index',
           uri: 'https://search.gleif.org/#/record/XXXXXXXXXXXX89101112' }
       ],
+      incorporatedInJurisdiction: { code: 'GB', name: 'United Kingdom of Great Britain and Northern Ireland' },
       isComponent: false,
       name: 'Foo Bar Limited',
       statementType: 'entityStatement'
