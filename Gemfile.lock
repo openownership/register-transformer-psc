@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/openownership/register-common.git
-  revision: e9b76c1caa9efb0b183dd375f6dfa4595c5b3120
+  revision: bfa55bf6e8e758b2b27c2cb0a210d55c4edb3c7a
   specs:
     register_common (0.1.0)
       activesupport (>= 6, < 8)
@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/openownership/register-sources-bods.git
-  revision: d159a2172e60024ec787fd4fb7c15a5e91f8b11e
+  revision: 1d8d37237d9035cdd3266fdb376fa71de8ec3e89
   specs:
     register_sources_bods (0.1.0)
       activesupport (>= 6, < 8)
@@ -32,7 +32,7 @@ GIT
 
 GIT
   remote: https://github.com/openownership/register-sources-oc.git
-  revision: 8f56cf082396d97bd1551bf63c0a0b02d542254a
+  revision: 67726f1a2f9b533369a03744090f8e0d8ffafb8c
   specs:
     register_sources_oc (0.1.0)
       activesupport (>= 6, < 8)
@@ -50,7 +50,7 @@ GIT
 
 GIT
   remote: https://github.com/openownership/register-sources-psc.git
-  revision: 35ab8fc356b4c86a43023b9c9caa56fd125e55c2
+  revision: 80914e073b270d7b67da73397faaec4e7f256063
   specs:
     register_sources_psc (0.1.0)
       activesupport (>= 6, < 8)
