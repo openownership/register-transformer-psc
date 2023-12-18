@@ -38,6 +38,7 @@ module RegisterTransformerPsc
           isComponent: false,
           entityType: entity_type,
           name:,
+          alternateNames: alternate_names,
           incorporatedInJurisdiction: incorporated_in_jurisdiction,
           identifiers:,
           foundingDate: founding_date,

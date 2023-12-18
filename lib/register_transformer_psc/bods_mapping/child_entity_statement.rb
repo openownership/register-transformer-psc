@@ -47,6 +47,7 @@ module RegisterTransformerPsc
             lei_identifier
           ].compact,
           name:,
+          alternateNames: alternate_names,
           addresses:,
           foundingDate: founding_date,
           dissolutionDate: dissolution_date
