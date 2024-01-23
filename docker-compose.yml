@@ -1,31 +1,27 @@
-version: "3.8"
+networks:
+  elasticsearch: {}
+  redis: {}
+  transformer: {}
 services:
-  transformer-psc:
-    build:
-      context: .
-      target: dev
-    depends_on:
-      redis:
-        condition: service_healthy
-    env_file: .env
+  elasticsearch:
+    environment:
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+    healthcheck:
+      interval: 5s
+      retries: 6
+      start_period: 60s
+      test:
+        - CMD
+        - curl
+        - -fs
+        - http://localhost:9200/_cluster/health
+    image: docker.io/library/elasticsearch:8.12.0
     networks:
       - elasticsearch
-      - redis
-      - transformer
-    restart: on-failure
     volumes:
-      - ${DC_TRANSFORMER_PSC_LIB_REGISTER_COMMON:-.dockerempty}:/home/x/lib/register-common
-      - ${DC_TRANSFORMER_PSC_LIB_REGISTER_SOURCES_BODS:-.dockerempty}:/home/x/lib/register-sources-bods
-      - ${DC_TRANSFORMER_PSC_LIB_REGISTER_SOURCES_OC:-.dockerempty}:/home/x/lib/register-sources-oc
-      - ${DC_TRANSFORMER_PSC_LIB_REGISTER_SOURCES_PSC:-.dockerempty}:/home/x/lib/register-sources-psc
-      - ./.rubocop.yml:/home/x/r/.rubocop.yml
-      - ./bin:/home/x/r/bin
-      - ./Gemfile.lock:/home/x/r/Gemfile.lock
-      - ./Gemfile:/home/x/r/Gemfile
-      - ./lib:/home/x/r/lib
-      - ./register_transformer_psc.gemspec:/home/x/r/register_transformer_psc.gemspec
-      - ./spec:/home/x/r/spec
-      - ./statements:/home/x/r/statements
+      - elasticsearch:/usr/share/elasticsearch/data
   redis:
     healthcheck:
       interval: 5s
@@ -35,15 +31,39 @@ services:
         - CMD
         - redis-cli
         - PING
-    image: docker.io/library/redis:7.0.5
+    image: docker.io/library/redis:7
     networks:
       - redis
-    restart: on-failure
     volumes:
       - redis:/data
-networks:
-  elasticsearch: {}
-  redis: {}
-  transformer: {}
+  transformer-psc:
+    build:
+      context: .
+      target: dev
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file: .env
+    networks:
+      - elasticsearch
+      - redis
+      - transformer
+    volumes:
+      - ${DC_TRANSFORMER_PSC_LIB_REGISTER_COMMON:-.dockerempty}:/home/x/lib/register-common
+      - ${DC_TRANSFORMER_PSC_LIB_REGISTER_SOURCES_BODS:-.dockerempty}:/home/x/lib/register-sources-bods
+      - ${DC_TRANSFORMER_PSC_LIB_REGISTER_SOURCES_OC:-.dockerempty}:/home/x/lib/register-sources-oc
+      - ${DC_TRANSFORMER_PSC_LIB_REGISTER_SOURCES_PSC:-.dockerempty}:/home/x/lib/register-sources-psc
+      - ./.rubocop.yml:/home/x/r/.rubocop.yml
+      - ./Gemfile.lock:/home/x/r/Gemfile.lock
+      - ./Gemfile:/home/x/r/Gemfile
+      - ./bin:/home/x/r/bin
+      - ./lib:/home/x/r/lib
+      - ./register_transformer_psc.gemspec:/home/x/r/register_transformer_psc.gemspec
+      - ./spec:/home/x/r/spec
+      - ./statements:/home/x/r/statements
+version: "3.8"
 volumes:
+  elasticsearch: {}
   redis: {}
