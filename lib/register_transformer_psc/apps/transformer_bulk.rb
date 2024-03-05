@@ -35,7 +35,7 @@ module RegisterTransformerPsc
           entity_resolver:,
           bods_publisher:
         )
-        @redis = redis || Redis.new(host: ENV.fetch('REDIS_HOST', nil), port: ENV.fetch('REDIS_PORT', nil))
+        @redis = redis || Redis.new(url: ENV.fetch('REDIS_URL'))
         @s3_bucket = s3_bucket || ENV.fetch('BODS_S3_BUCKET_NAME')
         @file_reader = file_reader || RegisterCommon::Services::FileReader.new(s3_adapter: @s3_adapter,
                                                                                batch_size: BATCH_SIZE)
