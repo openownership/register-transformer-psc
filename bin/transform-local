@@ -1,8 +1,0 @@
-#!/usr/bin/env ruby
-# frozen_string_literal: true
-
-require 'bundler/setup'
-
-require 'register_transformer_psc/apps/transformer_local'
-
-RegisterTransformerPsc::Apps::TransformerLocal.bash_call ARGV

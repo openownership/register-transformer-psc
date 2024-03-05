@@ -37,9 +37,3 @@ To transform the bulk data from a prefix in AWS S3:
 ```sh
 docker compose run transformer-psc transform-bulk raw_data/source=PSC/year=2023/month=10/
 ```
-
-To transform a local file (e.g. `all4.jsonl`):
-
-```sh
-docker compose run transformer-psc transform-local statements/all4.jsonl
-```
