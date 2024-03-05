@@ -3,6 +3,18 @@
 
 require 'bundler/setup'
 
-require 'register_transformer_psc/apps/transformer'
+require 'register_sources_bods/apps/transformer_stream'
+require 'register_sources_psc/structs/company_record'
+require 'register_transformer_psc/bods_mapping/record_processor'
+require 'register_transformer_psc/config/adapters'
+require 'register_transformer_psc/config/settings'
 
-RegisterTransformerPsc::Apps::Transformer.new.call
+transformer = RegisterSourcesBods::Apps::TransformerStream.new(
+  credentials: RegisterTransformerPsc::Config::AWS_CREDENTIALS,
+  consumer_id: 'RegisterTransformerPsc',
+  record_processor: RegisterTransformerPsc::BodsMapping::RecordProcessor,
+  record_struct: RegisterSourcesPsc::CompanyRecord,
+  s3_adapter: RegisterTransformerPsc::Config::Adapters::S3_ADAPTER,
+  stream_name: ENV.fetch('PSC_STREAM')
+)
+transformer.transform

@@ -3,6 +3,19 @@
 
 require 'bundler/setup'
 
-require 'register_transformer_psc/apps/transformer_bulk'
+require 'register_sources_bods/apps/transformer_bulk'
+require 'register_sources_psc/structs/company_record'
+require 'register_transformer_psc/bods_mapping/record_processor'
+require 'register_transformer_psc/config/adapters'
+require 'register_transformer_psc/config/settings'
 
-RegisterTransformerPsc::Apps::TransformerBulk.bash_call ARGV
+s3_prefix = ARGV.last
+
+transformer = RegisterSourcesBods::Apps::TransformerBulk.new(
+  namespace: 'PSC_TRANSFORMER_BULK',
+  parallel_files: ENV.fetch('PSC_PARALLEL_FILES', 5).to_i,
+  record_processor: RegisterTransformerPsc::BodsMapping::RecordProcessor,
+  record_struct: RegisterSourcesPsc::CompanyRecord,
+  s3_adapter: RegisterTransformerPsc::Config::Adapters::S3_ADAPTER
+)
+transformer.transform(s3_prefix)
