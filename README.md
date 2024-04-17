@@ -19,7 +19,6 @@ Create the Elasticsearch indexes:
 
 ```sh
 docker compose run transformer-psc create-indexes
-docker compose run transformer-psc create-indexes-companies
 ```
 
 ## Testing
