@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+$stdout.sync = true
+
 require 'bundler/setup'
 
 require 'register_sources_bods/apps/transformer_stream'
