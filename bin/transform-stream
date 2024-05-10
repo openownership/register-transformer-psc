@@ -14,6 +14,7 @@ require 'register_transformer_psc/config/settings'
 transformer = RegisterSourcesBods::Apps::TransformerStream.new(
   credentials: RegisterTransformerPsc::Config::AWS_CREDENTIALS,
   consumer_id: 'RegisterTransformerPsc',
+  namespace_transformed: 'transformer-psc',
   record_processor: RegisterTransformerPsc::BodsMapping::RecordProcessor,
   record_struct: RegisterSourcesPsc::CompanyRecord,
   s3_adapter: RegisterTransformerPsc::Config::Adapters::S3_ADAPTER,

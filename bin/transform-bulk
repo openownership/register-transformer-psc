@@ -13,6 +13,7 @@ s3_prefix = ARGV.last
 
 transformer = RegisterSourcesBods::Apps::TransformerBulk.new(
   namespace: 'PSC_TRANSFORMER_BULK',
+  namespace_transformed: 'transformer-psc',
   parallel_files: ENV.fetch('PSC_PARALLEL_FILES', 5).to_i,
   record_processor: RegisterTransformerPsc::BodsMapping::RecordProcessor,
   record_struct: RegisterSourcesPsc::CompanyRecord,
