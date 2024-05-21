@@ -83,6 +83,8 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
+    airbrake-ruby (6.2.2)
+      rbtree3 (~> 0.6)
     ast (2.4.2)
     aws-eventstream (1.2.0)
     aws-partitions (1.804.0)
@@ -192,6 +194,7 @@ GEM
     public_suffix (5.0.1)
     racc (1.7.1)
     rainbow (3.1.1)
+    rbtree3 (0.7.1)
     redis (5.0.7)
       redis-client (>= 0.9.0)
     redis-client (0.15.0)
@@ -249,6 +252,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  airbrake-ruby
   register_common!
   register_sources_bods!
   register_sources_oc!
