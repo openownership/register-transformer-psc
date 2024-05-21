@@ -5,19 +5,30 @@ $stdout.sync = true
 
 require 'bundler/setup'
 
+require 'airbrake-ruby'
 require 'register_sources_bods/apps/transformer_stream'
 require 'register_sources_psc/structs/company_record'
 require 'register_transformer_psc/bods_mapping/record_processor'
 require 'register_transformer_psc/config/adapters'
 require 'register_transformer_psc/config/settings'
 
-transformer = RegisterSourcesBods::Apps::TransformerStream.new(
-  credentials: RegisterTransformerPsc::Config::AWS_CREDENTIALS,
-  consumer_id: 'RegisterTransformerPsc',
-  namespace_transformed: 'transformer-psc',
-  record_processor: RegisterTransformerPsc::BodsMapping::RecordProcessor,
-  record_struct: RegisterSourcesPsc::CompanyRecord,
-  s3_adapter: RegisterTransformerPsc::Config::Adapters::S3_ADAPTER,
-  stream_name: ENV.fetch('PSC_STREAM')
-)
-transformer.transform
+Airbrake.configure do |c|
+  c.project_id  = ENV.fetch('AIRBRAKE_PROJECT_ID', nil)
+  c.project_key = ENV.fetch('AIRBRAKE_API_KEY', nil)
+end
+
+begin
+  transformer = RegisterSourcesBods::Apps::TransformerStream.new(
+    credentials: RegisterTransformerPsc::Config::AWS_CREDENTIALS,
+    consumer_id: 'RegisterTransformerPsc',
+    namespace_transformed: 'transformer-psc',
+    record_processor: RegisterTransformerPsc::BodsMapping::RecordProcessor,
+    record_struct: RegisterSourcesPsc::CompanyRecord,
+    s3_adapter: RegisterTransformerPsc::Config::Adapters::S3_ADAPTER,
+    stream_name: ENV.fetch('PSC_STREAM')
+  )
+  transformer.transform
+rescue => e # rubocop:disable Style/RescueStandardError
+  Airbrake.notify_sync(e)
+  raise
+end
