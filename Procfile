@@ -1,1 +1,1 @@
-worker: bin/transform-stream-tmp-fail
+worker: bin/transform-stream

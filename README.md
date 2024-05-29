@@ -31,8 +31,18 @@ docker compose run transformer-psc test
 
 ## Usage
 
+### Bulk data
+
 To transform the bulk data from a prefix in AWS S3:
 
 ```sh
 docker compose run transformer-psc transform-bulk raw_data/source=PSC/year=2023/month=10/
+```
+
+### Stream
+
+To transform a stream:
+
+```sh
+docker compose run transformer-psc transform-stream
 ```
