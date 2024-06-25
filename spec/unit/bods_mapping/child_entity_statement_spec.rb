@@ -73,7 +73,7 @@ RSpec.describe RegisterTransformerPsc::BodsMapping::ChildEntityStatement do
         { id: '89101112', scheme: 'GB-COH', schemeName: 'Companies House' },
         { id: 'https://opencorporates.com/companies/gb/89101112', schemeName: 'OpenCorporates',
           uri: 'https://opencorporates.com/companies/gb/89101112' },
-        { id: 'XXXXXXXXXXXX89101112', scheme: 'XI-LEI', schemeName: 'Global Legal Entity Identifier Index',
+        { id: 'XXXXXXXXXXXX89101112', scheme: 'XI-LEI', schemeName: 'Global Legal Entity Identifier Index (2)',
           uri: 'https://search.gleif.org/#/record/XXXXXXXXXXXX89101112' }
       ],
       incorporatedInJurisdiction: { code: 'GB', name: 'United Kingdom of Great Britain and Northern Ireland' },
