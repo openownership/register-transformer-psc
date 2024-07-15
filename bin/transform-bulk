@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+$stdout.sync = true
+
 require 'bundler/setup'
 
 require 'register_sources_bods/apps/transformer_bulk'
@@ -14,7 +16,7 @@ s3_prefix = ARGV.last
 transformer = RegisterSourcesBods::Apps::TransformerBulk.new(
   namespace: 'PSC_TRANSFORMER_BULK',
   namespace_transformed: 'transformer-psc',
-  parallel_files: ENV.fetch('PSC_PARALLEL_FILES', 5).to_i,
+  parallel_files: ENV.fetch('PSC_PARALLEL_FILES', 1).to_i,
   record_processor: RegisterTransformerPsc::BodsMapping::RecordProcessor,
   record_struct: RegisterSourcesPsc::CompanyRecord,
   s3_adapter: RegisterTransformerPsc::Config::Adapters::S3_ADAPTER
